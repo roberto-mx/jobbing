@@ -1,0 +1,2879 @@
+openapi: 3.0.0
+info:
+  title: Aprende tu mismo API
+  description: Application created to provide training courses
+  termsOfService: https://www.youtube.com/channel/UCz3p_Kz87WePeRMy6x5CX5w
+  contact:
+    name: Jalisco con empleo
+    url: http://www.jaliscoconempleo.org
+    email: soporte@jaliscoconempleo.org
+  license:
+    name: Apache 2.0
+    url: http://apache.com
+  version: 1.0.0
+servers:
+- url: https://www.jaliscoconempleo.org
+  description: Production Server
+- url: https://127.0.0.1:4010
+  description: Development server (uses test data)
+security:
+- bearerAuth: []
+paths:
+  /role:
+    get:
+      tags:
+      - Roles
+      summary: Lists all user roles
+      description: Show a listing of roles to accesing the API
+      operationId: get_roles
+      responses:
+        "200":
+          description: successfull response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Role'
+                x-content-type: application/json
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      security:
+      - oAuthSample:
+        - read_catalogs
+      x-openapi-router-controller: jobbing.controllers.roles_controller
+  /avatar:
+    put:
+      tags:
+      - User Profiles
+      summary: Upload an avatar
+      operationId: avatar_put
+      requestBody:
+        content:
+          image/png:
+            schema:
+              type: string
+              format: binary
+      responses:
+        "200":
+          description: successfull response
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.user_profiles_controller
+  /categories:
+    get:
+      tags:
+      - Category
+      description: Show all categories in the service catalog
+      operationId: get_categories
+      responses:
+        "200":
+          description: successfull response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+                x-content-type: application/json
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.category_controller
+  /categories/{categoryId}:
+    get:
+      tags:
+      - Category
+      description: Shows a category defined by ID
+      operationId: get_category_by_id
+      parameters:
+      - name: categoryId
+        in: path
+        description: Category Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.category_controller
+  /providers/{userProfileId}:
+    get:
+      tags:
+      - Providers
+      description: Shows a provider identified by id
+      operationId: get_provider_by_id
+      parameters:
+      - name: userProfileId
+        in: path
+        description: id del proveedor de servicios
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.providers_controller
+  /providers/{skillId}/skills:
+    get:
+      tags:
+      - Providers
+      description: Show all Service Providers according to their skills
+      operationId: get_providers_by_skill_id
+      parameters:
+      - name: skillId
+        in: path
+        description: Id de Skill
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserProfile'
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.providers_controller
+  /skills/{skillId}:
+    get:
+      tags:
+      - Skills
+      description: Show a Skills by id
+      operationId: get_skill_by_id
+      parameters:
+      - name: skillId
+        in: path
+        description: Id de Skill
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Skill'
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.skills_controller
+  /user:
+    get:
+      tags:
+      - User
+      description: Lists all users
+      operationId: get_users
+      responses:
+        "200":
+          description: successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      x-openapi-router-controller: jobbing.controllers.user_controller
+    post:
+      tags:
+      - User
+      description: Creates a user
+      operationId: save_user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "200":
+          description: successful response
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"successfully created\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.user_controller
+  /user/{uid}:
+    get:
+      tags:
+      - User
+      description: Displays a User defined by ID
+      operationId: get_user_by_id
+      parameters:
+      - name: uid
+        in: path
+        description: Unique identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.user_controller
+  /userProfile:
+    post:
+      tags:
+      - User Profiles
+      description: Creates a user profile
+      operationId: save_user_profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserProfile'
+        required: true
+      responses:
+        "201":
+          description: successful response
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"successfully created\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.user_profiles_controller
+  /userProfile/{uid}:
+    get:
+      tags:
+      - User Profiles
+      description: Displays a User defined by ID
+      operationId: get_user_profile_by_id
+      parameters:
+      - name: uid
+        in: path
+        description: Unique identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.user_profiles_controller
+    patch:
+      tags:
+      - User Profiles
+      description: Updates a User attributes
+      operationId: update_user_profile_by_id
+      parameters:
+      - name: uid
+        in: path
+        description: Unique identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        "204":
+          description: successful request
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.user_profiles_controller
+  /address:
+    post:
+      tags:
+      - User Profiles
+      description: Creates an address
+      operationId: save_address_profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserProfile'
+        required: true
+      responses:
+        "201":
+          description: successful response
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"successfully created\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.user_profiles_controller
+  /address/{userId}:
+    get:
+      tags:
+      - User Profiles
+      description: Displays an Addres of a user
+      operationId: get_addres_by_user_id
+      parameters:
+      - name: userId
+        in: path
+        description: Unique identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.user_profiles_controller
+    patch:
+      tags:
+      - User Profiles
+      description: Updates a User attributes
+      operationId: update_addres_by_user_id
+      parameters:
+      - name: userId
+        in: path
+        description: Unique identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+        "204":
+          description: successful request
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.user_profiles_controller
+  /org:
+    post:
+      tags:
+      - Org
+      description: Creates a new org
+      operationId: save_org
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Org'
+        required: true
+      responses:
+        "201":
+          description: successful response
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"successfully created\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.org_controller
+  /org/{orgId}:
+    get:
+      tags:
+      - Org
+      description: Displays an org
+      operationId: get_org_by_id
+      parameters:
+      - name: orgId
+        in: path
+        description: Unique identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Org'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.org_controller
+  /countries:
+    get:
+      tags:
+      - Catalogs
+      description: Show a listing of neighborhoods
+      operationId: get_countries
+      responses:
+        "200":
+          description: successfull response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Country'
+                x-content-type: application/json
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.catalogs_controller
+  /countries/{countryId}:
+    get:
+      tags:
+      - Catalogs
+      description: Get country by id
+      operationId: get_country_by_id
+      parameters:
+      - name: countryId
+        in: path
+        description: Unique identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Country'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.catalogs_controller
+  /countries/{countryId}/states:
+    get:
+      tags:
+      - Catalogs
+      description: Lists all states of a country id
+      operationId: get_states_by_country_id
+      parameters:
+      - name: countryId
+        in: path
+        description: Name of the country
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/State'
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.catalogs_controller
+  /states/{stateId}:
+    get:
+      tags:
+      - Catalogs
+      description: Get state by id
+      operationId: get_state_by_id
+      parameters:
+      - name: stateId
+        in: path
+        description: Unique identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/State'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.catalogs_controller
+  /states/{stateId}/municipalities:
+    get:
+      tags:
+      - Catalogs
+      description: Lists all municipalities of a state
+      operationId: get_municipalities_by_state_id
+      parameters:
+      - name: stateId
+        in: path
+        description: Id of the state
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Municipality'
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.catalogs_controller
+  /municipalities/{municipalityId}:
+    get:
+      tags:
+      - Catalogs
+      description: Get state by id
+      operationId: get_municipality_by_id
+      parameters:
+      - name: municipalityId
+        in: path
+        description: Unique identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Municipality'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.catalogs_controller
+  /municipalities/{municipalityId}/neighborhoods:
+    get:
+      tags:
+      - Catalogs
+      description: Lists all neighborhoods of a municipality
+      operationId: get_neighborhoods_by_municipality
+      parameters:
+      - name: municipalityId
+        in: path
+        description: Id of the municipality
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Neighborhood'
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.catalogs_controller
+  /neighborhood/{neighborhoodId}:
+    get:
+      tags:
+      - Catalogs
+      description: Get neighborhood by id
+      operationId: get_neighborhood_by_id
+      parameters:
+      - name: neighborhoodId
+        in: path
+        description: Unique identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Neighborhood'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.catalogs_controller
+  /services:
+    post:
+      tags:
+      - Services
+      description: Creates a media
+      operationId: save_service
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Service'
+        required: true
+      responses:
+        "201":
+          description: successful response
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"successfully created\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.services_controller
+  /services/{serviceId}:
+    get:
+      tags:
+      - Services
+      description: muestra una entrada de catalogo definida por el ID
+      operationId: get_catalog_entry_by_id
+      parameters:
+      - name: serviceId
+        in: path
+        description: codigo de la entrada del catalago
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.services_controller
+  /catalog/{catalogId}/entries:
+    get:
+      tags:
+      - Services
+      description: Lists the media defined by mediaID
+      operationId: get_services_by_catalog_id
+      parameters:
+      - name: catalogId
+        in: path
+        description: Catalog id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.services_controller
+  /notifications:
+    post:
+      tags:
+      - Notifications
+      description: Creates a notification
+      operationId: save_notifications
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Notification'
+        required: true
+      responses:
+        "201":
+          description: successful response
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"successfully created\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.notifications_controller
+  /notifications/{notificationId}:
+    get:
+      tags:
+      - Notifications
+      description: muestra una notificacion definida por el ID
+      operationId: get_notificationy_by_id
+      parameters:
+      - name: notificationId
+        in: path
+        description: codigo de la notificacion
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.notifications_controller
+  /media/{mediaId}/notifications:
+    get:
+      tags:
+      - Notifications
+      description: List all media notifications related to a media
+      operationId: get_notifications_by_media
+      parameters:
+      - name: mediaId
+        in: path
+        description: Media id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: successfull response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notification'
+                x-content-type: application/json
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.notifications_controller
+  /notification_types:
+    get:
+      tags:
+      - Catalogs
+      description: Show all types of notifications
+      operationId: get_notification_types
+      responses:
+        "200":
+          description: successfull response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NotificationType'
+                x-content-type: application/json
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.catalogs_controller
+  /notification_types/{notificactionTypeId}:
+    get:
+      tags:
+      - Catalogs
+      description: Shows a type of notification defined by the ID
+      operationId: get_notification_type_by_id
+      parameters:
+      - name: notificactionTypeId
+        in: path
+        description: codigo del tipo de notificacion
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationType'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.catalogs_controller
+  /services_provided:
+    post:
+      tags:
+      - Services Provided
+      description: Creates a service provided entry
+      operationId: save_service_provided
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceProvided'
+        required: true
+      responses:
+        "201":
+          description: successful response
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"successfully created\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.services_provided_controller
+  /services_provided/{serviceProvidedId}:
+    get:
+      tags:
+      - Services Provided
+      description: Lists an evaluation defined by the ID
+      operationId: get_service_provided_by_id
+      parameters:
+      - name: serviceProvidedId
+        in: path
+        description: Service Provided id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceProvided'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.services_provided_controller
+  /provider/{providerId}/services_provided:
+    get:
+      tags:
+      - Services Provided
+      description: Lists an service provided by a provided defined by id
+      operationId: get_service_provided_by_provider_id
+      parameters:
+      - name: providerId
+        in: path
+        description: Provided id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceProvided'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.services_provided_controller
+  /client/{clientId}/services_contracted:
+    get:
+      tags:
+      - Services Provided
+      description: Lists a service contracted by a specified client
+      operationId: get_service_provided_by_client_id
+      parameters:
+      - name: clientId
+        in: path
+        description: Provided id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceProvided'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.services_provided_controller
+  /messages:
+    post:
+      tags:
+      - Messages
+      description: Creates a message for a provider
+      operationId: save_message
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+        required: true
+      responses:
+        "201":
+          description: successful response
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"successfully created\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.messages_controller
+  /messages/{messageId}:
+    get:
+      tags:
+      - Messages
+      description: List a messaged defined by message ID
+      operationId: get_message_by_id
+      parameters:
+      - name: messageId
+        in: path
+        description: codigo del mensaje
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.messages_controller
+  /providers/{providerId}/messages:
+    get:
+      tags:
+      - Messages
+      description: Get all messages of a provider
+      operationId: get_message_by_provider_id
+      parameters:
+      - name: providerId
+        in: path
+        description: codigo del mensaje
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.messages_controller
+  /media:
+    post:
+      tags:
+      - Media
+      description: Creates a media
+      operationId: save_media
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Media'
+        required: true
+      responses:
+        "201":
+          description: successful response
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"successfully created\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.media_controller
+  /media/{mediaId}:
+    get:
+      tags:
+      - Media
+      description: Displays a media defined by the ID
+      operationId: get_media_by_id
+      parameters:
+      - name: mediaId
+        in: path
+        description: codigo de la media
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Media'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.media_controller
+  /albums/{albumId}/media:
+    get:
+      tags:
+      - Media
+      description: Lists the media defined by mediaID
+      operationId: get_media_by_album_id
+      parameters:
+      - name: albumId
+        in: path
+        description: codigo del album
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Media'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.media_controller
+  /albums:
+    get:
+      tags:
+      - Albums
+      description: Muestra todos los albums disponibles
+      operationId: get_albums
+      responses:
+        "200":
+          description: successfull response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Album'
+                x-content-type: application/json
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.albums_controller
+    post:
+      tags:
+      - Albums
+      description: Creates a user profile
+      operationId: save_album_profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Album'
+        required: true
+      responses:
+        "201":
+          description: successful response
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"successfully created\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.albums_controller
+  /albums/{albumId}:
+    get:
+      tags:
+      - Albums
+      description: Displays an album defined by ID
+      operationId: get_album_by_id
+      parameters:
+      - name: albumId
+        in: path
+        description: codigo del album
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Album'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.albums_controller
+components:
+  schemas:
+    Role:
+      required:
+      - name
+      - roleId
+      type: object
+      properties:
+        roleId:
+          type: integer
+          description: Access roles
+          readOnly: true
+          example: 4
+        name:
+          type: string
+          description: Name of the role
+          example: provider
+        status:
+          type: string
+          description: Defines if role is active or not
+          readOnly: true
+          enum:
+          - active
+          - inactive
+      example:
+        roleId: 4
+        name: provider
+        status: active
+    User:
+      required:
+      - email
+      - userId
+      - username
+      type: object
+      properties:
+        userId:
+          type: integer
+          description: User id to index table
+          readOnly: true
+          example: 123
+        uid:
+          type: string
+          description: Public id
+          format: uid
+          readOnly: true
+          example: k8df23
+        username:
+          type: string
+          description: Unique name for user
+          example: nixabell1835
+        password:
+          type: string
+          description: Keyword to access the app
+          format: password
+          writeOnly: true
+        passwordDate:
+          type: string
+          description: Last password updated date
+          format: date
+          readOnly: true
+        email:
+          type: string
+          description: e-mail related to this account
+          format: email
+        imageProfile:
+          type: string
+          description: An image profile for the user
+          nullable: true
+          example: "0"
+        roleId:
+          type: integer
+          description: Foreign key for the role type assigned to this user
+          readOnly: true
+      example:
+        uid: k8df23
+        password: ""
+        roleId: 0
+        imageProfile: "0"
+        passwordDate: 2000-01-23
+        userId: 123
+        email: ""
+        username: nixabell1835
+    UserProfile:
+      required:
+      - firstName
+      - firstSurname
+      - userprofileId
+      type: object
+      properties:
+        userprofileId:
+          type: integer
+          description: id for index table
+          readOnly: true
+          example: 123
+        firstName:
+          type: string
+          description: The identifying name of the contact person.
+          example: Saturnino
+        secondName:
+          type: string
+          description: Name of the person
+        firstSurname:
+          type: string
+          description: Name of the person
+          example: Herrán
+        secondSurname:
+          type: string
+          description: Name of the person
+          example: Guinchard
+        birthdate:
+          type: string
+          description: Name of the person
+          format: date
+        curp:
+          type: string
+          description: CURP
+          example: HEGS870709HASRNT01
+        mobileNumber:
+          type: string
+          description: Mobile number
+          example: "4495484301"
+        homeNumber:
+          type: string
+          description: Home number
+          example: "4495484301"
+        officeNumber:
+          type: string
+          description: Office telephone number
+          example: "4495484301"
+        facebookProfile:
+          type: string
+          description: facebook profile
+          example: saturnino.artist
+        linkedinProfile:
+          type: string
+          description: LinkedIn profile
+          example: saturnino.herran
+        twitterProfile:
+          type: string
+          description: Twitter profile
+          example: saturnino_h
+        idImage:
+          type: string
+          description: Name of the id file
+          example: uuid-image.jpg
+        status:
+          type: integer
+          description: Status of the profile
+          readOnly: true
+          example: 1
+        created:
+          type: string
+          description: Date of registration
+          format: date
+        updated:
+          type: string
+          description: Day of latest update
+          format: date
+          readOnly: true
+        credentialsId:
+          type: integer
+          description: id to credentials table
+          example: 651
+        orgId:
+          type: integer
+          description: Foreing key to Organizations
+          example: 23
+        address:
+          $ref: '#/components/schemas/Address'
+      example:
+        birthdate: 2000-01-23
+        address:
+          neighborhoodId: 5
+          zipCode: "12345"
+          stateId: 32
+          addressLine1: Luis
+          addressLine2: Luis
+          muncipalityId: 7
+          addressId: 35647
+        mobileNumber: "4495484301"
+        created: 2000-01-23
+        officeNumber: "4495484301"
+        userprofileId: 123
+        idImage: uuid-image.jpg
+        credentialsId: 651
+        orgId: 23
+        facebookProfile: saturnino.artist
+        twitterProfile: saturnino_h
+        firstName: Saturnino
+        linkedinProfile: saturnino.herran
+        secondSurname: Guinchard
+        homeNumber: "4495484301"
+        updated: 2000-01-23
+        firstSurname: Herrán
+        curp: HEGS870709HASRNT01
+        secondName: secondName
+        status: 1
+    Address:
+      required:
+      - addressId
+      - addressLine1
+      - muncipalityId
+      - neighborhoodId
+      - stateId
+      - zipCode
+      type: object
+      properties:
+        addressId:
+          type: integer
+          description: Unique id
+          readOnly: true
+          example: 35647
+        addressLine1:
+          type: string
+          description: "Suite/Apartment, Outer Number, Street"
+          example: Luis
+        addressLine2:
+          type: string
+          description: "Suite/Apartment, Outer Number, Street"
+          example: Luis
+        neighborhoodId:
+          type: integer
+          description: Colony or Neighborhood
+          example: 5
+        muncipalityId:
+          type: integer
+          description: Muncipality
+          example: 7
+        zipCode:
+          type: string
+          description: Zipcode
+          example: "12345"
+        stateId:
+          type: integer
+          description: Foreign key for State
+          example: 32
+      example:
+        neighborhoodId: 5
+        zipCode: "12345"
+        stateId: 32
+        addressLine1: Luis
+        addressLine2: Luis
+        muncipalityId: 7
+        addressId: 35647
+    Org:
+      required:
+      - name
+      - orgId
+      type: object
+      properties:
+        orgId:
+          type: integer
+          readOnly: true
+          example: 895
+        name:
+          type: string
+        status:
+          type: string
+          readOnly: true
+          enum:
+          - active
+          - inactive
+          - deleted
+      example:
+        name: name
+        orgId: 895
+        status: active
+    Neighborhood:
+      required:
+      - municipalityId
+      - name
+      - neighborhoodId
+      - zipCode
+      type: object
+      properties:
+        neighborhoodId:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        zipCode:
+          type: integer
+        municipalityId:
+          type: integer
+      example:
+        neighborhoodId: 0
+        zipCode: 6
+        municipalityId: 1
+        name: name
+    Municipality:
+      required:
+      - municipalityId
+      - name
+      - stateId
+      type: object
+      properties:
+        municipalityId:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        stateId:
+          type: integer
+      example:
+        municipalityId: 0
+        stateId: 6
+        name: name
+    State:
+      required:
+      - countryId
+      - name
+      - stateId
+      type: object
+      properties:
+        stateId:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        countryId:
+          type: integer
+      example:
+        stateId: 0
+        name: name
+        countryId: 6
+    Country:
+      required:
+      - countryId
+      - name
+      type: object
+      properties:
+        countryId:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+      example:
+        name: name
+        countryId: 0
+    Category:
+      required:
+      - categoryId
+      - description
+      - imageUrl
+      - name
+      type: object
+      properties:
+        categoryId:
+          type: integer
+          description: Primary key
+          readOnly: true
+          example: 1001
+        name:
+          type: string
+          description: "Name of the categories, unique"
+          example: Oficios Generales
+        description:
+          type: string
+          description: A brief description of the category
+          example: General Official
+        imageUrl:
+          type: string
+          description: Default image associated to the category
+          example: http://image.com
+        created:
+          type: string
+          description: Date of creation of the category
+          format: date
+          readOnly: true
+        lastUpdated:
+          type: string
+          description: Last updated date
+          format: date
+          readOnly: true
+        statusId:
+          type: integer
+          description: Status of this category
+          readOnly: true
+          example: 1
+      example:
+        lastUpdated: 2000-01-23
+        statusId: 1
+        created: 2000-01-23
+        imageUrl: http://image.com
+        name: Oficios Generales
+        description: General Official
+        categoryId: 1001
+    Skill:
+      required:
+      - categoryId
+      - priceOfService
+      - providerId
+      - yearsOfExperience
+      type: object
+      properties:
+        providerId:
+          type: integer
+          description: id of the provider
+          example: 54
+        categoryId:
+          type: integer
+          description: Id of the category
+          example: 5
+        yearsOfExperience:
+          type: integer
+          description: Years supplying this service
+          example: 2
+        priceOfService:
+          type: number
+          description: Price per hour (to be defined)
+          example: 300
+        servicesProvided:
+          type: integer
+          description: Total number of services provided on this platform
+          example: 17
+        fiveStars:
+          type: integer
+          description: Number of services qualified with 5 star
+          example: 10
+        fourStarts:
+          type: integer
+          description: Number of services qualified with 4 star
+          example: 4
+        threeStarts:
+          type: integer
+          description: Number of services qualified with 3 star
+          example: 0
+        twoStarts:
+          type: integer
+          description: Number of services qualified with 2 star
+          example: 1
+        oneStart:
+          type: integer
+          description: Number of services qualified with 1 star
+          example: 2
+      example:
+        threeStarts: 0
+        yearsOfExperience: 2
+        servicesProvided: 17
+        providerId: 54
+        fourStarts: 4
+        twoStarts: 1
+        oneStart: 2
+        categoryId: 5
+        priceOfService: 300
+        fiveStars: 10
+    Service:
+      required:
+      - categoryId
+      - cost
+      - description
+      - serviceId
+      type: object
+      properties:
+        serviceId:
+          type: integer
+          description: Primary key
+          format: integer64
+          readOnly: true
+          example: 12
+        userId:
+          type: integer
+          description: Foreign key of the account that is associated to this Service
+          example: 12
+        categoryId:
+          type: integer
+          description: Foreign key of the category that is associated to this service
+          example: 12
+        description:
+          type: string
+          description: Description of the entry
+          example: This is an entry
+        cost:
+          type: string
+          description: Cost of the service
+          example: $122
+        created:
+          type: string
+          description: Date when catalog entry was created
+          format: date
+          readOnly: true
+        lastUpdated:
+          type: string
+          description: Date when the catalog entry was updated
+          readOnly: true
+          example: 2021/11/21
+        statusId:
+          type: integer
+          description: Foreign key of the status tha is associated to this catalog
+          readOnly: true
+          example: 12
+      example:
+        lastUpdated: 2021/11/21
+        cost: $122
+        statusId: 12
+        created: 2000-01-23
+        description: This is an entry
+        serviceId: 12
+        userId: 12
+        categoryId: 12
+    Notification:
+      required:
+      - accountId
+      - mediaId
+      - message
+      - notificationTypeId
+      - title
+      type: object
+      properties:
+        notificationId:
+          type: integer
+          description: Primary key
+          example: 11
+        title:
+          type: string
+          description: HO
+          example: Mensaje
+        message:
+          type: string
+          description: The message to notify about something
+          example: You have a new message
+        status:
+          type: integer
+          description: Status of the notification
+          example: 2
+        created:
+          type: string
+          description: Date when the notification was created
+          format: date
+          readOnly: true
+        updated:
+          type: string
+          description: Date when the notification was updated
+          format: date
+          readOnly: true
+        accountId:
+          type: integer
+          description: Foreign key of the account that is associated to this notification
+          example: 12
+        notificationTypeId:
+          type: integer
+          description: Foreign key of the notification type tha is associated to this
+            notification
+          example: 12
+        mediaId:
+          type: integer
+          description: Foreign key of the media that is associated to this notification
+          example: 12
+      example:
+        accountId: 12
+        notificationTypeId: 12
+        created: 2000-01-23
+        notificationId: 11
+        title: Mensaje
+        message: You have a new message
+        mediaId: 12
+        updated: 2000-01-23
+        status: 2
+    NotificationType:
+      required:
+      - notificationType
+      type: object
+      properties:
+        notificationTypeId:
+          type: integer
+          description: Primary key
+          readOnly: true
+          example: 11
+        notificationType:
+          type: string
+          description: Type of notification
+          example: Mensaje
+      example:
+        notificationTypeId: 11
+        notificationType: Mensaje
+    ServiceProvided:
+      required:
+      - clientId
+      - commentEntry
+      - providerId
+      - rating
+      - status
+      type: object
+      properties:
+        evaluationId:
+          type: integer
+          description: primary key
+          readOnly: true
+          example: 1
+        rating:
+          type: integer
+          description: number of stars (0 to 5)
+          example: 5
+        commentEntry:
+          type: string
+          description: Comment
+          example: "Cheap and very good service, I recommend it!"
+        status:
+          type: integer
+          description: "Status of the evaluation (requested, completed, abandoned,\
+            \ in process, canceled, ...)"
+          example: 1
+        created:
+          type: string
+          description: Date when the evaluation was created
+          format: date
+          readOnly: true
+        lastUpdated:
+          type: string
+          description: Date when the evaluation was updated
+          format: date
+          readOnly: true
+        catalogEntriesId:
+          type: integer
+          description: Foraign key to the catalog entry id associated to this evaluation
+          example: 12
+        clientId:
+          type: integer
+          description: Foraign key to the user profile who contracted the service
+          example: 12
+        providerId:
+          type: integer
+          description: Foraign key to the user profile who provided the service
+          example: 12
+      example:
+        evaluationId: 1
+        lastUpdated: 2000-01-23
+        clientId: 12
+        created: 2000-01-23
+        providerId: 12
+        rating: 5
+        commentEntry: "Cheap and very good service, I recommend it!"
+        catalogEntriesId: 12
+        status: 1
+    Message:
+      required:
+      - entry
+      - providerId
+      - serviceId
+      type: object
+      properties:
+        messageId:
+          type: integer
+          description: Primary key
+          format: integer64
+          readOnly: true
+          example: 12
+        entry:
+          type: string
+          description: Body of the Message
+          example: "Quieron agendar servicio de plomería para el martes 6 de abril\
+            \ del presente a las 10:00 hrs, ¿está disponible?"
+        created:
+          type: string
+          description: Date when the message was created
+          format: date
+        status:
+          type: integer
+          description: Status of the messsage
+          example: 12
+        serviceId:
+          type: integer
+          description: Foreign key to possible requested Service
+          example: 3415
+        providerId:
+          type: integer
+          description: Foreign key of the provider associated to the message
+          example: 12
+      example:
+        entry: "Quieron agendar servicio de plomería para el martes 6 de abril del\
+          \ presente a las 10:00 hrs, ¿está disponible?"
+        created: 2000-01-23
+        providerId: 12
+        messageId: 12
+        serviceId: 3415
+        status: 12
+    Media:
+      required:
+      - link
+      - media
+      - mediaType
+      - title
+      type: object
+      properties:
+        mediaId:
+          type: integer
+          description: Primary key
+          readOnly: true
+          example: 123
+        media:
+          type: string
+          description: Media file
+          format: binary
+        link:
+          type: string
+          description: Videos to ilustrate the information
+          format: uri
+          example: www.youtube.com/hashas
+        title:
+          type: string
+          description: Title to the video
+          example: Learn how to use the tool
+        size:
+          type: integer
+          description: Size of the video
+          example: 1000
+        duration:
+          type: string
+          description: Duration of the video
+          example: "610"
+        created:
+          type: string
+          description: DATE
+          format: date
+        mediaType:
+          type: string
+          description: Type of the media
+          example: mp4
+        views:
+          type: integer
+          description: Views that the media has
+          example: 11
+        likes:
+          type: integer
+          description: Numbers of likes in the media
+          example: 122
+        ownerId:
+          type: integer
+          description: Foreign key for the owner associated to this media
+          example: 11
+        albumId:
+          type: integer
+          description: Foreign key for the album associated to this media
+          example: 11
+      example:
+        duration: "610"
+        size: 1000
+        created: 2000-01-23
+        link: www.youtube.com/hashas
+        albumId: 11
+        mediaType: mp4
+        media: ""
+        mediaId: 123
+        title: Learn how to use the tool
+        ownerId: 11
+        views: 11
+        likes: 122
+    Album:
+      required:
+      - description
+      - title
+      type: object
+      properties:
+        albumId:
+          type: integer
+          description: Primary key
+          readOnly: true
+          example: 123
+        title:
+          type: string
+          description: Title of the album content
+          example: Como hacer tu declaracion fiscal
+        description:
+          type: string
+          description: describe the content of the album
+          example: this album is about
+      example:
+        albumId: 123
+        description: this album is about
+        title: Como hacer tu declaracion fiscal
+  responses:
+    notFound:
+      description: User not found
+      content:
+        application/json:
+          schema:
+            type: string
+            example: "{\"message\":\"Error 404, page not found.\"}"
+            x-content-type: application/json
+    badRequest:
+      description: BAD_REQUEST
+      content:
+        application/json:
+          schema:
+            type: string
+            example: "{\"message\":\"BAD_REQUEST\"}"
+            x-content-type: application/json
+    unauthorized:
+      description: UNAUTHORIZED
+      content:
+        application/json:
+          schema:
+            type: string
+            example: "{\"message\":\"Unauthorized\"}"
+            x-content-type: application/json
+    internalServerError:
+      description: INTERNAL_SERVER_ERROR
+      content:
+        application/json:
+          schema:
+            type: string
+            example: "{\"message\":\"unexpected error\"}"
+            x-content-type: application/json
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      x-bearerInfoFunc: jobbing.controllers.authorization_controller.check_bearerAuth
+    oAuthSample:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://api.example.com/oauth2/authorize
+          scopes:
+            read_catalogs: read catalogs
+      x-tokenInfoFunc: jobbing.controllers.authorization_controller.check_oAuthSample
+      x-scopeValidateFunc: jobbing.controllers.authorization_controller.validate_scope_oAuthSample
+

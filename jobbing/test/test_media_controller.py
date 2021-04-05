@@ -1,0 +1,54 @@
+# coding: utf-8
+
+from __future__ import absolute_import
+
+from flask import json
+from six import BytesIO
+
+from jobbing.models.media import Media  # noqa: E501
+from jobbing.test import BaseTestCase
+
+
+class TestMediaController(BaseTestCase):
+    """MediaController integration test stubs"""
+
+    def test_get_media_by_album_id(self):
+        """Test case for get_media_by_album_id
+
+        
+        """
+        response = self.client.open(
+            '/albums/{albumId}/media'.format(album_id=56),
+            method='GET')
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
+    def test_get_media_by_id(self):
+        """Test case for get_media_by_id
+
+        
+        """
+        response = self.client.open(
+            '/media/{mediaId}'.format(media_id=56),
+            method='GET')
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
+    def test_save_media(self):
+        """Test case for save_media
+
+        
+        """
+        body = Media()
+        response = self.client.open(
+            '/media',
+            method='POST',
+            data=json.dumps(body),
+            content_type='application/json')
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
+
+if __name__ == '__main__':
+    import unittest
+    unittest.main()
