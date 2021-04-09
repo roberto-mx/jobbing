@@ -16,6 +16,8 @@ servers:
   description: Production Server
 - url: https://127.0.0.1:4010
   description: Development server (uses test data)
+security:
+- bearerAuth: []
 paths:
   /role:
     get:
@@ -65,7 +67,10 @@ paths:
               schema:
                 type: string
                 example: "{\"message\":\"unexpected error\"}"
-                x-content-type: application/json  
+                x-content-type: application/json
+      security:
+      - oAuthSample:
+        - read_catalogs
       x-openapi-router-controller: jobbing.controllers.roles_controller
   /avatar:
     put:
@@ -2856,4 +2861,19 @@ components:
             type: string
             example: "{\"message\":\"unexpected error\"}"
             x-content-type: application/json
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      x-bearerInfoFunc: jobbing.controllers.authorization_controller.check_bearerAuth
+    oAuthSample:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://api.example.com/oauth2/authorize
+          scopes:
+            read_catalogs: read catalogs
+      x-tokenInfoFunc: jobbing.controllers.authorization_controller.check_oAuthSample
+      x-scopeValidateFunc: jobbing.controllers.authorization_controller.validate_scope_oAuthSample
 

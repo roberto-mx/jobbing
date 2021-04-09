@@ -10,6 +10,13 @@ This example uses the [Connexion](https://github.com/zalando/connexion) library 
 ## Requirements
 Python 3.5.2+
 
+## Virtual environment
+To create a virtual environment on Windows, use:
+```
+python3 -m venv venv
+venv\Scripts\activate
+```
+
 ## Usage
 To run the server, please execute the following from the root directory:
 

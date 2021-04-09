@@ -13,4 +13,8 @@ def get_roles():  # noqa: E501
 
     :rtype: List[Role]
     """
-    return 'do some magic!'
+    result = []
+    result.append(Role(1, 'Admin', 1))
+    result.append(Role(2, 'Client', 1))
+    result.append(Role(3, 'Provider', 1))
+    return result
