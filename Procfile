@@ -1,1 +1,1 @@
-web: gunicorn __main__:jobbing
+web: gunicorn app:jobbing
