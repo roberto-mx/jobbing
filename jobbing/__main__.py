@@ -3,9 +3,7 @@
 import connexion
 
 from jobbing import encoder
-from flask_sqlalchemy import SQLAlchemy
 
-db = SQLAlchemy()
 
 def main():
     app = connexion.App(__name__, specification_dir='./swagger/')
@@ -14,10 +12,6 @@ def main():
     #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///jce.sqlite3'
     app.debug = True
     app.run(port=8080)
-
-    db.init_app(app)
-    with app.app_context():
-        db.create_all()
 
 
 if __name__ == '__main__':
