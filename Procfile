@@ -1,1 +1,1 @@
-web: gunicorn jobbing:jobbing
+web: gunicorn jobbing:app
