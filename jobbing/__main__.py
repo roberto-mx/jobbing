@@ -12,7 +12,7 @@ def main():
     #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///jce.sqlite3'
     app.debug = True
 
-    return app
+    return app.app
 
 
 if __name__ == '__main__':
