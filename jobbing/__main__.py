@@ -18,6 +18,8 @@ def main():
     #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///jce.sqlite3'
     app.debug = True
 
+    return app
+
 
 if __name__ == '__main__':
     main().run(port=8080)
