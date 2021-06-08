@@ -7,7 +7,6 @@ from jobbing import util
 
 T = typing.TypeVar('T')
 
-
 class Model(object):
     # swaggerTypes: The key is attribute name and the
     # value is attribute type.
