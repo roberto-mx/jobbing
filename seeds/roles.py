@@ -1,6 +1,5 @@
 from flask_seeder import Seeder
 from jobbing.DBModels import Role
-# from SQK
 
 
 class DemoSeeder(Seeder):

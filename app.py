@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 
-from logging import debug
 import connexion
-from flask import app
 
 from jobbing import encoder
 from jobbing import db
