@@ -2,12 +2,9 @@ import connexion
 import six
 
 from jobbing.DBModels import Role as DBRole
-
-#from flask import SQLAlchemy
 from jobbing.models.role import Role  # noqa: E501
 from jobbing import util
 
-#db = SQLAlchemy()
 
 def get_roles():  # noqa: E501
     """Lists all user roles

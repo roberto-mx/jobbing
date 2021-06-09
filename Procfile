@@ -1,0 +1,1 @@
+web: gunicorn jobbing.__main__:app
