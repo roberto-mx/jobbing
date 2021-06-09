@@ -15,5 +15,4 @@ class DemoSeeder(Seeder):
                          Role(id=3, name="Provider", status="1")]
 
         for role in default_roles:
-            print(role)
             self.db.session.add(role)
