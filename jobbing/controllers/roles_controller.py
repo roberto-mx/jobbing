@@ -1,11 +1,10 @@
 import connexion
 import six
 
-#from flask import SQLAlchemy
+from jobbing.DBModels import Role as DBRole
 from jobbing.models.role import Role  # noqa: E501
 from jobbing import util
 
-#db = SQLAlchemy()
 
 def get_roles():  # noqa: E501
     """Lists all user roles
@@ -15,8 +14,8 @@ def get_roles():  # noqa: E501
 
     :rtype: List[Role]
     """
-    result = []
-    result.append(Role(1, 'Admin', 1))
-    result.append(Role(2, 'Client', 1))
-    result.append(Role(3, 'Provider', 1))
-    return result
+
+    roles = DBRole.query.all()
+    results = [
+        Role(role.id, role.name, role.status) for role in roles]
+    return results

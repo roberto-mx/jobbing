@@ -14,7 +14,7 @@ class Role(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, role_id: int=None, name: str=None, status: str=None):  # noqa: E501
+    def __init__(self, role_id: int = None, name: str = None, status: str = None):  # noqa: E501
         """Role - a model defined in Swagger
 
         :param role_id: The role_id of this Role.  # noqa: E501
