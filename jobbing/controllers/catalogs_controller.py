@@ -17,7 +17,9 @@ def get_countries():  # noqa: E501
 
     :rtype: List[Country]
     """
-    return 'do some magic!'
+    result = []
+    result.append(Country(1, 'Mexico'))
+    return result
 
 
 def get_country_by_id(country_id):  # noqa: E501
@@ -30,6 +32,7 @@ def get_country_by_id(country_id):  # noqa: E501
 
     :rtype: Country
     """
+    result=Country(country_id)
     return 'do some magic!'
 
 
