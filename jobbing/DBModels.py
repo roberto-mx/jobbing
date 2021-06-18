@@ -15,7 +15,7 @@ class Role(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
     status = db.Column(db.Integer, nullable=False)
-    user = db.relationship("user")
+    user = db.relationship("User")
 
     def __init__(self, id: int = None, name: str = None, status: str = None):
         self.id = id
@@ -36,7 +36,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(150), unique=True, nullable=False)
     image_profile = db.Column(db.String(2500), unique=False, nullable=True)
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
-    profile = db.relationship("profile")
+    profile = db.relationship("Profile")
 
     def __init__(self, id: int = None, username: str = None, password: str = None, email: str = None, image_profile: str = None, role_id: int = None):
         self.id = id
