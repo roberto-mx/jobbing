@@ -416,6 +416,50 @@ paths:
                 example: "{\"message\":\"unexpected error\"}"
                 x-content-type: application/json
       x-openapi-router-controller: jobbing.controllers.user_controller
+  /login:
+    post:
+      tags:
+      - Authentication
+      description: Authenticates user
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "200":
+          description: successful response
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"loged in\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.user_controller
+  /logout:
+    post:
+      tags:
+      - Authentication
+      description: Authenticates user
+      operationId: logout
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "200":
+          description: successful response
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"loged in\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.user_controller
   /userProfile:
     post:
       tags:
@@ -559,7 +603,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserProfile'
+              $ref: '#/components/schemas/Address'
         required: true
       responses:
         "201":
