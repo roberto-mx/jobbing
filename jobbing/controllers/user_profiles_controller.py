@@ -51,7 +51,6 @@ def get_user_profile_by_id(uid):  # noqa: E501
 
     user = DBUser.query.filter(DBUser.uid== uid).first()
 
-    print(user.uid)
     if user == None:
         abort(404)
 
