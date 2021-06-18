@@ -4,10 +4,7 @@ from flask_login import UserMixin
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
 
-from jobbing.db import get_db
-
-db = get_db()
-
+from jobbing.db import db
 
 class Role(db.Model):
     __tablename__ = "role"
