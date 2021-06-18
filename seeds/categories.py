@@ -2,13 +2,13 @@ from flask_seeder import Seeder
 from jobbing.DBModels import Category
 
 
-class DemoSeeder(Seeder):
+class CategoriesSeeder(Seeder):
     def __init__(self, db=None):
         super().__init__(db=db)
         self.priority = 10
 
     def run(self):
-        print("seeding roles")
+        print("seeding categories")
         default_categories = [Category(id=1, name="Oficios Generales", description="Oficios Generales", status="1"),
                          Category(id=2, name="Cuidado Personal", description="Cuidado Personal", status="1"),
                          Category(id=3, name="Automotriz", description="Automotriz", status="1"),
@@ -18,5 +18,5 @@ class DemoSeeder(Seeder):
                          Category(id=7, name="Eventos", description="Eventos", status="1"),
                          Category(id=8, name="Otros", description="Otros", status="1")]
 
-        for role in default_roles:
-            self.db.session.add(role)
+        for category in default_categories:
+            self.db.session.add(category)
