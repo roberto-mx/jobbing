@@ -1,10 +1,13 @@
 import connexion
 import six
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask import request, Response
 
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask import abort, request, Response
+
+from jobbing.DBModels import User as DBUser
 from jobbing.models.user import User  # noqa: E501
 from jobbing import util
+
 
 def login():
     email = request.form.get('email')
@@ -33,8 +36,11 @@ def get_user_by_id(uid):  # noqa: E501
 
     :rtype: User
     """
-    return 'do some magic!'
+    user = DBUser.query.filter(DBUser.uid == uid).first()
 
+    if user == None:
+        abort(404)
+    return User(user_id=user.id, uid=user.uid, username=user.username, email=user.email, image_profile=user.image_profile, role_id=user.role_id)
 
 def get_users():  # noqa: E501
     """get_users
@@ -44,7 +50,10 @@ def get_users():  # noqa: E501
 
     :rtype: User
     """
-    return 'do some magic!'
+    users = DBUser.query.all()
+    results = [
+        User(user_id=user.id, uid=user.uid, username=user.username, email=user.email, image_profile=user.image_profile, role_id=user.role_id) for user in users]
+    return results
 
 
 def save_user(body):  # noqa: E501

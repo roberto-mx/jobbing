@@ -1,6 +1,9 @@
 import connexion
 import six
+from flask import abort
 
+from jobbing.DBModels import User as DBUser
+from jobbing.DBModels import Profile as DBProfile
 from jobbing.models.address import Address  # noqa: E501
 from jobbing.models.user_profile import UserProfile  # noqa: E501
 from jobbing import util
@@ -34,6 +37,7 @@ def get_addres_by_user_id(user_id):  # noqa: E501
     return 'do some magic!'
 
 
+
 def get_user_profile_by_id(uid):  # noqa: E501
     """get_user_profile_by_id
 
@@ -44,7 +48,39 @@ def get_user_profile_by_id(uid):  # noqa: E501
 
     :rtype: UserProfile
     """
-    return 'do some magic!'
+
+    user = DBUser.query.filter(DBUser.uid== uid).first()
+
+    if user == None:
+        abort(404)
+
+    profile = DBProfile.query.filter(DBProfile.id == user.id).first()
+
+    if profile == None:
+        abort(404)
+    return UserProfile(
+        userprofile_id=profile.id,
+        first_name=profile.first_name,
+        second_name=profile.second_name,
+        first_surname=profile.first_surname,
+        second_surname=profile.second_surname,
+        birthdate=profile.birthdate,
+        curp=profile.curp,
+        mobile_number=profile.mobile_number,
+        home_number=profile.home_number,
+        office_number=profile.office_number,
+        facebook_profile=profile.facebook_profile,
+        linkedin_profile=profile.linkedin_profile,
+        twitter_profile=profile.twitter_profile,
+        id_image=profile.id_image,
+        status=profile.status,
+        created=profile.created,
+        updated=profile.updated,
+        # credentials_id=profile.credentials_id,
+        # org_id = profile.org_id,
+        address=profile.address
+    )
+    
 
 
 def save_address_profile(body):  # noqa: E501
