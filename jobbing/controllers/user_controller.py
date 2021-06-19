@@ -1,11 +1,30 @@
 import connexion
 import six
-from flask import abort
+
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask import abort, request, Response
 
 from jobbing.DBModels import User as DBUser
 from jobbing.models.user import User  # noqa: E501
 from jobbing import util
 
+
+def login():
+    email = request.form.get('email')
+    password = request.form.get('password')
+    remember = True if request.form.get('remember') else False
+
+    user = User.query.filter_by(email=email).first()
+
+    # check if the user actually exists
+    # take the user-supplied password, hash it, and compare it to the hashed password in the database
+    if not user or not check_password_hash(user.password, password):
+        return '', 401
+
+    return 'logged in', 200
+
+def logout():
+    return 'logged out'
 
 def get_user_by_id(uid):  # noqa: E501
     """get_user_by_id
