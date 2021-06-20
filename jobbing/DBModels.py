@@ -24,6 +24,8 @@ class Role(db.Model):
 
 
 class Country(db.Model):
+    __tablename__ = "country"
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
 
@@ -36,11 +38,13 @@ class Country(db.Model):
 
 
 class State(db.Model):
+    __tablename__ = "state"
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
     country_id = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, id: int = None, name: str = None, country_id: str = None):
+    def __init__(self, id: int=None, name: str=None, country_id: str=None):
         self.id = id
         self.name = name
         self.country_id = country_id
@@ -50,17 +54,52 @@ class State(db.Model):
 
 
 class Municipality(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), unique=True, nullable=False)
-    state_id = db.Column(db.Integer, nullable=False)
+    __tablename__ = "municipality"
 
-    def __init__(self, id: int = None, name: str = None, state_id: str = None):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), unique=False, nullable=False)
+    state_id = db.Column(db.Integer, nullable=False, primary_key=True)
+
+    def __init__(self, id: int=None, name: str=None, state_id: str=None):
         self.id = id
         self.name = name
         self.state_id = state_id
 
     def __repr__(self):
         return f'<Municipality {self.name}>'
+
+
+class Neighbourhood(db.Model):
+    __tablename__ = "neighbourhood"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), unique=False, nullable=False)
+    zip_code = db.Column(db.Integer)
+    municipality_id = db.Column(db.Integer, nullable=False)
+
+    def __init__(self, id: int=None, name: str=None, zip_code: int=None, municipality_id: int=None):
+        self.id = id
+        self.name = name
+        self.zip_code = zip_code
+        self.municipality_id = municipality_id
+
+    def __repr__(self):
+        return '<Neighbourhood {id}, {name}, {zip_code}, {municipality_id}>'.format(**self)
+
+
+class NotificationType(db.Model):
+    __tablename__ = "notification_type"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(15), unique=True, nullable=False)
+
+    def __init__(self, id: int=None, name: str=None):
+        self.id = id
+        self.name = name
+
+    def __repr__(self):
+        return f'<NotificationType {self.name}>'
+
 
 class User(UserMixin, db.Model):
     __tablename__ = "user"
@@ -165,6 +204,8 @@ class Profile(UserMixin, db.Model):
 
 
 class Category(db.Model):
+    __tablename__ = "category"
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
     description = db.Column(db.String(100), nullable=False)

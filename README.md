@@ -23,6 +23,7 @@ To run the server, please execute the following from the root directory:
 ```
 pip3 install -r requirements.txt
 
+set FLASK_DEBUG=1
 flask run
 ```
 
@@ -42,6 +43,29 @@ To launch the integration tests, use tox:
 ```
 sudo pip install tox
 tox
+```
+
+## DB migrations
+
+Flask-migrate workflow consists of two consequent commands which generates the migration:
+```
+flask db migrate
+```
+and which applies the migration
+```
+flask db upgrade
+```
+
+## Importing data
+
+Executin seeds:
+```
+flask seed list
+flask seed run <listedSeeder>
+```
+If NoModuleNamed error, run (for Windows):
+```
+set PYTHONPATH=.
 ```
 
 ## Running with Docker

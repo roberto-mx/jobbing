@@ -7,7 +7,7 @@ from six import BytesIO
 
 from jobbing.models.country import Country  # noqa: E501
 from jobbing.models.municipality import Municipality  # noqa: E501
-from jobbing.models.neighborhood import Neighborhood  # noqa: E501
+from jobbing.models.neighbourhood import Neighbourhood  # noqa: E501
 from jobbing.models.notification_type import NotificationType  # noqa: E501
 from jobbing.models.state import State  # noqa: E501
 from jobbing.test import BaseTestCase
@@ -60,24 +60,24 @@ class TestCatalogsController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_get_neighborhood_by_id(self):
-        """Test case for get_neighborhood_by_id
+    def test_get_neighbourhood_by_id(self):
+        """Test case for get_eighbourhood_by_id
 
         
         """
         response = self.client.open(
-            '/neighborhood/{neighborhoodId}'.format(neighborhood_id='neighborhood_id_example'),
+            '/eighbourhood/{neighbourhoodId}'.format(eighbourhood_id='eighbourhood_id_example'),
             method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_get_neighborhoods_by_municipality(self):
-        """Test case for get_neighborhoods_by_municipality
+    def test_get_neighbourhoods_by_municipality(self):
+        """Test case for get_neighbourhoods_by_municipality
 
         
         """
         response = self.client.open(
-            '/municipalities/{municipalityId}/neighborhoods'.format(municipality_id=56),
+            '/municipalities/{municipalityId}/neighbourhoods'.format(municipality_id=56),
             method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))

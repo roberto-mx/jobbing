@@ -10,7 +10,7 @@ from jobbing.models.country import Country
 from jobbing.models.media import Media
 from jobbing.models.message import Message
 from jobbing.models.municipality import Municipality
-from jobbing.models.neighborhood import Neighborhood
+from jobbing.models.neighbourhood import Neighbourhood
 from jobbing.models.notification import Notification
 from jobbing.models.notification_type import NotificationType
 from jobbing.models.org import Org

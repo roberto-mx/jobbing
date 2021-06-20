@@ -807,7 +807,7 @@ paths:
     get:
       tags:
       - Catalogs
-      description: Show a listing of neighborhoods
+      description: Show a listing of neighbourhoods
       operationId: get_countries
       responses:
         "200":
@@ -1069,12 +1069,12 @@ paths:
                 example: "{\"message\":\"unexpected error\"}"
                 x-content-type: application/json
       x-openapi-router-controller: jobbing.controllers.catalogs_controller
-  /municipalities/{municipalityId}/neighborhoods:
+  /municipalities/{municipalityId}/neighbourhoods:
     get:
       tags:
       - Catalogs
-      description: Lists all neighborhoods of a municipality
-      operationId: get_neighborhoods_by_municipality
+      description: Lists all neighbourhoods of a municipality
+      operationId: get_neighbourhoods_by_municipality
       parameters:
       - name: municipalityId
         in: path
@@ -1092,17 +1092,17 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Neighborhood'
+                  $ref: '#/components/schemas/Neighbourhood'
                 x-content-type: application/json
       x-openapi-router-controller: jobbing.controllers.catalogs_controller
-  /neighborhood/{neighborhoodId}:
+  /neighbourhood/{neighbourhoodId}:
     get:
       tags:
       - Catalogs
-      description: Get neighborhood by id
-      operationId: get_neighborhood_by_id
+      description: Get neighbourhood by id
+      operationId: get_neighbourhood_by_id
       parameters:
-      - name: neighborhoodId
+      - name: neighbourhoodId
         in: path
         description: Unique identifier
         required: true
@@ -1116,7 +1116,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Neighborhood'
+                $ref: '#/components/schemas/Neighbourhood'
         "400":
           description: BAD_REQUEST
           content:
@@ -2269,7 +2269,7 @@ components:
       example:
         birthdate: 2000-01-23
         address:
-          neighborhoodId: 5
+          neighbourhoodId: 5
           zipCode: "12345"
           stateId: 32
           addressLine1: Luis
@@ -2299,7 +2299,7 @@ components:
       - addressId
       - addressLine1
       - muncipalityId
-      - neighborhoodId
+      - neighbourhoodId
       - stateId
       - zipCode
       type: object
@@ -2317,9 +2317,9 @@ components:
           type: string
           description: "Suite/Apartment, Outer Number, Street"
           example: Luis
-        neighborhoodId:
+        neighbourhoodId:
           type: integer
-          description: Colony or Neighborhood
+          description: Colony or Neighbourhood
           example: 5
         muncipalityId:
           type: integer
@@ -2334,7 +2334,7 @@ components:
           description: Foreign key for State
           example: 32
       example:
-        neighborhoodId: 5
+        neighbourhoodId: 5
         zipCode: "12345"
         stateId: 32
         addressLine1: Luis
@@ -2364,15 +2364,15 @@ components:
         name: name
         orgId: 895
         status: active
-    Neighborhood:
+    Neighbourhood:
       required:
       - municipalityId
       - name
-      - neighborhoodId
+      - neighbourhoodId
       - zipCode
       type: object
       properties:
-        neighborhoodId:
+        neighbourhoodId:
           type: integer
           readOnly: true
         name:
@@ -2382,7 +2382,7 @@ components:
         municipalityId:
           type: integer
       example:
-        neighborhoodId: 0
+        neighbourhoodId: 0
         zipCode: 6
         municipalityId: 1
         name: name

@@ -1,9 +1,16 @@
 import connexion
 import six
 
+from flask import abort, request, Response
+
+from jobbing.DBModels import Country as DBCountry
+from jobbing.DBModels import State as DBState
+from jobbing.DBModels import Municipality as DBMunicipality
+from jobbing.DBModels import Neighbourhood as DBNeighbourhood
+from jobbing.DBModels import NotificationType as DBNotificationType
 from jobbing.models.country import Country  # noqa: E501
 from jobbing.models.municipality import Municipality  # noqa: E501
-from jobbing.models.neighborhood import Neighborhood  # noqa: E501
+from jobbing.models.neighbourhood import Neighbourhood  # noqa: E501
 from jobbing.models.notification_type import NotificationType  # noqa: E501
 from jobbing.models.state import State  # noqa: E501
 from jobbing import util
@@ -12,15 +19,16 @@ from jobbing import util
 def get_countries():  # noqa: E501
     """get_countries
 
-    Show a listing of neighborhoods # noqa: E501
+    Show a listing of neighbourhoods # noqa: E501
 
 
     :rtype: List[Country]
     """
-    result = []
-    result.append(Country(1, 'Mexico'))
-    return result
 
+    countries = DBCountry.query.all()
+    if countries == None:
+        abort(404)
+    return [Country(c.id, c.name) for c in countries]
 
 def get_country_by_id(country_id):  # noqa: E501
     """get_country_by_id
@@ -32,8 +40,10 @@ def get_country_by_id(country_id):  # noqa: E501
 
     :rtype: Country
     """
-    result=Country(country_id)
-    return 'do some magic!'
+    country = DBCountry.query.filter(DBCountry.id==country_id).first()
+    if country == None:
+        abort(404)
+    return Country(country.id, country.name)
 
 
 def get_municipalities_by_state_id(state_id):  # noqa: E501
@@ -46,7 +56,10 @@ def get_municipalities_by_state_id(state_id):  # noqa: E501
 
     :rtype: List[Municipality]
     """
-    return 'do some magic!'
+    municipalities = DBMunicipality.query.filter(DBMunicipality.state_id==state_id)
+    if municipalities == None:
+        abort(404)
+    return [Municipality(m.id, m.name, m.state_id) for m in municipalities]
 
 
 def get_municipality_by_id(municipality_id):  # noqa: E501
@@ -59,33 +72,42 @@ def get_municipality_by_id(municipality_id):  # noqa: E501
 
     :rtype: Municipality
     """
-    return 'do some magic!'
+    munic = DBMunicipality.query.filter(DBMunicipality.id==municipality_id).first()
+    if munic == None:
+        abort(404)
+    return Municipality(munic.id, munic.name, munic.state_id)
 
 
-def get_neighborhood_by_id(neighborhood_id):  # noqa: E501
-    """get_neighborhood_by_id
+def get_neighbourhood_by_id(neighbourhood_id):  # noqa: E501
+    """get_neighbourhood_by_id
 
-    Get neighborhood by id # noqa: E501
+    Get neighbourhood by id # noqa: E501
 
-    :param neighborhood_id: Unique identifier
-    :type neighborhood_id: str
+    :param neighbourhood_id: Unique identifier
+    :type neighbourhood_id: str
 
-    :rtype: Neighborhood
+    :rtype: Neighbourhood
     """
-    return 'do some magic!'
+    neigh = DBNeighbourhood.query.filter(DBNeighbourhood.id==neighbourhood_id).first()
+    if neigh == None:
+        abort(404)
+    return Neighbourhood(neigh.id, neigh.name, neigh.zip_code, neigh.municipality_id)
 
 
-def get_neighborhoods_by_municipality(municipality_id):  # noqa: E501
-    """get_neighborhoods_by_municipality
+def get_neighbourhoods_by_municipality(municipality_id):  # noqa: E501
+    """get_neighbourhoods_by_municipality
 
-    Lists all neighborhoods of a municipality # noqa: E501
+    Lists all neighbourhoods of a municipality # noqa: E501
 
     :param municipality_id: Id of the municipality
     :type municipality_id: int
 
-    :rtype: List[Neighborhood]
+    :rtype: List[Neighbourhood]
     """
-    return 'do some magic!'
+    neigh = DBNeighbourhood.query.filter(DBNeighbourhood.municipality_id==municipality_id).first()
+    if neigh == None:
+        abort(404)
+    return Neighbourhood(neigh.id, neigh.name, neigh.zip_code, neigh.municipality_id)
 
 
 def get_notification_type_by_id(notificaction_type_id):  # noqa: E501
@@ -98,7 +120,10 @@ def get_notification_type_by_id(notificaction_type_id):  # noqa: E501
 
     :rtype: NotificationType
     """
-    return 'do some magic!'
+    type = DBNotificationType.query.filter(DBNotificationType.id==notificaction_type_id).first()
+    if type == None:
+        abort(404)
+    return NotificationType(type.id, type.name)
 
 
 def get_notification_types():  # noqa: E501
@@ -109,7 +134,10 @@ def get_notification_types():  # noqa: E501
 
     :rtype: List[NotificationType]
     """
-    return 'do some magic!'
+    types = DBNotificationType.query.all()
+    if types == None:
+        abort(404)
+    return [NotificationType(t.id, t.name) for t in types]
 
 
 def get_state_by_id(state_id):  # noqa: E501
@@ -122,7 +150,10 @@ def get_state_by_id(state_id):  # noqa: E501
 
     :rtype: State
     """
-    return 'do some magic!'
+    state = DBState.query.filter(DBState.id==state_id).first()
+    if state == None:
+        abort(404)
+    return State(state.id, state.name, state.country_id)
 
 
 def get_states_by_country_id(country_id):  # noqa: E501
@@ -135,4 +166,7 @@ def get_states_by_country_id(country_id):  # noqa: E501
 
     :rtype: List[State]
     """
-    return 'do some magic!'
+    states = DBState.query.all()
+    if states == None:
+        abort(404)
+    return [State(s.id, s.name, s.country_id) for s in states]
