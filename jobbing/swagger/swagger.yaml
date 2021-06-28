@@ -5,8 +5,8 @@ info:
   termsOfService: https://www.youtube.com/channel/UCz3p_Kz87WePeRMy6x5CX5w
   contact:
     name: Jalisco con empleo
-    url: http://www.jaliscoconempleo.org
-    email: soporte@jaliscoconempleo.org
+    url: https://bdalimentos.org/
+    email: comunicacionbamx@bdalimentos.org
   license:
     name: Apache 2.0
     url: http://apache.com
@@ -344,7 +344,7 @@ paths:
       tags:
       - User
       description: Creates a user
-      operationId: save_user
+      operationId: signup
       requestBody:
         content:
           application/json:
