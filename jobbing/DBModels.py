@@ -220,3 +220,124 @@ class Category(db.Model):
     def __repr__(self):
         return '<Category %r>' % self.name
 
+
+#TODO: change cost from String to double in swagger
+#TODO: Change last_updated in swagger
+class Service(db.Model):
+    __tablename__ = "service"
+
+    id = db.Column(db.Integer, primary_key=True)
+    category_id = db.Column(db.Integer, nullable=False)
+    cost = db.Column(db.Float, nullable=False)
+    created = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
+    read_only = db.Column(db.Boolean)
+    description = db.Column(db.String(120))
+    last_updated = db.Column(db.DateTime, nullable=True)
+    status_id = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    def __init__(self, id: int=None, category_id: int=None, cost: float=None,
+            created: db.DateTime=None, read_only: db.Boolean=None, description: db.String=None,
+            last_updated: db.DateTime=None, status_id: int=None, user_id: int=None):
+        self.id = id
+        self.category_id = category_id
+        self.cost = cost
+        self.created = created
+        self.read_only = read_only
+        self.description = description
+        self.last_updated = last_updated
+        self.status_id = status_id
+        self.user_id = user_id
+
+    def __repr__(self):
+        return '<Service {id}, {category_id}, {cost}, {created}, {read_only}, '\
+                '{description}, {last_updated}, {status_id}, {user_id}>'.format(**self)
+
+
+class ServiceProvided(db.Model):
+    __tablename__ = "service_provided"
+
+    id = db.Column(db.Integer, primary_key=True)
+    catalog_entries_id = db.Column(db.Integer)
+    client_id = db.Column(db.Integer, nullable=False)
+    comment_entry = db.Column(db.String, nullable=False)
+    created = db.Column(db.DateTime, nullable=False)
+    evaluation_id = db.Column(db.Integer)
+    last_updated = db.Column(db.DateTime)
+    provider_id = db.Column(db.Integer, nullable=False)
+    rating = db.Column(db.Integer)
+    status = db.Column(db.Integer, nullable=False)
+
+    def __init__(self, id: int=None, catalog_entries_id: int=None, 
+            client_id: int=None, comment_entry: int=None, created: int=None, 
+            evaluation_id: int=None, last_updated: int=None, 
+            provider_id: int=None, rating: int=None, status: int=None):
+        self.id = id
+        self.catalog_entries_id = catalog_entries_id
+        self.client_id = client_id
+        self.comment_entry = comment_entry
+        self.created = created
+        self.evaluation_id = evaluation_id
+        self.last_updated = last_updated
+        self.provider_id = provider_id
+        self.rating = rating
+        self.status = status
+
+    def __repr__(self):
+        return '<Service {catalog_entries_id}, {client_id}, {comment_entry}, '\
+                '{created}, {evaluation_id}, {last_updated}, {provider_id}, '\
+                '{rating}, {status}>'.format(**self)
+
+
+class Notification(db.Model):
+    __tablename__ = "notification"
+
+    id = db.Column(db.Integer, primary_key=True)
+    account_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    created = db.Column(db.DateTime, default=db.func.current_timestamp())
+    media_id = db.Column(db.Integer)
+    message = db.Column(db.String(255))
+    notification_type_id = db.Column(db.Integer, db.ForeignKey('notification_type.id'))
+    status = db.Column(db.Integer)
+    title = db.Column(db.String(80))
+    updated = db.Column(db.DateTime)
+
+    def __init__(self, id: int=None, account_id: int=None, created: int=None, 
+            media_id: int=None, message: int=None, notification_type_id: int=None,
+            status: int=None, title: int=None, updated: int=None):
+        self.id = id
+        self.account_id = account_id
+        self.created = created
+        self.media_id = media_id
+        self.message = message
+        self.notification_type_id = notification_type_id
+        self.status = status
+        self.title = title
+        self.updated = updated
+
+    def __repr__(self):
+        return '<Service {id}, {account_id}, {created}, {media_id}, {message}, '\
+                '{notification_type_id}, {status}, {title}, {updated}>'.format(**self)
+
+
+class Message(db.Model):
+    __tablename__ = "message"
+
+    id = db.Column(db.Integer, primary_key=True)
+    provider_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    service_id = db.Column(db.Integer, db.ForeignKey('service.id'))
+    entry = db.Column(db.String(500), nullable=False)
+    status = db.Column(db.Integer, nullable=False)
+    created = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
+
+    def __init__(self, id, provider_id, service_id, entry, status):
+        self.id = id
+        self.provider_id = provider_id
+        self.service_id = service_id
+        self.entry = entry
+        self.status = status
+
+    def __repr__(self):
+        return '<Service {id}, {provider_id}, {service_id}, '\
+                '{entry}, {status}, {created}>'.format(**self)
+

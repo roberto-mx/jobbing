@@ -1,6 +1,9 @@
+from flask import abort, Response
 import connexion
 import six
 
+from jobbing.db import db
+from jobbing.DBModels import Service as DBService
 from jobbing.models.service import Service  # noqa: E501
 from jobbing import util
 
@@ -15,7 +18,22 @@ def get_catalog_entry_by_id(service_id):  # noqa: E501
 
     :rtype: Service
     """
-    return 'do some magic!'
+    serv = DBService.query.filter(DBService.service_id == service_id).first()
+
+    if serv == None:
+        abort(404)
+
+    return DBService(
+        id = serv.id,
+        category_id = serv.category_id,
+        cost = serv.cost,
+        created = serv.created,
+        read_only = serv.read_only,
+        description = serv.description,
+        last_updated = serv.last_updated,
+        status_id = serv.status_id,
+        user_id = serv.user_id
+    )
 
 
 def get_services_by_catalog_id(catalog_id):  # noqa: E501
@@ -28,7 +46,22 @@ def get_services_by_catalog_id(catalog_id):  # noqa: E501
 
     :rtype: Service
     """
-    return 'do some magic!'
+    serv = DBService.query.filter(DBService.category_id == catalog_id).first()
+
+    if serv == None:
+        abort(404)
+
+    return DBService(
+        id = serv.id,
+        category_id = serv.category_id,
+        cost = serv.cost,
+        created = serv.created,
+        read_only = serv.read_only,
+        description = serv.description,
+        last_updated = serv.last_updated,
+        status_id = serv.status_id,
+        user_id = serv.user_id
+    )
 
 
 def save_service(body):  # noqa: E501
@@ -43,4 +76,17 @@ def save_service(body):  # noqa: E501
     """
     if connexion.request.is_json:
         body = Service.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+
+        service = Service(
+            category_id = body.category_id,
+            cost = body.cost,
+            read_only = body.read_only,
+            description = body.description,
+            status_id = body.status_id,
+            user_id = body.user_id
+        )
+
+        db.session.add(service)
+        db.session.commit()
+
+    return (Response(), 201)

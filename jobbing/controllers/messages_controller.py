@@ -1,6 +1,9 @@
+from flask import abort, Response
 import connexion
 import six
 
+from jobbing.db import db
+from jobbing.DBModels import Message as DBMessage
 from jobbing.models.message import Message  # noqa: E501
 from jobbing import util
 
@@ -15,7 +18,19 @@ def get_message_by_id(message_id):  # noqa: E501
 
     :rtype: Message
     """
-    return 'do some magic!'
+    msg = DBMessage.query.filter(DBMessage.message_id == message_id).first()
+
+    if msg == None:
+        abort(404)
+
+    return Message(
+        id = msg.id,
+        provider_id = msg.provider_id,
+        service_id = msg.service_id,
+        entry = msg.entry,
+        status = msg.status,
+        created = msg.created
+    )
 
 
 def get_message_by_provider_id(provider_id):  # noqa: E501
@@ -28,7 +43,20 @@ def get_message_by_provider_id(provider_id):  # noqa: E501
 
     :rtype: Message
     """
-    return 'do some magic!'
+
+    msg = DBMessage.query.filter(DBMessage.provider_id == provider_id).first()
+
+    if msg == None:
+        abort(404)
+
+    return Message(
+        id = msg.id,
+        provider_id = msg.provider_id,
+        service_id = msg.service_id,
+        entry = msg.entry,
+        status = msg.status,
+        created = msg.created
+    )
 
 
 def save_message(body):  # noqa: E501
@@ -43,4 +71,15 @@ def save_message(body):  # noqa: E501
     """
     if connexion.request.is_json:
         body = Message.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+        
+        msg = DBMessage(
+            provider_id = body.provider_id,
+            service_id = body.service_id,
+            entry = body.entry,
+            status = body.status
+        )
+
+        db.session.add(msg)
+        db.session.commit()
+
+    return (Response(), 201)

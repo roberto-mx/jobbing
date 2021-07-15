@@ -121,7 +121,7 @@ def get_user_by_id(uid):  # noqa: E501
 
     :rtype: User
     """
-    print("ASDFG:",uid)
+
     user = DBUser.query.filter(DBUser.uid == uid).first()
 
     if user == None:

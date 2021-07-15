@@ -1,6 +1,9 @@
+from flask import abort, Response
 import connexion
 import six
 
+from jobbing.db import db
+from jobbing.DBModels import ServiceProvided as DBServiceProvided
 from jobbing.models.service_provided import ServiceProvided  # noqa: E501
 from jobbing import util
 
@@ -15,7 +18,22 @@ def get_service_provided_by_client_id(client_id):  # noqa: E501
 
     :rtype: ServiceProvided
     """
-    return 'do some magic!'
+    serv = DBServiceProvided.query.filter(DBServiceProvided.client_id == client_id).first()
+
+    if serv == None:
+        abort(404)
+    return ServiceProvided(
+        id = serv.id,
+        catalog_entries_id = serv.catalog_entries_id,
+        client_id = serv.client_id,
+        comment_entry = serv.comment_entry,
+        created = serv.created,
+        evaluation_id = serv.evaluation_id,
+        last_updated = serv.last_updated,
+        provider_id = serv.provider_id,
+        rating = serv.rating,
+        status = serv.status
+    )
 
 
 def get_service_provided_by_id(service_provided_id):  # noqa: E501
@@ -28,7 +46,22 @@ def get_service_provided_by_id(service_provided_id):  # noqa: E501
 
     :rtype: ServiceProvided
     """
-    return 'do some magic!'
+    serv = DBServiceProvided.query.filter(DBServiceProvided.id == service_provided_id).first()
+
+    if serv == None:
+        abort(404)
+    return ServiceProvided(
+        id = serv.id,
+        catalog_entries_id = serv.catalog_entries_id,
+        client_id = serv.client_id,
+        comment_entry = serv.comment_entry,
+        created = serv.created,
+        evaluation_id = serv.evaluation_id,
+        last_updated = serv.last_updated,
+        provider_id = serv.provider_id,
+        rating = serv.rating,
+        status = serv.status
+    )
 
 
 def get_service_provided_by_provider_id(provider_id):  # noqa: E501
@@ -41,7 +74,22 @@ def get_service_provided_by_provider_id(provider_id):  # noqa: E501
 
     :rtype: ServiceProvided
     """
-    return 'do some magic!'
+    serv = DBServiceProvided.query.filter(DBServiceProvided.provider_id == provider_id).first()
+
+    if serv == None:
+        abort(404)
+    return ServiceProvided(
+        id = serv.id,
+        catalog_entries_id = serv.catalog_entries_id,
+        client_id = serv.client_id,
+        comment_entry = serv.comment_entry,
+        created = serv.created,
+        evaluation_id = serv.evaluation_id,
+        last_updated = serv.last_updated,
+        provider_id = serv.provider_id,
+        rating = serv.rating,
+        status = serv.status
+    )
 
 
 def save_service_provided(body):  # noqa: E501
@@ -56,4 +104,20 @@ def save_service_provided(body):  # noqa: E501
     """
     if connexion.request.is_json:
         body = ServiceProvided.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+
+        serv = DBServiceProvided(
+                catalog_entries_id = body.catalog_entries_id,
+                client_id = body.client_id,
+                comment_entry = body.comment_entry,
+                created = body.created,
+                evaluation_id = body.evaluation_id,
+                last_updated = body.last_updated,
+                provider_id = body.provider_id,
+                rating = body.rating,
+                status = body.status
+        )
+
+        db.session.add(serv)
+        db.session.commit()
+
+    return (Response(), 201)
