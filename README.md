@@ -23,6 +23,7 @@ To run the server, please execute the following from the root directory:
 ```
 pip3 install -r requirements.txt
 
+set FLASK_ENV=development
 set FLASK_DEBUG=1
 flask run
 ```

@@ -14,7 +14,7 @@ class User(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, user_id: int=None, uid: str=None, username: str=None, password: str=None, password_date: date=None, email: str=None, image_profile: str=None, role_id: int=None):  # noqa: E501
+    def __init__(self, user_id: int=None, uid: str=None, username: str=None, password: str=None, password_date: date=None, email: str=None, image_profile: str=None, role_id: int=None, user_profile_id: int=None):  # noqa: E501
         """User - a model defined in Swagger
 
         :param user_id: The user_id of this User.  # noqa: E501
@@ -33,6 +33,8 @@ class User(Model):
         :type image_profile: str
         :param role_id: The role_id of this User.  # noqa: E501
         :type role_id: int
+        :param user_profile_id: The user_profile_id of this User
+        :type user_profile_id: int
         """
         self.swagger_types = {
             'user_id': int,
@@ -42,7 +44,8 @@ class User(Model):
             'password_date': date,
             'email': str,
             'image_profile': str,
-            'role_id': int
+            'role_id': int,
+            'user_profile_id': int
         }
 
         self.attribute_map = {
@@ -53,7 +56,8 @@ class User(Model):
             'password_date': 'passwordDate',
             'email': 'email',
             'image_profile': 'imageProfile',
-            'role_id': 'roleId'
+            'role_id': 'roleId',
+            'user_profile_id': 'userProfileId'
         }
         self._user_id = user_id
         self._uid = uid
@@ -63,6 +67,7 @@ class User(Model):
         self._email = email
         self._image_profile = image_profile
         self._role_id = role_id
+        self._user_profile_id = user_profile_id
 
     @classmethod
     def from_dict(cls, dikt) -> 'User':
@@ -264,3 +269,26 @@ class User(Model):
         """
 
         self._role_id = role_id
+
+    @property
+    def user_profile_id(self) -> int:
+        """Gets the user_profile_id of this User.
+
+        Foreign key for the user_profile type assigned to this user  # noqa: E501
+
+        :return: The user_profile_id of the UserProfile.
+        :rtype: int
+        """
+        return self._user_profile_id
+
+    @user_profile_id.setter
+    def user_profile_id(self, user_profile_id: int):
+        """Sets the user_profile_id of this User.
+
+        Foreign key for the role type assigned to this user  # noqa: E501
+
+        :param user_profile_id: The user_profile_id of UserProfile.
+        :type user_profile_id: int
+        """
+
+        self._user_profile_id = user_profile_id

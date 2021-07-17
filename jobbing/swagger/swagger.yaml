@@ -219,14 +219,14 @@ paths:
                 example: "{\"message\":\"unexpected error\"}"
                 x-content-type: application/json
       x-openapi-router-controller: jobbing.controllers.category_controller
-  /providers/{userProfileId}:
+  /providers/{providerId}:
     get:
       tags:
       - Providers
       description: Shows a provider identified by id
       operationId: get_provider_by_id
       parameters:
-      - name: userProfileId
+      - name: providerId
         in: path
         description: id del proveedor de servicios
         required: true
@@ -240,7 +240,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserProfile'
+                $ref: '#/components/schemas/User'
         "400":
           description: BAD_REQUEST
           content:
@@ -274,16 +274,16 @@ paths:
                 example: "{\"message\":\"unexpected error\"}"
                 x-content-type: application/json
       x-openapi-router-controller: jobbing.controllers.providers_controller
-  /providers/{skillId}/skills:
+  /providers/{providerId}/skills:
     get:
       tags:
       - Providers
       description: Show all Service Providers according to their skills
-      operationId: get_providers_by_skill_id
+      operationId: get_skills_by_provider_id
       parameters:
-      - name: skillId
+      - name: providerId
         in: path
-        description: Id de Skill
+        description: Id de Provider
         required: true
         style: simple
         explode: false
@@ -297,7 +297,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/UserProfile'
+                  $ref: '#/components/schemas/User'
                 x-content-type: application/json
       x-openapi-router-controller: jobbing.controllers.providers_controller
   /skills/{skillId}:
@@ -2170,6 +2170,9 @@ components:
           type: integer
           description: Foreign key for the role type assigned to this user
           readOnly: true
+        providerId:
+          type: integer
+          description: Foreign key to User Profile
       example:
         uid: k8df23
         password: ""
@@ -2179,6 +2182,7 @@ components:
         userId: 123
         email: ""
         username: nixabell1835
+        providerId: 3
     UserProfile:
       required:
       - firstName

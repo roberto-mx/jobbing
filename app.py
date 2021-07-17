@@ -27,7 +27,7 @@ def main():
 
 # It's required to be able to use 'Flask run'
 application = main()
-
+#TODO: add find provider by skill
 
 if __name__ == '__main__':
     application.run(port=8080, debug=True)
