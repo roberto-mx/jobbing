@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import connexion
+import os
 
 from flask_login import LoginManager
 
@@ -8,13 +9,20 @@ from jobbing import encoder
 from jobbing import db
 from jobbing import login
 
+def database_uri() -> str:
+    user = os.environ['JOBBING_DB_USER']
+    pwd = os.environ['JOBBING_DB_PWD']
+    host = os.environ['JOBBING_DB_HOST']
+    port = os.environ['JOBBING_DB_PORT']
+    name = os.environ['JOBBING_DB_DATABASE']
+    return f'postgresql://{user}:{pwd}@{host}:{port}/{name}'
 
 def main():
     app = connexion.FlaskApp(__name__, specification_dir='./jobbing/swagger')
     app.app.json_encoder = encoder.JSONEncoder
     app.add_api('swagger.yaml', arguments={
                 'title': 'Aprende tu mismo API'}, pythonic_params=True)
-    app.app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///jce.sqlite3'
+    app.app.config['SQLALCHEMY_DATABASE_URI'] = database_uri()
     app.app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.app.secret_key = 'iV+j6;|5C2<A&drOM*G:'
     app.debug = True

@@ -106,7 +106,7 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     uid = db.Column(db.String(80), unique=True, nullable=False)
     username = db.Column(db.String(150), unique=True, nullable=False)
-    password = db.Column(db.String(80), nullable=False)
+    password = db.Column(db.String(250), nullable=False)
     password_date = db.Column(db.Date)
     email = db.Column(db.String(150), unique=True, nullable=False)
     image_profile = db.Column(db.String(2500), unique=False, nullable=True)
