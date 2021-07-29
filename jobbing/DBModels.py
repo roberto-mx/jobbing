@@ -341,3 +341,61 @@ class Message(db.Model):
         return '<Service {id}, {provider_id}, {service_id}, '\
                 '{entry}, {status}, {created}>'.format(**self)
 
+class Album(db.Model):
+    __tablename__ = "album"
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(80), unique=True, nullable=False)
+    description = db.Column(db.String(100), nullable=False)
+
+    def __init__(self, id: int = None, title: str = None, description: str = None):
+        self.id = id
+        self.title = title
+        self.description = description    
+
+    def __repr__(self):
+        return '<Album %r>' % self.title    
+
+class Media(db.Model):
+    __tablename__ = "media"       
+
+    id = db.Column(db.Integer, primary_key=True)
+    media = db.Column(db.String(80), unique=True, nullable=False)
+    link = db.Column(db.String(100), nullable=False)
+    title = db.Column(db.String(80), unique=True, nullable=False)
+    size = db.Column(db.Integer, nullable=False)
+    duration = db.Column(db.String(100), nullable=False)
+    created = db.Column(db.DateTime, nullable=False)
+    media_type = db.Column(db.String(100), nullable=False)
+    views = db.Column(db.Integer, nullable=False)
+    likes = db.Column(db.Integer, nullable=False)
+    owner_id = db.Column(db.Integer, db.ForeignKey('owner_id'))
+    album_id = db.Column(db.Integer, nullable=False)
+
+    def __init__(self, id: int = None, 
+                 media: str = None, 
+                 link: str = None, 
+                 title: str = None, 
+                 size: int = None, 
+                 duration: str = None, 
+                 created: str = None,
+                 media_type: str = None,
+                 views: int = None,
+                 likes: int = None,
+                 owner_id: int = None,
+                 album_id: int = None ):
+        self.id = id
+        self.media = media  
+        self.link = link  
+        self.title = title
+        self.size = size
+        self.duration = duration  
+        self.created = created
+        self.media_type = media_type
+        self.views = views
+        self.likes = likes
+        self.owner_id = owner_id
+        self.album_id = album_id
+
+    def __repr__(self):
+        return '<Media %r>' % self.title
