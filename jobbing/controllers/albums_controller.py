@@ -1,6 +1,7 @@
 import connexion
 import six
 
+from jobbing.DBModels import Album as DBAlbum
 from jobbing.models.album import Album  # noqa: E501
 from jobbing import util
 
@@ -15,7 +16,11 @@ def get_album_by_id(album_id):  # noqa: E501
 
     :rtype: Album
     """
-    return 'do some magic!'
+    album = DBAlbum.query.filter(DBAlbum.id == album_id).first()
+    
+    if album == None:
+        abort(404)    
+    return Album(album.id, album.title, album.description)
 
 
 def get_albums():  # noqa: E501
@@ -26,7 +31,10 @@ def get_albums():  # noqa: E501
 
     :rtype: List[Album]
     """
-    return 'do some magic!'
+    albums = DBAlbum.query.all()
+    results = [
+        Album(album.id, album.title, album.description) for album in albums]
+    return results
 
 
 def save_album_profile(body):  # noqa: E501
@@ -41,4 +49,13 @@ def save_album_profile(body):  # noqa: E501
     """
     if connexion.request.is_json:
         body = Album.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+        
+        album = Album(
+            title = album.title,
+            description = album.description
+        )
+
+        db.session.add(album)
+        db.session.commit()
+
+    return (Response(), 201)
