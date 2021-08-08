@@ -360,16 +360,16 @@ class Media(db.Model):
     __tablename__ = "media"       
 
     id = db.Column(db.Integer, primary_key=True)
-    media = db.Column(db.String(80), unique=True, nullable=False)
+    media = db.Column(db.String(80), unique=True, nullable=True)
     link = db.Column(db.String(100), nullable=False)
-    title = db.Column(db.String(80), unique=True, nullable=False)
-    size = db.Column(db.Integer, nullable=False)
+    title = db.Column(db.String(80), unique=False, nullable=False)
+    size = db.Column(db.Integer, nullable=True)
     duration = db.Column(db.String(100), nullable=False)
     created = db.Column(db.DateTime, nullable=False)
     media_type = db.Column(db.String(100), nullable=False)
     views = db.Column(db.Integer, nullable=False)
     likes = db.Column(db.Integer, nullable=False)
-    owner_id = db.Column(db.Integer, db.ForeignKey('owner_id'))
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     album_id = db.Column(db.Integer, nullable=False)
 
     def __init__(self, id: int = None, 
