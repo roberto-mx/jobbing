@@ -9,12 +9,13 @@ from jobbing import encoder
 from jobbing import db
 from jobbing import login
 
-def database_uri() -> str:
-    user = os.environ['JOBBING_DB_USER']
+def database_uri():
+    user = 'postgres'
     pwd = os.environ['JOBBING_DB_PWD']
-    host = os.environ['JOBBING_DB_HOST']
-    port = os.environ['JOBBING_DB_PORT']
-    name = os.environ['JOBBING_DB_DATABASE']
+    host = 'localhost'
+    port = '5432'
+    name = 'postgres'
+
     return f'postgresql://{user}:{pwd}@{host}:{port}/{name}'
 
 def main():
