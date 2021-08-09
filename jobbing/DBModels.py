@@ -6,6 +6,37 @@ from werkzeug.security import check_password_hash
 
 from jobbing.db import db
 
+
+class Address(db.Model):
+    __tablename__ = "address"
+
+    id = db.Column(db.Integer, primary_key=True)
+    address_line1 = db.Column(db.String(80))
+    address_line2 = db.Column(db.String(80))
+    neighborhood_id = db.Column(db.Integer)
+    muncipality_id = db.Column(db.Integer)
+    zip_code = db.Column(db.String(80))
+    state_id = db.Column(db.Integer)
+
+    def __init__(self, id: int=None,
+            address_line1: str=None,
+            address_line2: str=None,
+            neighborhood_id: int=None,
+            muncipality_id: int=None,
+            zip_code: int=None,
+            state_id: int=None):
+        self.id = id
+        self.address_line1 = address_line1
+        self.address_line2 = address_line2
+        self.neighborhood_id = neighborhood_id
+        self.muncipality_id = muncipality_id
+        self.zip_code = zip_code
+        self.state_id = state_id
+
+    def __repr__(self):
+        return '<Address {id}, {address_line1}, {address_line2}, {neighborhood_id}, {muncipality_id}, {zip_code}, {state_id}>'.format(**self)
+
+
 class Role(db.Model):
     __tablename__ = "role"
 
@@ -99,6 +130,21 @@ class NotificationType(db.Model):
 
     def __repr__(self):
         return f'<NotificationType {self.name}>'
+
+
+class Org(db.Model):
+    __tablename__ = "org"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(80), unique=False, nullable=False)
+    status = db.Column(db.Integer)
+
+    def __init__(self, id: int=None, name: str=None, status: int=None):
+        self.id = id
+        self.name = name
+        self.status = status
+
+    def __repr__(self):
+        return '<Org {id}, {name}, {status}>'.format(**self)
 
 
 class User(UserMixin, db.Model):
@@ -219,6 +265,40 @@ class Category(db.Model):
 
     def __repr__(self):
         return '<Category %r>' % self.name
+
+class Skill(db.Model):
+    __tablename__ = "skill"
+
+    id = db.Column(db.Integer, primary_key=True)
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
+    years_of_experience = db.Column(db.Integer, nullable=False)
+    price_of_service = db.Column(db.Float, nullable=False)
+    services_provided = db.Column(db.Integer)
+    five_stars = db.Column(db.Integer)
+    four_starts = db.Column(db.Integer)
+    three_starts = db.Column(db.Integer)
+    two_starts = db.Column(db.Integer)
+    one_start = db.Column(db.Integer)
+
+    def __init__(self, id: int=None, category_id: int=None, 
+            years_of_experience: float=None, price_of_service: int=None,
+            services_provided: int=None, five_stars: int=None,
+            four_starts: int=None, three_starts: int=None,
+            two_starts: int=None, one_start: int=None):
+        self.id=id
+        self.category_id=category_id
+        self.years_of_experience=years_of_experience
+        self.price_of_service=price_of_service
+        self.services_provided=services_provided
+        self.five_stars=five_stars
+        self.four_starts=four_starts
+        self.three_starts=three_starts
+        self.two_starts=two_starts
+        self.one_start=one_start
+
+    def __repr__(self):
+        return '<Skill {id}, {category_id}, {years_of_experience}, {price_of_service}, {services_provided}, {five_stars}, {four_starts}, {three_starts}, {two_starts}, {one_starts}>'.format(**self)
+
 
 
 #TODO: change cost from String to double in swagger
@@ -357,7 +437,7 @@ class Album(db.Model):
         return '<Album %r>' % self.title    
 
 class Media(db.Model):
-    __tablename__ = "media"       
+    __tablename__ = "media"
 
     id = db.Column(db.Integer, primary_key=True)
     media = db.Column(db.String(80), unique=True, nullable=True)

@@ -80,3 +80,15 @@ docker build -t jobbing .
 # starting up a container
 docker run -p 8080:8080 jobbing
 ```
+
+## Creating a docker with Postgres
+```
+docker run --name postgresql-container -p 5432:5432 -e POSTGRES_PASSWORD=admin -d postgres
+psql -h localhost -p 5432 -d postgres -U postgres --password`
+```
+
+
+TODOS:
+- Add find provider by skill
+- Check created at that sets a value for default
+- check id for save operation that sets a value for default

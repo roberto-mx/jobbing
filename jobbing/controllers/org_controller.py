@@ -1,10 +1,15 @@
+from flask import abort, Response
+from flask_login import login_required
 import connexion
 import six
 
 from jobbing.models.org import Org  # noqa: E501
+from jobbing.db import db
+from jobbing.DBModels import Org as DBOrg
 from jobbing import util
 
 
+@login_required
 def get_org_by_id(org_id):  # noqa: E501
     """get_org_by_id
 
@@ -15,9 +20,15 @@ def get_org_by_id(org_id):  # noqa: E501
 
     :rtype: Org
     """
-    return 'do some magic!'
+    org = DBOrg.query.filter(DBOrg.org_id == org_id).first()
+
+    if org == None:
+        abort(404)
+
+    return Org(org_id=org.org_id, name=org.name, status=org.status)
 
 
+@login_required
 def save_org(body):  # noqa: E501
     """save_org
 
@@ -30,4 +41,14 @@ def save_org(body):  # noqa: E501
     """
     if connexion.request.is_json:
         body = Org.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+
+        org = DBOrg(
+            org_id = body.org_id,
+            name = body.name, 
+            status = body.status
+        )
+
+        db.session.add(org)
+        db.session.commit()
+
+    return (Response(), 201)

@@ -1,10 +1,14 @@
+from flask import abort
+from flask_login import login_required
 import connexion
 import six
 
 from jobbing.models.skill import Skill  # noqa: E501
+from jobbing.DBModels import Skill as DBSkill
 from jobbing import util
 
 
+@login_required
 def get_skill_by_id(skill_id):  # noqa: E501
     """get_skill_by_id
 
@@ -15,4 +19,18 @@ def get_skill_by_id(skill_id):  # noqa: E501
 
     :rtype: List[Skill]
     """
-    return 'do some magic!'
+    skill = DBSkill.query.filter(DBSkill.id == skill_id).first()
+
+    if skill == None:
+        abort(404)
+
+    return Skill(provider_id=skill.provider_id,
+            category_id=skill.category_id,
+            years_of_experience=skill.years_of_experience,
+            price_of_service=skill.price_of_service,
+            services_provided=skill.services_provided,
+            five_stars=skill.five_stars,
+            four_starts=skill.four_starts,
+            three_starts=skill.three_starts,
+            two_starts=skill.two_starts,
+            one_start=skill.one_start)

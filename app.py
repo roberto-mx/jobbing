@@ -16,6 +16,8 @@ def main():
                 'title': 'Aprende tu mismo API'}, pythonic_params=True)
     app.app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///jce.sqlite3'
     app.app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg'}
+    app.app.config['UPLOAD_FOLDER'] = './'
     app.app.secret_key = 'iV+j6;|5C2<A&drOM*G:'
     app.debug = True
 
@@ -27,7 +29,7 @@ def main():
 
 # It's required to be able to use 'Flask run'
 application = main()
-#TODO: add find provider by skill
+
 
 if __name__ == '__main__':
     application.run(port=8080, debug=True)

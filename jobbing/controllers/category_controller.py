@@ -1,12 +1,14 @@
+from flask import abort
+from flask_login import login_required
 import connexion
 import six
-from flask import abort
 
 from jobbing.DBModels import Category as DBCategory
 from jobbing.models.category import Category  # noqa: E501
 from jobbing import util
 
 
+@login_required
 def get_categories():  # noqa: E501
     """get_categories
 
@@ -22,6 +24,7 @@ def get_categories():  # noqa: E501
     return results
 
 
+@login_required
 def get_category_by_id(category_id):  # noqa: E501
     """get_category_by_id
 

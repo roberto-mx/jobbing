@@ -13,6 +13,8 @@ import jwt
 from datetime import datetime, timedelta
 from functools import wraps
 
+from jobbing.db import db
+from jobbing.DBModels import User as DBProfile
 from jobbing.DBModels import User as DBUser
 from jobbing.models.user import User  # noqa: E501
 from jobbing.login import login_manager
@@ -155,4 +157,41 @@ def signup(body):  # noqa: E501
     """
     if connexion.request.is_json:
         body = User.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+
+        profile = DBProfile(
+            id=body.profile.id,
+            first_name=body.profile.first_name,
+            second_name=body.profile.second_name,
+            first_surname=body.profile.first_surname,
+            second_surname=body.profile.second_surname,
+            birthdate=body.profile.birthdate,
+            curp=body.profile.curp,
+            mobile_number=body.profile.mobile_number,
+            home_number=body.profile.home_number,
+            office_number=body.profile.office_number,
+            facebook_profile=body.profile.facebook_profile,
+            linkedin_profile=body.profile.linkedin_profile,
+            twitter_profile=body.profile.twitter_profile,
+            id_image=body.profile.id_image,
+            status=body.profile.status,
+            created=body.profile.created,
+            updated=body.profile.updated,
+            address=body.profile.address,
+            user_id=body.profile.user_id
+        )
+
+        usr = DBUser(user_id=body.id,
+                uid=body.uid,
+                username=body.username,
+                password=generate_password_hash(body.password),
+                password_date=datetime.now(),
+                email=body.email,
+                image_profile=body.image_profile,
+                role_id=body.role_id,
+                profile=profile
+                )
+
+        db.session.add(usr)
+        db.session.commit()
+
+    return (Response(), 201)

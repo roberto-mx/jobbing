@@ -1,7 +1,7 @@
+from flask import abort, request, Response
+from flask_login import login_required
 import connexion
 import six
-
-from flask import abort, request, Response
 
 from jobbing.DBModels import Country as DBCountry
 from jobbing.DBModels import State as DBState
@@ -16,6 +16,7 @@ from jobbing.models.state import State  # noqa: E501
 from jobbing import util
 
 
+@login_required
 def get_countries():  # noqa: E501
     """get_countries
 
@@ -30,6 +31,8 @@ def get_countries():  # noqa: E501
         abort(404)
     return [Country(c.id, c.name) for c in countries]
 
+
+@login_required
 def get_country_by_id(country_id):  # noqa: E501
     """get_country_by_id
 
@@ -46,6 +49,7 @@ def get_country_by_id(country_id):  # noqa: E501
     return Country(country.id, country.name)
 
 
+@login_required
 def get_municipalities_by_state_id(state_id):  # noqa: E501
     """get_municipalities_by_state_id
 
@@ -62,6 +66,7 @@ def get_municipalities_by_state_id(state_id):  # noqa: E501
     return [Municipality(m.id, m.name, m.state_id) for m in municipalities]
 
 
+@login_required
 def get_municipality_by_id(municipality_id):  # noqa: E501
     """get_municipality_by_id
 
@@ -78,6 +83,7 @@ def get_municipality_by_id(municipality_id):  # noqa: E501
     return Municipality(munic.id, munic.name, munic.state_id)
 
 
+@login_required
 def get_neighbourhood_by_id(neighbourhood_id):  # noqa: E501
     """get_neighbourhood_by_id
 
@@ -94,6 +100,7 @@ def get_neighbourhood_by_id(neighbourhood_id):  # noqa: E501
     return Neighbourhood(neigh.id, neigh.name, neigh.zip_code, neigh.municipality_id)
 
 
+@login_required
 def get_neighbourhoods_by_municipality(municipality_id):  # noqa: E501
     """get_neighbourhoods_by_municipality
 
@@ -110,6 +117,7 @@ def get_neighbourhoods_by_municipality(municipality_id):  # noqa: E501
     return Neighbourhood(neigh.id, neigh.name, neigh.zip_code, neigh.municipality_id)
 
 
+@login_required
 def get_notification_type_by_id(notificaction_type_id):  # noqa: E501
     """get_notification_type_by_id
 
@@ -126,6 +134,7 @@ def get_notification_type_by_id(notificaction_type_id):  # noqa: E501
     return NotificationType(type.id, type.name)
 
 
+@login_required
 def get_notification_types():  # noqa: E501
     """get_notification_types
 
@@ -140,6 +149,7 @@ def get_notification_types():  # noqa: E501
     return [NotificationType(t.id, t.name) for t in types]
 
 
+@login_required
 def get_state_by_id(state_id):  # noqa: E501
     """get_state_by_id
 
@@ -156,6 +166,7 @@ def get_state_by_id(state_id):  # noqa: E501
     return State(state.id, state.name, state.country_id)
 
 
+@login_required
 def get_states_by_country_id(country_id):  # noqa: E501
     """get_states_by_country_id
 

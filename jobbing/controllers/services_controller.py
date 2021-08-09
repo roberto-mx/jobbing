@@ -1,4 +1,5 @@
 from flask import abort, Response
+from flask_login import login_required
 import connexion
 import six
 
@@ -8,6 +9,7 @@ from jobbing.models.service import Service  # noqa: E501
 from jobbing import util
 
 
+@login_required
 def get_catalog_entry_by_id(service_id):  # noqa: E501
     """get_catalog_entry_by_id
 
@@ -36,6 +38,7 @@ def get_catalog_entry_by_id(service_id):  # noqa: E501
     )
 
 
+@login_required
 def get_services_by_catalog_id(catalog_id):  # noqa: E501
     """get_services_by_catalog_id
 
@@ -64,6 +67,7 @@ def get_services_by_catalog_id(catalog_id):  # noqa: E501
     )
 
 
+@login_required
 def save_service(body):  # noqa: E501
     """save_service
 
