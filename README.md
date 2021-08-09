@@ -46,7 +46,12 @@ sudo pip install tox
 tox
 ```
 
-## DB migrations
+## DB 
+Following variable should be defined as system environment:
+
+- **JOBBING_DB_PWD**. The password phrase for the database
+
+### DB migrations
 
 Flask-migrate workflow consists of two consequent commands which generates the migration:
 ```
