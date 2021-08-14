@@ -3,10 +3,10 @@ How to call some endpoints with authentication
 # Login
 Call login:
 ```
-wget --post-file=login --header=Content-Type:application/json http://localhost:5000/login
+wget --post-file=body --header=Content-Type:application/json http://localhost:5000/login
 ```
 
-the file login should content something like (TODO: just to send username and password):
+the file _body_ should content something like (TODO: just to send username and password):
 
 ```
 {
