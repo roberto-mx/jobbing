@@ -1,8 +1,7 @@
-from flask import abort, Response, current_app, request
-from flask_login import login_required
 import connexion
 import os
-import six
+
+from flask import abort, Response, current_app, request
 from werkzeug.utils import secure_filename
 
 from jobbing.db import db
@@ -11,14 +10,14 @@ from jobbing.DBModels import User as DBUser
 from jobbing.DBModels import Profile as DBProfile
 from jobbing.models.address import Address  # noqa: E501
 from jobbing.models.user_profile import UserProfile  # noqa: E501
-from jobbing import util
+from jobbing.login import token_required
 
 
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in current_app.config['ALLOWED_EXTENSIONS']
 
-@login_required
+@token_required
 def avatar_put(uid, body=None):  # noqa: E501
     """Upload an avatar
 
@@ -46,7 +45,7 @@ def avatar_put(uid, body=None):  # noqa: E501
     return (Response(), 204)
 
 
-@login_required
+@token_required
 def get_addres_by_user_id(user_id):  # noqa: E501
     """get_addres_by_user_id
 
@@ -72,7 +71,7 @@ def get_addres_by_user_id(user_id):  # noqa: E501
     )
 
 
-@login_required
+@token_required
 def get_user_profile_by_id(uid):  # noqa: E501
     """get_user_profile_by_id
 
@@ -117,7 +116,7 @@ def get_user_profile_by_id(uid):  # noqa: E501
     )
     
 
-@login_required
+@token_required
 def save_address_profile(body):  # noqa: E501
     """save_address_profile
 
@@ -147,7 +146,7 @@ def save_address_profile(body):  # noqa: E501
     return (Response(), 201)
 
 
-@login_required
+@token_required
 def save_user_profile(body):  # noqa: E501
     """save_user_profile
 
@@ -190,7 +189,7 @@ def save_user_profile(body):  # noqa: E501
     return (Response(), 201)
 
 
-@login_required
+@token_required
 def update_addres(body):  # noqa: E501
     """update_addres_by_user_id
 
@@ -219,7 +218,7 @@ def update_addres(body):  # noqa: E501
     return (Response(), 204)
 
 
-@login_required
+@token_required
 def update_user(body):  # noqa: E501
     """Update an existing user_profile
 

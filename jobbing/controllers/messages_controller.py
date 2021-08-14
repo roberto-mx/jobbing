@@ -1,15 +1,13 @@
 from flask import abort, Response
-from flask_login import login_required
 import connexion
-import six
 
 from jobbing.db import db
 from jobbing.DBModels import Message as DBMessage
 from jobbing.models.message import Message  # noqa: E501
-from jobbing import util
+from jobbing.login import token_required
 
 
-@login_required
+@token_required
 def get_message_by_id(message_id):  # noqa: E501
     """get_message_by_id
 
@@ -35,7 +33,7 @@ def get_message_by_id(message_id):  # noqa: E501
     )
 
 
-@login_required
+@token_required
 def get_message_by_provider_id(provider_id):  # noqa: E501
     """get_message_by_provider_id
 
@@ -62,7 +60,7 @@ def get_message_by_provider_id(provider_id):  # noqa: E501
     )
 
 
-@login_required
+@token_required
 def save_message(body):  # noqa: E501
     """save_message
 

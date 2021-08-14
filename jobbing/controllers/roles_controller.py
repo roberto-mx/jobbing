@@ -1,13 +1,9 @@
-from flask_login import login_required
-import connexion
-import six
-
 from jobbing.DBModels import Role as DBRole
 from jobbing.models.role import Role  # noqa: E501
-from jobbing import util
+from jobbing.login import token_required
 
 
-@login_required
+@token_required
 def get_roles():  # noqa: E501
     """Lists all user roles
 

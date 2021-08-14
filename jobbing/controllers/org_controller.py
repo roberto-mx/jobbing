@@ -1,15 +1,12 @@
 from flask import abort, Response
 from flask_login import login_required
 import connexion
-import six
 
 from jobbing.models.org import Org  # noqa: E501
 from jobbing.db import db
 from jobbing.DBModels import Org as DBOrg
-from jobbing import util
 
 
-@login_required
 def get_org_by_id(org_id):  # noqa: E501
     """get_org_by_id
 
@@ -28,7 +25,6 @@ def get_org_by_id(org_id):  # noqa: E501
     return Org(org_id=org.org_id, name=org.name, status=org.status)
 
 
-@login_required
 def save_org(body):  # noqa: E501
     """save_org
 

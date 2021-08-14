@@ -1,14 +1,9 @@
 from flask import abort
-from flask_login import login_required
-import connexion
-import six
 
 from jobbing.models.skill import Skill  # noqa: E501
 from jobbing.DBModels import Skill as DBSkill
-from jobbing import util
 
 
-@login_required
 def get_skill_by_id(skill_id):  # noqa: E501
     """get_skill_by_id
 

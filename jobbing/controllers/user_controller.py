@@ -1,24 +1,19 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import connexion
-import six
+import jwt
 
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import abort, request, Response, make_response
-from flask_login import logout_user, login_required, login_user, LoginManager
-from flask import current_app
-
-from flask import jsonify
-import jwt
+from flask import abort, Response, make_response
+from flask_login import logout_user, login_user
+from flask import current_app, jsonify
 from datetime import datetime, timedelta
-from functools import wraps
 
 from jobbing.db import db
 from jobbing.DBModels import User as DBProfile
 from jobbing.DBModels import User as DBUser
 from jobbing.models.user import User  # noqa: E501
-from jobbing.login import login_manager
-from jobbing import util
+from jobbing.login import login_manager, token_required
 
 
 @login_manager.user_loader
@@ -33,39 +28,6 @@ def loader(body):
         return None
 
     return User(user_id=user.id, uid=user.uid, username=user.username, email=user.email, image_profile=user.image_profile, role_id=user.role_id), 200
-
-
-# decorator for verifying the JWT
-def token_required(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        token = None
-        # jwt is passed in the request header
-        if 'x-access-token' in request.headers:
-            token = request.headers['x-access-token']
-        # return 401 if token is not passed
-        if not token:
-            return jsonify({'message' : 'Token is missing !!'}), 401
-
-        try:
-            # decoding the payload to fetch the stored details
-            data = jwt.decode(token, current_app.secret_key, algorithms=["HS256"])
-            current_user = DBUser.query.filter_by(uid = data.get('uid')).first()
-        except Exception as e:
-            print(e)
-            return jsonify({
-                'message' : 'Token is invalid !!'
-            }), 401
-
-        user = User(user_id=current_user.id, uid=current_user.uid, 
-                username=current_user.username, email=current_user.email, 
-                image_profile=current_user.image_profile, 
-                role_id=current_user.role_id)
-        # returns the current logged in users contex to the routes
-        #return  f(user, *args, **kwargs)
-        return  f(*args, **kwargs)
-  
-    return decorated
 
 
 def login(body):
@@ -90,7 +52,7 @@ def login(body):
             'uid': user.uid,
             'exp' : datetime.utcnow() + timedelta(minutes = 30)
         }, current_app.secret_key, algorithm="HS256")
-        print("TOKEN:", token)
+        print(token)
 
         login_user(user, remember=True)
   
@@ -102,7 +64,7 @@ def login(body):
     )
 
 
-@login_required
+@token_required
 def logout():
     """Logout the current user."""
     #user = current_user
@@ -111,6 +73,7 @@ def logout():
     #db.session.commit()
     logout_user()
     return 'logged out'
+
 
 @token_required
 def get_user_by_id(uid):  # noqa: E501
@@ -130,7 +93,8 @@ def get_user_by_id(uid):  # noqa: E501
         abort(404)
     return User(user_id=user.id, uid=user.uid, username=user.username, email=user.email, image_profile=user.image_profile, role_id=user.role_id)
 
-@login_required
+
+@token_required
 def get_users():  # noqa: E501
     """get_users
 

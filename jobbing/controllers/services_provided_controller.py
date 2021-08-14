@@ -1,15 +1,13 @@
 from flask import abort, Response
-from flask_login import login_required
 import connexion
-import six
 
 from jobbing.db import db
 from jobbing.DBModels import ServiceProvided as DBServiceProvided
 from jobbing.models.service_provided import ServiceProvided  # noqa: E501
-from jobbing import util
+from jobbing.login import token_required
 
 
-@login_required
+@token_required
 def get_service_provided_by_client_id(client_id):  # noqa: E501
     """get_service_provided_by_client_id
 
@@ -38,7 +36,7 @@ def get_service_provided_by_client_id(client_id):  # noqa: E501
     )
 
 
-@login_required
+@token_required
 def get_service_provided_by_id(service_provided_id):  # noqa: E501
     """get_service_provided_by_id
 
@@ -67,7 +65,7 @@ def get_service_provided_by_id(service_provided_id):  # noqa: E501
     )
 
 
-@login_required
+@token_required
 def get_service_provided_by_provider_id(provider_id):  # noqa: E501
     """get_service_provided_by_provider_id
 
@@ -96,7 +94,7 @@ def get_service_provided_by_provider_id(provider_id):  # noqa: E501
     )
 
 
-@login_required
+@token_required
 def save_service_provided(body):  # noqa: E501
     """save_service_provided
 

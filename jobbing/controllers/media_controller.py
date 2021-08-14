@@ -1,15 +1,13 @@
 from flask import abort, Response
-from flask_login import login_required
 import connexion
-import six
 
 from jobbing.db import db
 from jobbing.DBModels import Media as DBMedia
 from jobbing.models.media import Media  # noqa: E501
-from jobbing import util
+from jobbing.login import token_required
 
 
-@login_required
+@token_required
 def get_media_by_album_id(album_id):  # noqa: E501
     """get_media_by_album_id
 
@@ -27,7 +25,7 @@ def get_media_by_album_id(album_id):  # noqa: E501
     return Media(media.id, media.media, media.link, media.title, media.size, media.duration, media.created, media.media_type, media.views, media.likes, media.owner_id, media.album_id)
 
 
-@login_required
+@token_required
 def get_media_by_id(media_id):  # noqa: E501
     """get_media_by_id
 
@@ -45,7 +43,7 @@ def get_media_by_id(media_id):  # noqa: E501
     return Media(media.id, media.media, media.link, media.title, media.size, media.duration, media.created, media.media_type, media.views, media.likes, media.owner_id, media.album_id)
 
 
-@login_required
+@token_required
 def save_media(body):  # noqa: E501
     """save_media
 

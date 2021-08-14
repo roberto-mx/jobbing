@@ -1,15 +1,13 @@
 from flask import abort, Response
-from flask_login import login_required
 import connexion
-import six
 
 from jobbing.db import db
 from jobbing.DBModels import Notification as DBNotification
 from jobbing.models.notification import Notification  # noqa: E501
-from jobbing import util
+from jobbing.login import token_required
 
 
-@login_required
+@token_required
 def get_notifications_by_media(media_id):  # noqa: E501
     """get_notifications_by_media
 
@@ -35,7 +33,7 @@ def get_notifications_by_media(media_id):  # noqa: E501
             title=notif.title)
 
 
-@login_required
+@token_required
 def get_notificationy_by_id(notification_id):  # noqa: E501
     """get_notificationy_by_id
 
@@ -61,7 +59,7 @@ def get_notificationy_by_id(notification_id):  # noqa: E501
             title=notif.title)
 
 
-@login_required
+@token_required
 def save_notifications(body):  # noqa: E501
     """save_notifications
 
