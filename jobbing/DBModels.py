@@ -151,22 +151,18 @@ class User(UserMixin, db.Model):
     __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     uid = db.Column(db.String(80), unique=True, nullable=False)
-    username = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(250), nullable=False)
     password_date = db.Column(db.Date)
     email = db.Column(db.String(150), unique=True, nullable=False)
-    image_profile = db.Column(db.String(2500), unique=False, nullable=True)
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
     profile = db.relationship("Profile")
 
-    def __init__(self, id: int = None, username: str = None, password: str = None, email: str = None, image_profile: str = None, role_id: int = None):
+    def __init__(self, id: int = None, password: str = None, email: str = None, image_profile: str = None, role_id: int = None):
         self.id = id
         self.uid = str(uuid.uuid4())
-        self.username = username
         self.password = generate_password_hash(password)
         self.password_date = date.today()
         self.email = email
-        self.image_profile = image_profile
         self.role_id = role_id
 
     def set_password(self, password):
@@ -176,7 +172,7 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password, password)
 
     def __repr__(self):
-        return '<User {id}, {username}, {email}>'.format(**self)
+        return '<User {uid}, {email}, {role_id}>'.format(**self)
 
 
 class Profile(UserMixin, db.Model):
@@ -195,7 +191,7 @@ class Profile(UserMixin, db.Model):
     facebook_profile = db.Column(db.String(150), nullable=True)
     linkedin_profile = db.Column(db.String(150), nullable=True)
     twitter_profile = db.Column(db.String(150), nullable=True)
-    id_image = db.Column(db.String(150), nullable=False)
+    image_profile = db.Column(db.String(150), nullable=False)
     status = db.Column(db.Enum('active', 'suspended'), nullable=False)
     created = db.Column(db.DateTime, nullable=False)
     updated = db.Column(db.DateTime, nullable=False)
@@ -218,7 +214,7 @@ class Profile(UserMixin, db.Model):
                  facebook_profile: str = None,
                  linkedin_profile: str = None,
                  twitter_profile: str = None,
-                 id_image: str = None,
+                 image_profile: str = None,
                  status: str = None,
                  credentials_id: str = None,
                  address: str = None,
@@ -237,8 +233,9 @@ class Profile(UserMixin, db.Model):
         self.facebook_profile = facebook_profile
         self.linkedin_profile = linkedin_profile
         self.twitter_profile = twitter_profile
-        self.id_image = id_image
+        self.image_profile = image_profile
         self.status = status
+        self.credentials_id = credentials_id,
         self.created = date.today()
         self.updated = date.today()
         self.address = address

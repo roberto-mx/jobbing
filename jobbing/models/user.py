@@ -14,23 +14,19 @@ class User(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, user_id: int=None, uid: str=None, username: str=None, password: str=None, password_date: date=None, email: str=None, image_profile: str=None, role_id: int=None, user_profile_id: int=None):  # noqa: E501
+    def __init__(self, user_id: int=None, uid: str=None, password: str=None, password_date: date=None, email: str=None, role_id: int=None, user_profile_id: int=None):  # noqa: E501
         """User - a model defined in Swagger
 
         :param user_id: The user_id of this User.  # noqa: E501
         :type user_id: int
         :param uid: The uid of this User.  # noqa: E501
         :type uid: str
-        :param username: The username of this User.  # noqa: E501
-        :type username: str
         :param password: The password of this User.  # noqa: E501
         :type password: str
         :param password_date: The password_date of this User.  # noqa: E501
         :type password_date: date
         :param email: The email of this User.  # noqa: E501
         :type email: str
-        :param image_profile: The image_profile of this User.  # noqa: E501
-        :type image_profile: str
         :param role_id: The role_id of this User.  # noqa: E501
         :type role_id: int
         :param user_profile_id: The user_profile_id of this User
@@ -39,11 +35,9 @@ class User(Model):
         self.swagger_types = {
             'user_id': int,
             'uid': str,
-            'username': str,
             'password': str,
             'password_date': date,
             'email': str,
-            'image_profile': str,
             'role_id': int,
             'user_profile_id': int
         }
@@ -51,21 +45,17 @@ class User(Model):
         self.attribute_map = {
             'user_id': 'userId',
             'uid': 'uid',
-            'username': 'username',
             'password': 'password',
             'password_date': 'passwordDate',
             'email': 'email',
-            'image_profile': 'imageProfile',
             'role_id': 'roleId',
             'user_profile_id': 'userProfileId'
         }
         self._user_id = user_id
         self._uid = uid
-        self._username = username
         self._password = password
         self._password_date = password_date
         self._email = email
-        self._image_profile = image_profile
         self._role_id = role_id
         self._user_profile_id = user_profile_id
 
@@ -127,31 +117,6 @@ class User(Model):
         """
 
         self._uid = uid
-
-    @property
-    def username(self) -> str:
-        """Gets the username of this User.
-
-        Unique name for user  # noqa: E501
-
-        :return: The username of this User.
-        :rtype: str
-        """
-        return self._username
-
-    @username.setter
-    def username(self, username: str):
-        """Sets the username of this User.
-
-        Unique name for user  # noqa: E501
-
-        :param username: The username of this User.
-        :type username: str
-        """
-        if username is None:
-            raise ValueError("Invalid value for `username`, must not be `None`")  # noqa: E501
-
-        self._username = username
 
     @property
     def password(self) -> str:
@@ -223,29 +188,6 @@ class User(Model):
             raise ValueError("Invalid value for `email`, must not be `None`")  # noqa: E501
 
         self._email = email
-
-    @property
-    def image_profile(self) -> str:
-        """Gets the image_profile of this User.
-
-        An image profile for the user  # noqa: E501
-
-        :return: The image_profile of this User.
-        :rtype: str
-        """
-        return self._image_profile
-
-    @image_profile.setter
-    def image_profile(self, image_profile: str):
-        """Sets the image_profile of this User.
-
-        An image profile for the user  # noqa: E501
-
-        :param image_profile: The image_profile of this User.
-        :type image_profile: str
-        """
-
-        self._image_profile = image_profile
 
     @property
     def role_id(self) -> int:

@@ -17,28 +17,19 @@ from jobbing.login import login_manager, token_required
 
 
 @login_manager.user_loader
-def loader(body):
-    user = body['username']
-    pwd = body['password']
-    user = DBUser.query.filter_by(username=user).first()
-
-    # check if the user actually exists
-    # take the user-supplied password, hash it, and compare it to the hashed password in the database
-    if not user or not check_password_hash(user.password, pwd):
-        return None
-
-    return User(user_id=user.id, uid=user.uid, username=user.username, email=user.email, image_profile=user.image_profile, role_id=user.role_id), 200
+def loader(user_id):
+    user = DBUser.query.filter_by(id=user_id).first()
+    return User(user_id=user.id, uid=user.uid, email=user.email, role_id=user.role_id), 200
 
 
 def login(body):
-    
-    if not body or not body['username'] or not body['password']:
+    if not body or not body['email'] or not body['password']:
         # returns 401 if any email or / and password is missing
         return make_response('Could not verify', 401,
             {'WWW-Authenticate' : 'Basic realm ="Login required !!"'}
         )
 
-    user = DBUser.query.filter_by(username=body['username']).first()
+    user = DBUser.query.filter_by(email=body['email']).first()
   
     if not user:
         # returns 401 if user does not exist
@@ -52,7 +43,6 @@ def login(body):
             'uid': user.uid,
             'exp' : datetime.utcnow() + timedelta(minutes = 30)
         }, current_app.secret_key, algorithm="HS256")
-        print(token)
 
         login_user(user, remember=True)
   
@@ -67,10 +57,7 @@ def login(body):
 @token_required
 def logout():
     """Logout the current user."""
-    #user = current_user
-    #user.authenticated = False
-    #db.session.add(user)
-    #db.session.commit()
+
     logout_user()
     return 'logged out'
 
@@ -91,7 +78,7 @@ def get_user_by_id(uid):  # noqa: E501
 
     if user == None:
         abort(404)
-    return User(user_id=user.id, uid=user.uid, username=user.username, email=user.email, image_profile=user.image_profile, role_id=user.role_id)
+    return User(user_id=user.id, uid=user.uid, email=user.email, image_profile=user.image_profile, role_id=user.role_id)
 
 
 @token_required
@@ -105,7 +92,7 @@ def get_users():  # noqa: E501
     """
     users = DBUser.query.all()
     results = [
-        User(user_id=user.id, uid=user.uid, username=user.username, email=user.email, image_profile=user.image_profile, role_id=user.role_id) for user in users]
+        User(user_id=user.id, uid=user.uid, email=user.email, image_profile=user.image_profile, role_id=user.role_id) for user in users]
     return results
 
 
@@ -146,14 +133,13 @@ def signup(body):  # noqa: E501
 
         usr = DBUser(user_id=body.id,
                 uid=body.uid,
-                username=body.username,
                 password=generate_password_hash(body.password),
                 password_date=datetime.now(),
                 email=body.email,
                 image_profile=body.image_profile,
                 role_id=body.role_id,
                 profile=profile
-                )
+        )
 
         db.session.add(usr)
         db.session.commit()

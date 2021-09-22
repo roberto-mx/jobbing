@@ -15,7 +15,7 @@ class UserProfile(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, userprofile_id: int=None, first_name: str=None, second_name: str=None, first_surname: str=None, second_surname: str=None, birthdate: date=None, curp: str=None, mobile_number: str=None, home_number: str=None, office_number: str=None, facebook_profile: str=None, linkedin_profile: str=None, twitter_profile: str=None, id_image: str=None, status: int=None, created: date=None, updated: date=None, credentials_id: int=None, org_id: int=None, address: Address=None):  # noqa: E501
+    def __init__(self, userprofile_id: int=None, first_name: str=None, second_name: str=None, first_surname: str=None, second_surname: str=None, birthdate: date=None, curp: str=None, mobile_number: str=None, home_number: str=None, office_number: str=None, facebook_profile: str=None, linkedin_profile: str=None, twitter_profile: str=None, image_profile: str=None, status: int=None, created: date=None, updated: date=None, credentials_id: int=None, org_id: int=None, address: Address=None):  # noqa: E501
         """UserProfile - a model defined in Swagger
 
         :param userprofile_id: The userprofile_id of this UserProfile.  # noqa: E501
@@ -44,8 +44,8 @@ class UserProfile(Model):
         :type linkedin_profile: str
         :param twitter_profile: The twitter_profile of this UserProfile.  # noqa: E501
         :type twitter_profile: str
-        :param id_image: The id_image of this UserProfile.  # noqa: E501
-        :type id_image: str
+        :param image_profile: The image_profile of this UserProfile.  # noqa: E501
+        :type image_profile: str
         :param status: The status of this UserProfile.  # noqa: E501
         :type status: int
         :param created: The created of this UserProfile.  # noqa: E501
@@ -73,7 +73,7 @@ class UserProfile(Model):
             'facebook_profile': str,
             'linkedin_profile': str,
             'twitter_profile': str,
-            'id_image': str,
+            'image_profile': str,
             'status': int,
             'created': date,
             'updated': date,
@@ -96,7 +96,7 @@ class UserProfile(Model):
             'facebook_profile': 'facebookProfile',
             'linkedin_profile': 'linkedinProfile',
             'twitter_profile': 'twitterProfile',
-            'id_image': 'idImage',
+            'image_profile': 'idImage',
             'status': 'status',
             'created': 'created',
             'updated': 'updated',
@@ -117,7 +117,7 @@ class UserProfile(Model):
         self._facebook_profile = facebook_profile
         self._linkedin_profile = linkedin_profile
         self._twitter_profile = twitter_profile
-        self._id_image = id_image
+        self._image_profile = image_profile
         self._status = status
         self._created = created
         self._updated = updated
@@ -442,27 +442,27 @@ class UserProfile(Model):
         self._twitter_profile = twitter_profile
 
     @property
-    def id_image(self) -> str:
-        """Gets the id_image of this UserProfile.
+    def image_profile(self) -> str:
+        """Gets the image_profile of this UserProfile.
 
         Name of the id file  # noqa: E501
 
-        :return: The id_image of this UserProfile.
+        :return: The image_profile of this UserProfile.
         :rtype: str
         """
-        return self._id_image
+        return self._image_profile
 
-    @id_image.setter
-    def id_image(self, id_image: str):
-        """Sets the id_image of this UserProfile.
+    @image_profile.setter
+    def image_profile(self, image_profile: str):
+        """Sets the image_profile of this UserProfile.
 
         Name of the id file  # noqa: E501
 
-        :param id_image: The id_image of this UserProfile.
-        :type id_image: str
+        :param image_profile: The image_profile of this UserProfile.
+        :type image_profile: str
         """
 
-        self._id_image = id_image
+        self._image_profile = image_profile
 
     @property
     def status(self) -> int:

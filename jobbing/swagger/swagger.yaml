@@ -2131,7 +2131,6 @@ components:
       required:
       - email
       - userId
-      - username
       type: object
       properties:
         userId:
@@ -2145,10 +2144,6 @@ components:
           format: uid
           readOnly: true
           example: k8df23
-        username:
-          type: string
-          description: Unique name for user
-          example: nixabell1835
         password:
           type: string
           description: Keyword to access the app
@@ -2163,11 +2158,6 @@ components:
           type: string
           description: e-mail related to this account
           format: email
-        imageProfile:
-          type: string
-          description: An image profile for the user
-          nullable: true
-          example: "0"
         roleId:
           type: integer
           description: Foreign key for the role type assigned to this user
@@ -2179,11 +2169,9 @@ components:
         uid: k8df23
         password: ""
         roleId: 0
-        imageProfile: "0"
         passwordDate: 2000-01-23
         userId: 123
-        email: ""
-        username: nixabell1835
+        email: "abc_mx@gmail.com"
         providerId: 3
     UserProfile:
       required:
@@ -2244,10 +2232,10 @@ components:
           type: string
           description: Twitter profile
           example: saturnino_h
-        idImage:
+        imageProfile:
           type: string
           description: Name of the id file
-          example: uuid-image.jpg
+          example: uuid-image.jpg 
         status:
           type: integer
           description: Status of the profile
@@ -2286,7 +2274,7 @@ components:
         created: 2000-01-23
         officeNumber: "4495484301"
         userprofileId: 123
-        idImage: uuid-image.jpg
+        imageProfile: uuid-image.jpg
         credentialsId: 651
         orgId: 23
         facebookProfile: saturnino.artist
