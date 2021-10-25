@@ -14,7 +14,7 @@ class ServiceProvided(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, evaluation_id: int=None, rating: int=None, comment_entry: str=None, status: int=None, created: date=None, last_updated: date=None, catalog_entries_id: int=None, client_id: int=None, provider_id: int=None):  # noqa: E501
+    def __init__(self, evaluation_id: int=None, rating: int=None, comment_entry: str=None, status: int=None, created: date=None, last_updated: date=None, service_id: int=None, client_id: int=None, provider_id: int=None):  # noqa: E501
         """ServiceProvided - a model defined in Swagger
 
         :param evaluation_id: The evaluation_id of this ServiceProvided.  # noqa: E501
@@ -29,8 +29,8 @@ class ServiceProvided(Model):
         :type created: date
         :param last_updated: The last_updated of this ServiceProvided.  # noqa: E501
         :type last_updated: date
-        :param catalog_entries_id: The catalog_entries_id of this ServiceProvided.  # noqa: E501
-        :type catalog_entries_id: int
+        :param service_id: The service_id of this ServiceProvided.  # noqa: E501
+        :type service_id: int
         :param client_id: The client_id of this ServiceProvided.  # noqa: E501
         :type client_id: int
         :param provider_id: The provider_id of this ServiceProvided.  # noqa: E501
@@ -43,7 +43,7 @@ class ServiceProvided(Model):
             'status': int,
             'created': date,
             'last_updated': date,
-            'catalog_entries_id': int,
+            'service_id': int,
             'client_id': int,
             'provider_id': int
         }
@@ -55,7 +55,7 @@ class ServiceProvided(Model):
             'status': 'status',
             'created': 'created',
             'last_updated': 'lastUpdated',
-            'catalog_entries_id': 'catalogEntriesId',
+            'service_id': 'serviceId',
             'client_id': 'clientId',
             'provider_id': 'providerId'
         }
@@ -65,7 +65,7 @@ class ServiceProvided(Model):
         self._status = status
         self._created = created
         self._last_updated = last_updated
-        self._catalog_entries_id = catalog_entries_id
+        self._service_id = service_id
         self._client_id = client_id
         self._provider_id = provider_id
 
@@ -225,27 +225,27 @@ class ServiceProvided(Model):
         self._last_updated = last_updated
 
     @property
-    def catalog_entries_id(self) -> int:
-        """Gets the catalog_entries_id of this ServiceProvided.
+    def service_id(self) -> int:
+        """Gets the service_id of this ServiceProvided.
 
         Foraign key to the catalog entry id associated to this evaluation  # noqa: E501
 
-        :return: The catalog_entries_id of this ServiceProvided.
+        :return: The service_id of this ServiceProvided.
         :rtype: int
         """
-        return self._catalog_entries_id
+        return self._service_id
 
-    @catalog_entries_id.setter
-    def catalog_entries_id(self, catalog_entries_id: int):
-        """Sets the catalog_entries_id of this ServiceProvided.
+    @service_id.setter
+    def service_id(self, service_id: int):
+        """Sets the service_id of this ServiceProvided.
 
         Foraign key to the catalog entry id associated to this evaluation  # noqa: E501
 
-        :param catalog_entries_id: The catalog_entries_id of this ServiceProvided.
-        :type catalog_entries_id: int
+        :param service_id: The service_id of this ServiceProvided.
+        :type service_id: int
         """
 
-        self._catalog_entries_id = catalog_entries_id
+        self._service_id = service_id
 
     @property
     def client_id(self) -> int:

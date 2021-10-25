@@ -11,30 +11,33 @@ class Address(db.Model):
     __tablename__ = "address"
 
     id = db.Column(db.Integer, primary_key=True)
-    address_line1 = db.Column(db.String(80))
-    address_line2 = db.Column(db.String(80))
+    street = db.Column(db.String(80))
+    outer_number = db.Column(db.String(10))
+    inner_number = db.Column(db.String(10))
     neighborhood_id = db.Column(db.Integer)
     muncipality_id = db.Column(db.Integer)
     zip_code = db.Column(db.String(80))
     state_id = db.Column(db.Integer)
 
     def __init__(self, id: int=None,
-            address_line1: str=None,
-            address_line2: str=None,
+            street: str=None,
+            outer_number: str=None,
+            inner_number: str=None,
             neighborhood_id: int=None,
             muncipality_id: int=None,
             zip_code: int=None,
             state_id: int=None):
         self.id = id
-        self.address_line1 = address_line1
-        self.address_line2 = address_line2
+        self.street = street
+        self.outer_number = outer_number
+        self.inner_number = inner_number
         self.neighborhood_id = neighborhood_id
         self.muncipality_id = muncipality_id
         self.zip_code = zip_code
         self.state_id = state_id
 
     def __repr__(self):
-        return '<Address {id}, {address_line1}, {address_line2}, {neighborhood_id}, {muncipality_id}, {zip_code}, {state_id}>'.format(**self)
+        return '<Address {id}, {street}, {outer_number}, {inner_number}, {neighborhood_id}, {muncipality_id}, {zip_code}, {state_id}>'.format(**self)
 
 
 class Role(db.Model):
@@ -270,6 +273,8 @@ class Skill(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
     years_of_experience = db.Column(db.Integer, nullable=False)
     price_of_service = db.Column(db.Float, nullable=False)
+    description = db.Column(db.String(500))
+    work_zone = db.Column(db.String(100), nullable=False)
     services_provided = db.Column(db.Integer)
     five_stars = db.Column(db.Integer)
     four_starts = db.Column(db.Integer)
@@ -279,13 +284,16 @@ class Skill(db.Model):
 
     def __init__(self, id: int=None, category_id: int=None, 
             years_of_experience: float=None, price_of_service: int=None,
+            description: str=None, work_zone: str=None,
             services_provided: int=None, five_stars: int=None,
             four_starts: int=None, three_starts: int=None,
             two_starts: int=None, one_start: int=None):
-        self.id=id
-        self.category_id=category_id
-        self.years_of_experience=years_of_experience
-        self.price_of_service=price_of_service
+        self.id = id
+        self.category_id = category_id
+        self.years_of_experience = years_of_experience
+        self.price_of_service = price_of_service
+        self.description = description
+        self.work_zone = work_zone
         self.services_provided=services_provided
         self.five_stars=five_stars
         self.four_starts=four_starts
@@ -294,41 +302,73 @@ class Skill(db.Model):
         self.one_start=one_start
 
     def __repr__(self):
-        return '<Skill {id}, {category_id}, {years_of_experience}, {price_of_service}, {services_provided}, {five_stars}, {four_starts}, {three_starts}, {two_starts}, {one_starts}>'.format(**self)
+        return '<Skill {id}, {category_id}, {years_of_experience}, {price_of_service}, {description}, {work_zone}, {services_provided}, {five_stars}, {four_starts}, {three_starts}, {two_starts}, {one_starts}>'.format(**self)
 
 
 
-#TODO: change cost from String to double in swagger
-#TODO: Change last_updated in swagger
 class Service(db.Model):
     __tablename__ = "service"
 
     id = db.Column(db.Integer, primary_key=True)
     category_id = db.Column(db.Integer, nullable=False)
-    cost = db.Column(db.Float, nullable=False)
+    years_of_experience = db.Column(db.Integer, nullable=False)
+    price_of_service = db.Column(db.Float, nullable=False)
+    description = db.Column(db.String(500))
+    work_zone = db.Column(db.String(100), nullable=False)
+    services_provided = db.Column(db.Integer)
+    five_stars = db.Column(db.Integer)
+    four_starts = db.Column(db.Integer)
+    three_starts = db.Column(db.Integer)
+    two_starts = db.Column(db.Integer)
+    one_start = db.Column(db.Integer)
     created = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     read_only = db.Column(db.Boolean)
-    description = db.Column(db.String(120))
     last_updated = db.Column(db.DateTime, nullable=True)
     status_id = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
-    def __init__(self, id: int=None, category_id: int=None, cost: float=None,
-            created: db.DateTime=None, read_only: db.Boolean=None, description: db.String=None,
-            last_updated: db.DateTime=None, status_id: int=None, user_id: int=None):
+    def __init__(self, 
+            id: int=None,
+            category_id: int=None,
+            years_of_experience: float=None,
+            price_of_service: int=None,
+            description: str=None,
+            work_zone: str=None,
+            services_provided: int=None,
+            five_stars: int=None,
+            four_starts: int=None,
+            three_starts: int=None,
+            two_starts: int=None,
+            one_start: int=None,
+            created: db.DateTime=None,
+            read_only: db.Boolean=None,
+            last_updated: db.DateTime=None,
+            status_id: int=None,
+            user_id: int=None):
+
         self.id = id
         self.category_id = category_id
-        self.cost = cost
+        self.years_of_experience = years_of_experience
+        self.price_of_service = price_of_service
+        self.description = description
+        self.work_zone = work_zone
+        self.services_provided=services_provided
+        self.five_stars=five_stars
+        self.four_starts=four_starts
+        self.three_starts=three_starts
+        self.two_starts=two_starts
+        self.one_start=one_start
         self.created = created
         self.read_only = read_only
-        self.description = description
         self.last_updated = last_updated
         self.status_id = status_id
         self.user_id = user_id
 
     def __repr__(self):
-        return '<Service {id}, {category_id}, {cost}, {created}, {read_only}, '\
-                '{description}, {last_updated}, {status_id}, {user_id}>'.format(**self)
+        return '<Service {id}, {category_id}, {years_of_experience}, {price_of_service},'\
+            ' {description}, {work_zone}, {services_provided}, {five_stars}, {four_starts},'\
+            ' {three_starts}, {two_starts}, {one_starts}, {created}, {read_only},'\
+            ' {last_updated}, {status_id}, {user_id}>'.format(**self)
 
 
 class ServiceProvided(db.Model):

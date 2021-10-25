@@ -14,7 +14,7 @@ class Skill(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, provider_id: int=None, category_id: int=None, years_of_experience: int=None, price_of_service: float=None, services_provided: int=None, five_stars: int=None, four_starts: int=None, three_starts: int=None, two_starts: int=None, one_start: int=None):  # noqa: E501
+    def __init__(self, provider_id: int=None, category_id: int=None, years_of_experience: int=None, price_of_service: float=None, description: str=None, work_zone: str=None, services_provided: int=None, five_stars: int=None, four_starts: int=None, three_starts: int=None, two_starts: int=None, one_start: int=None):  # noqa: E501
         """Skill - a model defined in Swagger
 
         :param provider_id: The provider_id of this Skill.  # noqa: E501
@@ -25,6 +25,10 @@ class Skill(Model):
         :type years_of_experience: int
         :param price_of_service: The price_of_service of this Skill.  # noqa: E501
         :type price_of_service: float
+        :param description: Description of the message.  # noqa: E501
+        :type description: str
+        :param work_zone: Zone where the provider works.  # noqa: E501
+        :type work_zone: str
         :param services_provided: The services_provided of this Skill.  # noqa: E501
         :type services_provided: int
         :param five_stars: The five_stars of this Skill.  # noqa: E501
@@ -43,6 +47,8 @@ class Skill(Model):
             'category_id': int,
             'years_of_experience': int,
             'price_of_service': float,
+            'description': str,
+            'work_zone': str,
             'services_provided': int,
             'five_stars': int,
             'four_starts': int,
@@ -56,6 +62,8 @@ class Skill(Model):
             'category_id': 'categoryId',
             'years_of_experience': 'yearsOfExperience',
             'price_of_service': 'priceOfService',
+            'description': 'description',
+            'work_zone': 'workZone',
             'services_provided': 'servicesProvided',
             'five_stars': 'fiveStars',
             'four_starts': 'fourStarts',
@@ -67,6 +75,8 @@ class Skill(Model):
         self._category_id = category_id
         self._years_of_experience = years_of_experience
         self._price_of_service = price_of_service
+        self._description = description
+        self._work_zone = work_zone
         self._services_provided = services_provided
         self._five_stars = five_stars
         self._four_starts = four_starts
@@ -184,6 +194,56 @@ class Skill(Model):
             raise ValueError("Invalid value for `price_of_service`, must not be `None`")  # noqa: E501
 
         self._price_of_service = price_of_service
+
+    @property
+    def description(self) -> str:
+        """Gets the description of this Skill.
+
+        Body of the Message  # noqa: E501
+
+        :return: The description of this Message.
+        :rtype: str
+        """
+        return self._description
+
+    @description.setter
+    def description(self, description: str):
+        """Sets the description of this Message.
+
+        Body of the Message  # noqa: E501
+
+        :param description: The description of this Message.
+        :type description: str
+        """
+        if description is None:
+            raise ValueError("Invalid value for `description`, must not be `None`")  # noqa: E501
+
+        self._description = description
+
+    @property
+    def work_zone(self) -> str:
+        """Gets the work_zone of this Skill.
+
+        Body of the Message  # noqa: E501
+
+        :return: The work_zone of this Message.
+        :rtype: str
+        """
+        return self._work_zone
+
+    @work_zone.setter
+    def work_zone(self, work_zone: str):
+        """Sets the work_zone of this Message.
+
+        Body of the Message  # noqa: E501
+
+        :param work_zone: The work_zone of this Message.
+        :type work_zone: str
+        """
+        if work_zone is None:
+            raise ValueError("Invalid value for `work_zone`, must not be `None`")  # noqa: E501
+
+        self._work_zone = work_zone
 
     @property
     def services_provided(self) -> int:

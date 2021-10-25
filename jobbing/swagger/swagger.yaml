@@ -20,7 +20,7 @@ paths:
   /role:
     get:
       tags:
-      - Roles
+      - Catalogs
       summary: Lists all user roles
       description: Show a listing of roles to accesing the API
       operationId: get_roles
@@ -127,7 +127,7 @@ paths:
   /categories:
     get:
       tags:
-      - Category
+      - Services
       description: Show all categories in the service catalog
       operationId: get_categories
       responses:
@@ -176,7 +176,7 @@ paths:
   /categories/{categoryId}:
     get:
       tags:
-      - Category
+      - Services
       description: Shows a category defined by ID
       operationId: get_category_by_id
       parameters:
@@ -228,6 +228,7 @@ paths:
                 example: "{\"message\":\"unexpected error\"}"
                 x-content-type: application/json
       x-openapi-router-controller: jobbing.controllers.category_controller
+
   /providers/{providerId}:
     get:
       tags:
@@ -283,12 +284,12 @@ paths:
                 example: "{\"message\":\"unexpected error\"}"
                 x-content-type: application/json
       x-openapi-router-controller: jobbing.controllers.providers_controller
-  /providers/{providerId}/skills:
+  /providers/{providerId}/services:
     get:
       tags:
       - Providers
-      description: Show all Service Providers according to their skills
-      operationId: get_skills_by_provider_id
+      description: Show all Services provided by a provider identified by id
+      operationId: get_services_by_provider_id
       parameters:
       - name: providerId
         in: path
@@ -306,13 +307,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/User'
+                  $ref: '#/components/schemas/Service'
                 x-content-type: application/json
       x-openapi-router-controller: jobbing.controllers.providers_controller
   /skills/{skillId}:
     get:
       tags:
-      - Skills
+      - Services
       description: Show a Skills by id
       operationId: get_skill_by_id
       parameters:
@@ -1233,7 +1234,7 @@ paths:
     get:
       tags:
       - Services
-      description: Lists the media defined by mediaID
+      description: Lists the services defined by a catalog
       operationId: get_services_by_catalog_id
       parameters:
       - name: catalogId
@@ -1523,10 +1524,10 @@ paths:
                 example: "{\"message\":\"unexpected error\"}"
                 x-content-type: application/json
       x-openapi-router-controller: jobbing.controllers.catalogs_controller
-  /services_provided:
+  /providers/provide_service:
     post:
       tags:
-      - Services Provided
+      - Providers
       description: Creates a service provided entry
       operationId: save_service_provided
       requestBody:
@@ -1600,10 +1601,10 @@ paths:
                 example: "{\"message\":\"unexpected error\"}"
                 x-content-type: application/json
       x-openapi-router-controller: jobbing.controllers.services_provided_controller
-  /provider/{providerId}/services_provided:
+  /providers/{providerId}/services_provided:
     get:
       tags:
-      - Services Provided
+      - Providers
       description: Lists an service provided by a provided defined by id
       operationId: get_service_provided_by_provider_id
       parameters:
@@ -2266,8 +2267,8 @@ components:
           neighbourhoodId: 5
           zipCode: "12345"
           stateId: 32
-          addressLine1: Luis
-          addressLine2: Luis
+          street: Avenida 5 de mayo
+          extNumber: 34
           muncipalityId: 7
           addressId: 35647
         mobileNumber: "4495484301"
@@ -2291,7 +2292,7 @@ components:
     Address:
       required:
       - addressId
-      - addressLine1
+      - street
       - muncipalityId
       - neighbourhoodId
       - stateId
@@ -2303,14 +2304,18 @@ components:
           description: Unique id
           readOnly: true
           example: 35647
-        addressLine1:
+        street:
           type: string
           description: "Suite/Apartment, Outer Number, Street"
-          example: Luis
-        addressLine2:
+          example: Av. 5 de mayo
+        outerNumber:
           type: string
-          description: "Suite/Apartment, Outer Number, Street"
-          example: Luis
+          description: "Outer Number"
+          example: 345
+        innerNumber:
+          type: string
+          description: "Inner Number"
+          example: 345
         neighbourhoodId:
           type: integer
           description: Colony or Neighbourhood
@@ -2331,8 +2336,9 @@ components:
         neighbourhoodId: 5
         zipCode: "12345"
         stateId: 32
-        addressLine1: Luis
-        addressLine2: Luis
+        street: Avenida 5 de mayo
+        outerNumber: 825
+        innerNumber: 9-B-4
         muncipalityId: 7
         addressId: 35647
     Org:
@@ -2484,6 +2490,8 @@ components:
       - priceOfService
       - providerId
       - yearsOfExperience
+      - description
+      - workZone
       type: object
       properties:
         providerId:
@@ -2502,6 +2510,14 @@ components:
           type: number
           description: Price per hour (to be defined)
           example: 300
+        description:
+          type: string
+          description: A brief description of the work
+          example: Ofrezco servicio de herrería; ventanas, puertas, saguanes, barandales, techos, etcétera.
+        workZone:
+          type: string
+          description: A brief description of the work
+          example: Zona Metropolitana de Guadalajara 
         servicesProvided:
           type: integer
           description: Total number of services provided on this platform
@@ -2529,6 +2545,8 @@ components:
       example:
         threeStarts: 0
         yearsOfExperience: 2
+        description: Servicio de herrería
+        workZone: ZMG
         servicesProvided: 17
         providerId: 54
         fourStarts: 4
@@ -2540,7 +2558,6 @@ components:
     Service:
       required:
       - categoryId
-      - cost
       - description
       - serviceId
       type: object
@@ -2561,12 +2578,44 @@ components:
           example: 12
         description:
           type: string
-          description: Description of the entry
-          example: This is an entry
-        cost:
+          description: A brief of the work provided
+          example: Ofrezco servicio de herrería; ventanas, puertas, saguanes, barandales, techos y más.
+        yearsOfExperience:
+          type: integer
+          description: Years supplying this service
+          example: 2
+        priceOfService:
+          type: number
+          description: Price per hour (to be defined)
+          example: 300
+        workZone:
           type: string
-          description: Cost of the service
-          example: $122
+          description: A brief description of the work
+          example: Zona Metropolitana de Guadalajara 
+        servicesProvided:
+          type: integer
+          description: Total number of services provided on this platform
+          example: 17
+        fiveStars:
+          type: integer
+          description: Number of services qualified with 5 star
+          example: 10
+        fourStarts:
+          type: integer
+          description: Number of services qualified with 4 star
+          example: 4
+        threeStarts:
+          type: integer
+          description: Number of services qualified with 3 star
+          example: 0
+        twoStarts:
+          type: integer
+          description: Number of services qualified with 2 star
+          example: 1
+        oneStart:
+          type: integer
+          description: Number of services qualified with 1 star
+          example: 2
         created:
           type: string
           description: Date when catalog entry was created
@@ -2584,13 +2633,22 @@ components:
           example: 12
       example:
         lastUpdated: 2021/11/21
-        cost: $122
+        priceOfService: 350
         statusId: 12
         created: 2000-01-23
-        description: This is an entry
+        description: Servicio de herrería
         serviceId: 12
         userId: 12
-        categoryId: 12
+        categoryId: 5
+        yearsOfExperience: 2
+        workZone: ZMG
+        servicesProvided: 17
+        providerId: 54
+        fiveStars: 10
+        fourStarts: 4
+        threeStarts: 0
+        twoStarts: 1
+        oneStart: 2
     Notification:
       required:
       - accountId
@@ -2671,6 +2729,7 @@ components:
       - clientId
       - commentEntry
       - providerId
+      - serviceId
       - rating
       - status
       type: object
@@ -2703,9 +2762,9 @@ components:
           description: Date when the evaluation was updated
           format: date
           readOnly: true
-        catalogEntriesId:
+        serviceId:
           type: integer
-          description: Foraign key to the catalog entry id associated to this evaluation
+          description: Foraign key to the service id associated to this evaluation
           example: 12
         clientId:
           type: integer
@@ -2723,7 +2782,7 @@ components:
         providerId: 12
         rating: 5
         commentEntry: "Cheap and very good service, I recommend it!"
-        catalogEntriesId: 12
+        serviceId: 12
         status: 1
     Message:
       required:

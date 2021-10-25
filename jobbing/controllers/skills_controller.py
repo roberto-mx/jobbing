@@ -14,18 +14,21 @@ def get_skill_by_id(skill_id):  # noqa: E501
 
     :rtype: List[Skill]
     """
-    skill = DBSkill.query.filter(DBSkill.id == skill_id).first()
+    skills = DBSkill.query.filter(DBSkill.id == skill_id).first()
 
-    if skill == None:
-        abort(404)
-
-    return Skill(provider_id=skill.provider_id,
+    result = [
+        Skill(provider_id=skill.provider_id,
             category_id=skill.category_id,
             years_of_experience=skill.years_of_experience,
             price_of_service=skill.price_of_service,
+            description = skill.description,
+            work_zone=skill.work_zone,
             services_provided=skill.services_provided,
             five_stars=skill.five_stars,
             four_starts=skill.four_starts,
             three_starts=skill.three_starts,
             two_starts=skill.two_starts,
             one_start=skill.one_start)
+            for skill in skills
+        ]
+    return result

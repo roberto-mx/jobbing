@@ -14,15 +14,17 @@ class Address(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, address_id: int=None, address_line1: str=None, address_line2: str=None, neighborhood_id: int=None, muncipality_id: int=None, zip_code: str=None, state_id: int=None):  # noqa: E501
+    def __init__(self, address_id: int=None, street: str=None, outer_number: str=None, inner_number: str=None, neighborhood_id: int=None, muncipality_id: int=None, zip_code: str=None, state_id: int=None):  # noqa: E501
         """Address - a model defined in Swagger
 
         :param address_id: The address_id of this Address.  # noqa: E501
         :type address_id: int
-        :param address_line1: The address_line1 of this Address.  # noqa: E501
-        :type address_line1: str
-        :param address_line2: The address_line2 of this Address.  # noqa: E501
-        :type address_line2: str
+        :param street: The street of this Address.  # noqa: E501
+        :type street: str
+        :param outer_number: The outer_number of this Address.  # noqa: E501
+        :type outer_number: str
+        :param inner_number: The inner_number of this Address.  # noqa: E501
+        :type inner_number: str
         :param neighborhood_id: The neighborhood_id of this Address.  # noqa: E501
         :type neighborhood_id: int
         :param muncipality_id: The muncipality_id of this Address.  # noqa: E501
@@ -34,8 +36,9 @@ class Address(Model):
         """
         self.swagger_types = {
             'address_id': int,
-            'address_line1': str,
-            'address_line2': str,
+            'street': str,
+            'outer_number': str,
+            'inner_number': str,
             'neighborhood_id': int,
             'muncipality_id': int,
             'zip_code': str,
@@ -44,16 +47,18 @@ class Address(Model):
 
         self.attribute_map = {
             'address_id': 'addressId',
-            'address_line1': 'addressLine1',
-            'address_line2': 'addressLine2',
+            'street': 'street',
+            'outer_number': 'outerNumber',
+            'inner_number': 'innerNumber',
             'neighborhood_id': 'neighborhoodId',
             'muncipality_id': 'muncipalityId',
             'zip_code': 'zipCode',
             'state_id': 'stateId'
         }
         self._address_id = address_id
-        self._address_line1 = address_line1
-        self._address_line2 = address_line2
+        self._street = street
+        self._outer_number = outer_number
+        self._inner_number = inner_number
         self._neighborhood_id = neighborhood_id
         self._muncipality_id = muncipality_id
         self._zip_code = zip_code
@@ -96,52 +101,75 @@ class Address(Model):
         self._address_id = address_id
 
     @property
-    def address_line1(self) -> str:
-        """Gets the address_line1 of this Address.
+    def street(self) -> str:
+        """Gets the street of this Address.
 
         Suite/Apartment, Outer Number, Street  # noqa: E501
 
-        :return: The address_line1 of this Address.
+        :return: The street of this Address.
         :rtype: str
         """
-        return self._address_line1
+        return self._street
 
-    @address_line1.setter
-    def address_line1(self, address_line1: str):
-        """Sets the address_line1 of this Address.
+    @street.setter
+    def street(self, street: str):
+        """Sets the street of this Address.
 
         Suite/Apartment, Outer Number, Street  # noqa: E501
 
-        :param address_line1: The address_line1 of this Address.
-        :type address_line1: str
+        :param street: The street of this Address.
+        :type street: str
         """
-        if address_line1 is None:
-            raise ValueError("Invalid value for `address_line1`, must not be `None`")  # noqa: E501
+        if street is None:
+            raise ValueError("Invalid value for `street`, must not be `None`")  # noqa: E501
 
-        self._address_line1 = address_line1
+        self._street = street
 
     @property
-    def address_line2(self) -> str:
-        """Gets the address_line2 of this Address.
+    def outer_number(self) -> str:
+        """Gets the outer_number of this Address.
 
         Suite/Apartment, Outer Number, Street  # noqa: E501
 
-        :return: The address_line2 of this Address.
+        :return: The outer_number of this Address.
         :rtype: str
         """
-        return self._address_line2
+        return self.outer_number
 
-    @address_line2.setter
-    def address_line2(self, address_line2: str):
-        """Sets the address_line2 of this Address.
+    @outer_number.setter
+    def outer_number(self, outer_number: str):
+        """Sets the outer_number of this Address.
 
         Suite/Apartment, Outer Number, Street  # noqa: E501
 
-        :param address_line2: The address_line2 of this Address.
-        :type address_line2: str
+        :param outer_number: The outer_number of this Address.
+        :type outer_number: str
         """
 
-        self._address_line2 = address_line2
+        self._outer_number = outer_number
+
+    @property
+    def inner_number(self) -> str:
+        """Gets the inner_number of this Address.
+
+        Suite/Apartment, Outer Number, Street  # noqa: E501
+
+        :return: The inner_number of this Address.
+        :rtype: str
+        """
+        return self.inner_number
+
+    @inner_number.setter
+    def inner_number(self, inner_number: str):
+        """Sets the inner_number of this Address.
+
+        Suite/Apartment, Outer Number, Street  # noqa: E501
+
+        :param inner_number: The inner_number of this Address.
+        :type inner_number: str
+        """
+
+        self._inner_number = inner_number
 
     @property
     def neighborhood_id(self) -> int:

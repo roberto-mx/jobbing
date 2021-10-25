@@ -26,10 +26,18 @@ def get_catalog_entry_by_id(service_id):  # noqa: E501
     return DBService(
         id = serv.id,
         category_id = serv.category_id,
-        cost = serv.cost,
+        description = serv.description,
+        years_of_experience = serv.years_of_experience,
+        price_of_service = serv.price_of_service,
+        work_zone = serv.work_zone,
+        services_provided = serv.services_provided,
+        five_stars = serv.five_stars,
+        four_starts = serv.four_starts,
+        three_starts = serv.three_starts,
+        two_starts = serv.two_starts,
+        one_start = serv.one_start,
         created = serv.created,
         read_only = serv.read_only,
-        description = serv.description,
         last_updated = serv.last_updated,
         status_id = serv.status_id,
         user_id = serv.user_id
@@ -55,10 +63,18 @@ def get_services_by_catalog_id(catalog_id):  # noqa: E501
     return DBService(
         id = serv.id,
         category_id = serv.category_id,
-        cost = serv.cost,
+        description = serv.description,
+        years_of_experience = serv.years_of_experience,
+        price_of_service = serv.price_of_service,
+        work_zone = serv.work_zone,
+        services_provided = serv.services_provided,
+        five_stars = serv.five_stars,
+        four_starts = serv.four_starts,
+        three_starts = serv.three_starts,
+        two_starts = serv.two_starts,
+        one_start = serv.one_start,
         created = serv.created,
         read_only = serv.read_only,
-        description = serv.description,
         last_updated = serv.last_updated,
         status_id = serv.status_id,
         user_id = serv.user_id
@@ -77,15 +93,23 @@ def save_service(body):  # noqa: E501
     :rtype: str
     """
     if connexion.request.is_json:
-        body = Service.from_dict(connexion.request.get_json())  # noqa: E501
+        serv = Service.from_dict(connexion.request.get_json())  # noqa: E501
 
         service = Service(
-            category_id = body.category_id,
-            cost = body.cost,
-            read_only = body.read_only,
-            description = body.description,
-            status_id = body.status_id,
-            user_id = body.user_id
+            category_id = serv.category_id,
+            description = serv.description,
+            years_of_experience = serv.years_of_experience,
+            price_of_service = serv.price_of_service,
+            work_zone = serv.work_zone,
+            services_provided = serv.services_provided,
+            five_stars = serv.five_stars,
+            four_starts = serv.four_starts,
+            three_starts = serv.three_starts,
+            two_starts = serv.two_starts,
+            one_start = serv.one_start,
+            read_only = serv.read_only,
+            status_id = serv.status_id,
+            user_id = serv.user_id
         )
 
         db.session.add(service)

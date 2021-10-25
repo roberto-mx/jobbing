@@ -1,7 +1,9 @@
 from flask import abort
 
 from jobbing.models.user_profile import UserProfile  # noqa: E501
+from jobbing.models.service import Service  # noqa: E501
 from jobbing.DBModels import Profile as DBProfile
+from jobbing.DBModels import Service as DBService
 from jobbing.login import token_required
 
 
@@ -44,36 +46,33 @@ def get_provider_by_id(provider_id):  # noqa: E501
 
 
 @token_required
-def get_skills_by_provider_id(provider_id):  # noqa: E501
-    """get_skills_by_provider_id
+def get_services_by_provider_id(provider_id):  # noqa: E501
+    """get_services_by_provider_id
 
-    Show all Service Providers according to their skills # noqa: E501
+    Show all Services that offers a provider # noqa: E501
 
     :param provider_id: Id de Provider
     :type provider_id: int
 
-    :rtype: List[UserProfile]
+    :rtype: List[Service]
     """
-    providers = DBProfile.query.filter(DBProfile.provider_id == provider_id)
+    services = DBService.query.filter(DBService.user_id == provider_id)
     results = [
-        UserProfile(userprofile_id=p.userprofile_id,
-                first_name=p.first_name,
-                second_name=p.second_name,
-                first_surname=p.first_surname,
-                second_surname=p.second_surname,
-                birthdate=p.birthdate,
-                curp=p.curp,
-                mobile_number=p.mobile_number,
-                home_number=p.home_number,
-                office_number=p.office_number,
-                facebook_profile=p.facebook_profile,
-                linkedin_profile=p.linkedin_profile,
-                twitter_profile=p.twitter_profile,
-                id_image=p.id_image,
-                status=p.status,
-                created=p.created,
-                updated=p.updated,
-                credentials_id=p.credentials_id,
-                org_id=p.org_id,
-                address=p.address) for p in providers]
+        Service(
+            id = serv.service_id,
+            category_id = serv.category_id,
+            description = serv.description,
+            years_of_experience = serv.years_of_experience,
+            price_of_service = serv.price_of_service,
+            work_zone = serv.work_zone,
+            services_provided = serv.services_provided,
+            five_stars = serv.five_stars,
+            four_starts = serv.four_starts,
+            three_starts = serv.three_starts,
+            two_starts = serv.two_starts,
+            one_start = serv.one_start,
+            read_only = serv.read_only,
+            status_id = serv.status_id,
+            user_id = serv.user_id
+        ) for serv in services]
     return results

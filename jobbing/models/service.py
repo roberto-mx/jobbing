@@ -14,7 +14,14 @@ class Service(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, service_id: int=None, user_id: int=None, category_id: int=None, description: str=None, cost: str=None, created: date=None, last_updated: str=None, status_id: int=None):  # noqa: E501
+    def __init__(self, 
+            service_id: int=None,
+            user_id: int=None,
+            category_id: int=None,
+            description: str=None,
+            years_of_experience: int=None,
+            price_of_service: float=None,
+            work_zone: str=None, services_provided: int=None, five_stars: int=None, four_starts: int=None, three_starts: int=None, two_starts: int=None, one_start: int=None, created: date=None, last_updated: str=None, status_id: int=None):  # noqa: E501
         """Service - a model defined in Swagger
 
         :param service_id: The service_id of this Service.  # noqa: E501
@@ -25,8 +32,24 @@ class Service(Model):
         :type category_id: int
         :param description: The description of this Service.  # noqa: E501
         :type description: str
-        :param cost: The cost of this Service.  # noqa: E501
-        :type cost: str
+        :param years_of_experience: The years_of_experience of this Skill.  # noqa: E501
+        :type years_of_experience: int
+        :param price_of_service: The price_of_service of this Skill.  # noqa: E501
+        :type price_of_service: float
+        :param work_zone: Zone where the provider works.  # noqa: E501
+        :type work_zone: str
+        :param services_provided: The services_provided of this Skill.  # noqa: E501
+        :type services_provided: int
+        :param five_stars: The five_stars of this Skill.  # noqa: E501
+        :type five_stars: int
+        :param four_starts: The four_starts of this Skill.  # noqa: E501
+        :type four_starts: int
+        :param three_starts: The three_starts of this Skill.  # noqa: E501
+        :type three_starts: int
+        :param two_starts: The two_starts of this Skill.  # noqa: E501
+        :type two_starts: int
+        :param one_start: The one_start of this Skill.  # noqa: E501
+        :type one_start: int
         :param created: The created of this Service.  # noqa: E501
         :type created: date
         :param last_updated: The last_updated of this Service.  # noqa: E501
@@ -39,7 +62,15 @@ class Service(Model):
             'user_id': int,
             'category_id': int,
             'description': str,
-            'cost': str,
+            'years_of_experience': int,
+            'price_of_service': float,
+            'work_zone': str,
+            'services_provided': int,
+            'five_stars': int,
+            'four_starts': int,
+            'three_starts': int,
+            'two_starts': int,
+            'one_start': int,
             'created': date,
             'last_updated': str,
             'status_id': int
@@ -50,7 +81,15 @@ class Service(Model):
             'user_id': 'userId',
             'category_id': 'categoryId',
             'description': 'description',
-            'cost': 'cost',
+            'years_of_experience': 'yearsOfExperience',
+            'price_of_service': 'priceOfService',
+            'work_zone': 'workZone',
+            'services_provided': 'servicesProvided',
+            'five_stars': 'fiveStars',
+            'four_starts': 'fourStarts',
+            'three_starts': 'threeStarts',
+            'two_starts': 'twoStarts',
+            'one_start': 'oneStart',
             'created': 'created',
             'last_updated': 'lastUpdated',
             'status_id': 'statusId'
@@ -59,7 +98,15 @@ class Service(Model):
         self._user_id = user_id
         self._category_id = category_id
         self._description = description
-        self._cost = cost
+        self._years_of_experience = years_of_experience
+        self._price_of_service = price_of_service
+        self._work_zone = work_zone
+        self._services_provided = services_provided
+        self._five_stars = five_stars
+        self._four_starts = four_starts
+        self._three_starts = three_starts
+        self._two_starts = two_starts
+        self._one_start = one_start
         self._created = created
         self._last_updated = last_updated
         self._status_id = status_id
@@ -174,29 +221,217 @@ class Service(Model):
         self._description = description
 
     @property
-    def cost(self) -> str:
-        """Gets the cost of this Service.
+    def years_of_experience(self) -> int:
+        """Gets the years_of_experience of this Skill.
 
-        Cost of the service  # noqa: E501
+        Years supplying this service  # noqa: E501
 
-        :return: The cost of this Service.
+        :return: The years_of_experience of this Skill.
+        :rtype: int
+        """
+        return self._years_of_experience
+
+    @years_of_experience.setter
+    def years_of_experience(self, years_of_experience: int):
+        """Sets the years_of_experience of this Skill.
+
+        Years supplying this service  # noqa: E501
+
+        :param years_of_experience: The years_of_experience of this Skill.
+        :type years_of_experience: int
+        """
+        if years_of_experience is None:
+            raise ValueError("Invalid value for `years_of_experience`, must not be `None`")  # noqa: E501
+
+        self._years_of_experience = years_of_experience
+
+    @property
+    def price_of_service(self) -> float:
+        """Gets the price_of_service of this Skill.
+
+        Price per hour (to be defined)  # noqa: E501
+
+        :return: The price_of_service of this Skill.
+        :rtype: float
+        """
+        return self._price_of_service
+
+    @price_of_service.setter
+    def price_of_service(self, price_of_service: float):
+        """Sets the price_of_service of this Skill.
+
+        Price per hour (to be defined)  # noqa: E501
+
+        :param price_of_service: The price_of_service of this Skill.
+        :type price_of_service: float
+        """
+        if price_of_service is None:
+            raise ValueError("Invalid value for `price_of_service`, must not be `None`")  # noqa: E501
+
+        self._price_of_service = price_of_service
+
+    @property
+    def work_zone(self) -> str:
+        """Gets the work_zone of this Skill.
+
+        Body of the Message  # noqa: E501
+
+        :return: The work_zone of this Message.
         :rtype: str
         """
-        return self._cost
+        return self._work_zone
 
-    @cost.setter
-    def cost(self, cost: str):
-        """Sets the cost of this Service.
+    @work_zone.setter
+    def work_zone(self, work_zone: str):
+        """Sets the work_zone of this Message.
 
-        Cost of the service  # noqa: E501
+        Body of the Message  # noqa: E501
 
-        :param cost: The cost of this Service.
-        :type cost: str
+        :param work_zone: The work_zone of this Message.
+        :type work_zone: str
         """
-        if cost is None:
-            raise ValueError("Invalid value for `cost`, must not be `None`")  # noqa: E501
+        if work_zone is None:
+            raise ValueError("Invalid value for `work_zone`, must not be `None`")  # noqa: E501
 
-        self._cost = cost
+        self._work_zone = work_zone
+
+    @property
+    def services_provided(self) -> int:
+        """Gets the services_provided of this Skill.
+
+        Total number of services provided on this platform  # noqa: E501
+
+        :return: The services_provided of this Skill.
+        :rtype: int
+        """
+        return self._services_provided
+
+    @services_provided.setter
+    def services_provided(self, services_provided: int):
+        """Sets the services_provided of this Skill.
+
+        Total number of services provided on this platform  # noqa: E501
+
+        :param services_provided: The services_provided of this Skill.
+        :type services_provided: int
+        """
+
+        self._services_provided = services_provided
+
+    @property
+    def five_stars(self) -> int:
+        """Gets the five_stars of this Skill.
+
+        Number of services qualified with 5 star  # noqa: E501
+
+        :return: The five_stars of this Skill.
+        :rtype: int
+        """
+        return self._five_stars
+
+    @five_stars.setter
+    def five_stars(self, five_stars: int):
+        """Sets the five_stars of this Skill.
+
+        Number of services qualified with 5 star  # noqa: E501
+
+        :param five_stars: The five_stars of this Skill.
+        :type five_stars: int
+        """
+
+        self._five_stars = five_stars
+
+    @property
+    def four_starts(self) -> int:
+        """Gets the four_starts of this Skill.
+
+        Number of services qualified with 4 star  # noqa: E501
+
+        :return: The four_starts of this Skill.
+        :rtype: int
+        """
+        return self._four_starts
+
+    @four_starts.setter
+    def four_starts(self, four_starts: int):
+        """Sets the four_starts of this Skill.
+
+        Number of services qualified with 4 star  # noqa: E501
+
+        :param four_starts: The four_starts of this Skill.
+        :type four_starts: int
+        """
+
+        self._four_starts = four_starts
+
+    @property
+    def three_starts(self) -> int:
+        """Gets the three_starts of this Skill.
+
+        Number of services qualified with 3 star  # noqa: E501
+
+        :return: The three_starts of this Skill.
+        :rtype: int
+        """
+        return self._three_starts
+
+    @three_starts.setter
+    def three_starts(self, three_starts: int):
+        """Sets the three_starts of this Skill.
+
+        Number of services qualified with 3 star  # noqa: E501
+
+        :param three_starts: The three_starts of this Skill.
+        :type three_starts: int
+        """
+
+        self._three_starts = three_starts
+
+    @property
+    def two_starts(self) -> int:
+        """Gets the two_starts of this Skill.
+
+        Number of services qualified with 2 star  # noqa: E501
+
+        :return: The two_starts of this Skill.
+        :rtype: int
+        """
+        return self._two_starts
+
+    @two_starts.setter
+    def two_starts(self, two_starts: int):
+        """Sets the two_starts of this Skill.
+
+        Number of services qualified with 2 star  # noqa: E501
+
+        :param two_starts: The two_starts of this Skill.
+        :type two_starts: int
+        """
+
+        self._two_starts = two_starts
+
+    @property
+    def one_start(self) -> int:
+        """Gets the one_start of this Skill.
+
+        Number of services qualified with 1 star  # noqa: E501
+
+        :return: The one_start of this Skill.
+        :rtype: int
+        """
+        return self._one_start
+
+    @one_start.setter
+    def one_start(self, one_start: int):
+        """Sets the one_start of this Skill.
+
+        Number of services qualified with 1 star  # noqa: E501
+
+        :param one_start: The one_start of this Skill.
+        :type one_start: int
+        """
+
+        self._one_start = one_start
 
     @property
     def created(self) -> date:

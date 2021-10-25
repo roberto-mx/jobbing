@@ -61,13 +61,14 @@ def get_addres_by_user_id(user_id):  # noqa: E501
     if address == None:
         abort(404)
     return Address(
-        address_id=address.address_id,
-        address_line1=address.address_line1,
-        address_line2=address.address_line2,
-        neighborhood_id=address.neighborhood_id,
-        muncipality_id=address.muncipality_id,
-        zip_code=address.zip_code,
-        state_id=address.state_id,
+        address_id = address.address_id,
+        street = address.street,
+        outer_number = address.outer_number,
+        inner_number = address.inner_number,
+        neighborhood_id = address.neighborhood_id,
+        muncipality_id = address.muncipality_id,
+        zip_code = address.zip_code,
+        state_id = address.state_id,
     )
 
 
@@ -132,8 +133,9 @@ def save_address_profile(body):  # noqa: E501
         
         address = DBAddress(
             address_id=body.address_id,
-            address_line1=body.address_line1,
-            address_line2=body.address_line2,
+            street=body.street,
+            outer_number=body.outer_number,
+            inner_number=body.inner_number,
             neighborhood_id=body.neighborhood_id,
             muncipality_id=body.muncipality_id,
             zip_code=body.zip_code,
@@ -206,8 +208,9 @@ def update_addres(body):  # noqa: E501
         address = DBAddress.query.filter(DBProfile.id == body.userprofile_id).first()
 
         address.address_id = body.address_id,
-        address.address_line1 = body.address_line1,
-        address.address_line2 = body.address_line2,
+        address.street = body.street,
+        address.outer_number = body.outer_number,
+        address.inner_number = body.inner_number,
         address.neighborhood_id = body.neighborhood_id,
         address.muncipality_id = body.muncipality_id,
         address.zip_code = body.zip_code,
