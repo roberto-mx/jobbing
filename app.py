@@ -11,7 +11,8 @@ from jobbing import login
 
 def database_uri():
     user = 'postgres'
-    pwd = os.environ['JOBBING_DB_PWD']
+    # pwd = os.environ['JOBBING_DB_PWD']
+    pwd = 'BuronSuave03'
     host = 'localhost'
     port = '5432'
     name = 'postgres'
