@@ -1,0 +1,265 @@
+openapi: 3.0.0
+info:
+  title: Aprende tu mismo API [remote]
+  description: Application created to provide training courses
+  termsOfService: https://www.youtube.com/channel/UCz3p_Kz87WePeRMy6x5CX5w
+  contact:
+    name: Jalisco con empleo
+    url: https://bdalimentos.org/
+    email: comunicacionbamx@bdalimentos.org
+  license:
+    name: Apache 2.0
+    url: http://apache.com
+  version: 1.0.0
+servers:
+- url: https://www.jaliscoconempleo.org
+  description: Production Server
+- url: https://127.0.0.1:4010
+  description: Development server (uses test data)
+paths:
+  /login:
+    post:
+      tags:
+      - Authentication
+      description: Authenticates user
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "200":
+          description: successful response
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"loged in\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.user_controller
+  /logout:
+    post:
+      tags:
+      - Authentication
+      description: Authenticates user
+      operationId: logout
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "200":
+          description: successful response
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"loged in\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers.user_controller
+  /zip_code:
+    get:
+      tags:
+      - Catalogs
+      description: Get all zip codes
+      operationId: get_zip_codes
+      responses: 
+        "200":
+          description: successfull response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ZipCode'
+                x-content-type: application/json
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json  
+      x-openapi-router-controller: jobbing.controllers_remote.catalogs_controller
+  /zip_code/{id_zip_code}:
+    get:
+      tags:
+      - Catalogs
+      description: Get zip code from id
+      operationId: get_zip_code_by_id
+      parameters:
+      - name: id_zip_code
+        in: path
+        description: Zip Code Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses: 
+        "200":
+          description: successfull response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZipCode'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json  
+      x-openapi-router-controller: jobbing.controllers_remote.catalogs_controller
+components:
+  schemas:
+    User:
+      required:
+      - email
+      - userId
+      type: object
+      properties:
+        userId:
+          type: integer
+          description: User id to index table
+          readOnly: true
+          example: 123
+        uid:
+          type: string
+          description: Public id
+          format: uid
+          readOnly: true
+          example: k8df23
+        password:
+          type: string
+          description: Keyword to access the app
+          format: password
+          writeOnly: true
+        passwordDate:
+          type: string
+          description: Last password updated date
+          format: date
+          readOnly: true
+        email:
+          type: string
+          description: e-mail related to this account
+          format: email
+        roleId:
+          type: integer
+          description: Foreign key for the role type assigned to this user
+          readOnly: true
+        providerId:
+          type: integer
+          description: Foreign key to User Profile
+      example:
+        uid: k8df23
+        password: ""
+        roleId: 0
+        passwordDate: 2000-01-23
+        userId: 123
+        email: "abc_mx@gmail.com"
+        providerId: 3
+    ZipCode:
+      required:
+      - id_zip_code
+      - zip_code
+      type: object
+      properties:
+        id_zip_code:
+          type: integer
+          readOnly: true
+          example: 3
+        zip_code:
+          type: string
+          example: "45200"
+      example:
+        id_zip_code: 3
+        zip_code: "45200"
+  responses:
+    notFound:
+      description: User not found
+      content:
+        application/json:
+          schema:
+            type: string
+            example: "{\"message\":\"Error 404, page not found.\"}"
+            x-content-type: application/json
+    badRequest:
+      description: BAD_REQUEST
+      content:
+        application/json:
+          schema:
+            type: string
+            example: "{\"message\":\"BAD_REQUEST\"}"
+            x-content-type: application/json
+    unauthorized:
+      description: UNAUTHORIZED
+      content:
+        application/json:
+          schema:
+            type: string
+            example: "{\"message\":\"Unauthorized\"}"
+            x-content-type: application/json
+    internalServerError:
+      description: INTERNAL_SERVER_ERROR
+      content:
+        application/json:
+          schema:
+            type: string
+            example: "{\"message\":\"unexpected error\"}"
+            x-content-type: application/json
+

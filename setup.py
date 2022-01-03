@@ -17,13 +17,13 @@ REQUIRES = ["connexion"]
 setup(
     name=NAME,
     version=VERSION,
-    description="Aprende tu mismo API",
+    description="Aprende tu mismo API [remote]",
     author_email="soporte@jaliscoconempleo.org",
     url="",
-    keywords=["Swagger", "Aprende tu mismo API"],
+    keywords=["Swagger", "Aprende tu mismo API [remote]"],
     install_requires=REQUIRES,
     packages=find_packages(),
-    package_data={'': ['swagger/swagger.yaml']},
+    package_data={'': ['swagger_remote/swagger.yaml']},
     include_package_data=True,
     entry_points={
         'console_scripts': ['jobbing=jobbing.__main__:main']},

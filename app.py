@@ -10,17 +10,17 @@ from jobbing import db
 from jobbing import login
 
 def database_uri():
-    user = 'postgres'
-    # pwd = os.environ['JOBBING_DB_PWD']
-    pwd = 'BuronSuave03'
-    host = 'localhost'
+    # TODO: Set as env variables for production
+    user = 'hpmdjukqgaxdnl'
+    pwd = '40c8fe909c2f3400cbc1d30db6f9c3c5a173e951ac5d8df2648def0b1fd6ec45'
+    host = 'ec2-3-230-149-158.compute-1.amazonaws.com'
     port = '5432'
-    name = 'postgres'
+    name = 'd3fm06rntftij4'
 
     return f'postgresql://{user}:{pwd}@{host}:{port}/{name}'
 
 def main():
-    app = connexion.FlaskApp(__name__, specification_dir='./jobbing/swagger')
+    app = connexion.FlaskApp(__name__, specification_dir='./jobbing/swagger_remote')
     app.app.json_encoder = encoder.JSONEncoder
     app.add_api('swagger.yaml', arguments={
                 'title': 'Aprende tu mismo API'}, pythonic_params=True)
