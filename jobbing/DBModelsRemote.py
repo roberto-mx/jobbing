@@ -8,6 +8,7 @@ from jobbing.db import db
 
 class Colony(db.Model):
     __tablename__ = "colony"
+    __table_args__ = {'extend_existing': True}
     id_colony_code = db.Column(db.Integer, primary_key=True)
     colony_name = db.Column(db.String(100))
     id_municipality = db.Column(db.Integer)
@@ -27,6 +28,7 @@ class Colony(db.Model):
 
 class CountryCode(db.Model):
     __tablename__ = "country_code"
+    __table_args__ = {'extend_existing': True}
     id_country_code = db.Column(db.Integer, primary_key=True)
     country_code = db.Column(db.Integer)
     country_name = db.Column(db.String(30))
@@ -43,6 +45,7 @@ class CountryCode(db.Model):
 
 class Media(db.Model):
     __tablename__ = "media"
+    __table_args__ = {'extend_existing': True}
     media_id = db.Column(db.Integer, primary_key=True)
     media_status_id = db.Column(db.Integer)
     media_data = db.Column(db.LargeBinary)
@@ -77,6 +80,7 @@ class Media(db.Model):
 
 class Municipality(db.Model):
     __tablename__ = "municipality"
+    __table_args__ = {'extend_existing': True}
     id_municipality = db.Column(db.Integer, primary_key=True)
     municipality_name = db.Column(db.String(100))
     id_state_code = db.Column(db.Integer)
@@ -93,6 +97,7 @@ class Municipality(db.Model):
 
 class Skills(db.Model):
     __tablename__ = "skills"
+    __table_args__ = {'extend_existing': True}
     skills_id = db.Column(db.Integer, primary_key=True)
     skills_name = db.Column(db.String(60))
     skills_media_id = db.Column(db.Integer)
@@ -115,6 +120,7 @@ class Skills(db.Model):
 
 class StateCode(db.Model):
     __tablename__ = "state_code"
+    __table_args__ = {'extend_existing': True}
     id_state_code = db.Column(db.Integer, primary_key=True)
     state_code = db.Column(db.String(3))
     state_name = db.Column(db.String(25))
@@ -134,6 +140,7 @@ class StateCode(db.Model):
 
 class Status(db.Model):
     __tablename__ = "status"
+    __table_args__ = {'extend_existing': True}
     status_id = db.Column(db.Integer, primary_key=True)
     status_name = db.Column(db.String(15))
     status_updated_date = db.Column(db.String(50)) # FIXME: Timestamp to Date in Python
@@ -150,6 +157,7 @@ class Status(db.Model):
 
 class UserAddress(db.Model):
     __tablename__ = "user_address"
+    __table_args__ = {'extend_existing': True}
     id_user_address = db.Column(db.Integer, primary_key=True)
     street_name = db.Column(db.String(100))
     main_number = db.Column(db.Integer)
@@ -190,6 +198,7 @@ class UserAddress(db.Model):
 
 class UserAuth(UserMixin, db.Model):
     __tablename__ = "user_auth"
+    __table_args__ = {'extend_existing': True}
     user_auth_id = db.Column(db.Integer, primary_key=True)
     user_auth_password = db.Column(db.String(30))
     user_auth_pass_date = db.Column(db.String(50)) # FIXME: Timestamp to Date in Python
@@ -221,6 +230,7 @@ class UserAuth(UserMixin, db.Model):
 
 class UserModel(db.Model):
     __tablename__ = "user_model"
+    __table_args__ = {'extend_existing': True}
     user_model_id = db.Column(db.Integer, primary_key=True)
     user_status_id = db.Column(db.Integer)
     user_role_id = db.Column(db.Integer)
@@ -266,6 +276,7 @@ class UserModel(db.Model):
 
 class UserRole(db.Model):
     __tablename__ = "user_role"
+    __table_args__ = {'extend_existing': True}
     user_role_id = db.Column(db.Integer, primary_key=True)
     user_role_name = db.Column(db.String(20))
     user_role_updated_date = db.Column(db.String(50)) # FIXME: Timestamp to Date in Python
@@ -282,6 +293,7 @@ class UserRole(db.Model):
 
 class ZipCode(db.Model): 
     __tablename__ = "zip_code"
+    __table_args__ = {'extend_existing': True}
     id_zip_code = db.Column(db.Integer, primary_key=True)
     zip_code = db.Column(db.String(10))
     
