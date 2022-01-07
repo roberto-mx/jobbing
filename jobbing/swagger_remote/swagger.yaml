@@ -61,7 +61,805 @@ paths:
                 example: "{\"message\":\"loged in\"}"
                 x-content-type: application/json
       x-openapi-router-controller: jobbing.controllers.user_controller
-  /zip_code:
+  /countries:
+    get:
+      tags:
+      - Catalogs
+      description: Get all countries
+      operationId: get_countries
+      responses: 
+        "200":
+          description: successfull response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CountryCode'
+                x-content-type: application/json
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json  
+      x-openapi-router-controller: jobbing.controllers_remote.catalogs_controller
+  /countries/{id_country_code}:
+    get:
+      tags:
+      - Catalogs
+      description: Get country from id
+      operationId: get_country_by_id
+      parameters:
+      - name: id_country_code
+        in: path
+        description: Country Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses: 
+        "200":
+          description: successfull response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountryCode'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json  
+      x-openapi-router-controller: jobbing.controllers_remote.catalogs_controller
+  /colonies:
+    get:
+      tags:
+      - Catalogs
+      description: Get all colonies
+      operationId: get_colonies
+      responses: 
+        "200":
+          description: successfull response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Colony'
+                x-content-type: application/json
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json  
+      x-openapi-router-controller: jobbing.controllers_remote.catalogs_controller
+  /colonies/{id_colony_code}:
+    get:
+      tags:
+      - Catalogs
+      description: Get colony from id
+      operationId: get_colony_by_id
+      parameters:
+      - name: id_colony_code
+        in: path
+        description: Colony Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses: 
+        "200":
+          description: successfull response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Colony'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json  
+      x-openapi-router-controller: jobbing.controllers_remote.catalogs_controller
+  /colonies/filter:
+    get:
+      tags:
+      - Catalogs
+      description: Get colonies with filter
+      operationId: get_colonies_with_filter
+      parameters:
+      - name: id_zip_code
+        in: query
+        description: Id Zip Code
+        schema:
+          type: integer
+        required: false
+      - name: id_municipality
+        in: query
+        description: Id Municipality
+        schema:
+          type: integer
+        required: false
+      responses: 
+        "200":
+          description: successfull response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Colony'
+                x-content-type: application/json
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json  
+      x-openapi-router-controller: jobbing.controllers_remote.catalogs_controller
+  /municipalities:
+    get:
+      tags:
+      - Catalogs
+      description: Get all municipalities
+      operationId: get_municipalities
+      responses: 
+        "200":
+          description: successfull response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Municipality'
+                x-content-type: application/json
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json  
+      x-openapi-router-controller: jobbing.controllers_remote.catalogs_controller
+  /municipalities/{id_municipality}:
+    get:
+      tags:
+      - Catalogs
+      description: Get municipality from id
+      operationId: get_municipality_by_id
+      parameters:
+      - name: id_municipality
+        in: path
+        description: Municipality Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses: 
+        "200":
+          description: successfull response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Municipality'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json  
+      x-openapi-router-controller: jobbing.controllers_remote.catalogs_controller
+  /municipalities/filter:
+    get:
+      tags:
+      - Catalogs
+      description: Get municipalities with filter
+      operationId: get_municipalities_with_filter
+      parameters:
+      - name: id_state_code
+        in: query
+        description: Id State
+        schema:
+          type: integer
+        required: false
+      responses: 
+        "200":
+          description: successfull response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Municipality'
+                x-content-type: application/json
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json  
+      x-openapi-router-controller: jobbing.controllers_remote.catalogs_controller
+  /skills:
+    get:
+      tags:
+      - Catalogs
+      description: Get all skills
+      operationId: get_skills
+      responses: 
+        "200":
+          description: successfull response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Skills'
+                x-content-type: application/json
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json  
+      x-openapi-router-controller: jobbing.controllers_remote.catalogs_controller
+  /skills/{skills_id}:
+    get:
+      tags:
+      - Catalogs
+      description: Get skill by id
+      operationId: get_skill_by_id
+      parameters:
+      - name: skills_id
+        in: path
+        description: Skills Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses: 
+        "200":
+          description: successfull response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Skills'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json  
+      x-openapi-router-controller: jobbing.controllers_remote.catalogs_controller
+  /states:
+    get:
+      tags:
+      - Catalogs
+      description: Get all states
+      operationId: get_states
+      responses: 
+        "200":
+          description: successfull response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StateCode'
+                x-content-type: application/json
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json  
+      x-openapi-router-controller: jobbing.controllers_remote.catalogs_controller
+  /states/{id_state_code}:
+    get:
+      tags:
+      - Catalogs
+      description: Get state from id
+      operationId: get_state_by_id
+      parameters:
+      - name: id_state_code
+        in: path
+        description: State Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses: 
+        "200":
+          description: successfull response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StateCode'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json  
+      x-openapi-router-controller: jobbing.controllers_remote.catalogs_controller
+  /states/filter:
+    get:
+      tags:
+      - Catalogs
+      description: Get states with filter
+      operationId: get_states_with_filter
+      parameters:
+      - name: id_country_code
+        in: query
+        description: Id Country
+        schema:
+          type: integer
+        required: false
+      responses: 
+        "200":
+          description: successfull response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StateCode'
+                x-content-type: application/json
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json  
+      x-openapi-router-controller: jobbing.controllers_remote.catalogs_controller
+  /statuses:
+    get:
+      tags:
+      - Catalogs
+      description: Get all statuses
+      operationId: get_statuses
+      responses: 
+        "200":
+          description: successfull response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Status'
+                x-content-type: application/json
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json  
+      x-openapi-router-controller: jobbing.controllers_remote.catalogs_controller
+  /statuses/{status_id}:
+    get:
+      tags:
+      - Catalogs
+      description: Get status by id
+      operationId: get_status_by_id
+      parameters:
+      - name: status_id
+        in: path
+        description: Status Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses: 
+        "200":
+          description: successfull response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json  
+      x-openapi-router-controller: jobbing.controllers_remote.catalogs_controller
+  /zip_codes:
     get:
       tags:
       - Catalogs
@@ -110,7 +908,7 @@ paths:
                 example: "{\"message\":\"unexpected error\"}"
                 x-content-type: application/json  
       x-openapi-router-controller: jobbing.controllers_remote.catalogs_controller
-  /zip_code/{id_zip_code}:
+  /zip_codes/{id_zip_code}:
     get:
       tags:
       - Catalogs
@@ -167,6 +965,148 @@ paths:
       x-openapi-router-controller: jobbing.controllers_remote.catalogs_controller
 components:
   schemas:
+    Colony:
+      required:
+      - id_colony_code
+      - colony_name
+      - id_municipality
+      - id_zip_code
+      type: object
+      properties:
+        id_colony_code:
+          type: integer
+          readOnly: true
+          example: 3
+        colony_name:
+          type: string
+          example: "Chapalita"
+        id_municipality:
+          type: integer
+          example: 4
+        id_zip_code:
+          type: integer
+          example: 5 
+      example:
+        id_colony_code: 3
+        colony_name: "Chapalita"
+        id_municipality: 4
+        id_zip_code: 5
+    CountryCode:
+      required:
+      - id_country_code
+      - country_code
+      - country_name
+      type: object
+      properties:
+        id_country_code:
+          type: integer
+          readOnly: true
+          example: 1
+        country_code:
+          type: integer
+          example: 52
+        country_name:
+          type: string
+          example: "MEXICO" 
+      example:
+        id_country_code: 1
+        country_code: 52
+        country_name: "MEXICO"
+    Municipality:
+      required:
+      - id_municipality
+      - municipality_name
+      - id_state_code
+      type: object
+      properties:
+        id_municipality:
+          type: integer
+          readOnly: true
+          example: 1
+        municipality_name:
+          type: string
+          example: "Acatic"
+        id_state_code:
+          type: integer
+          example: 14 
+      example:
+        id_municipality_code: 1
+        municipality: "Acatic"
+        id_state_code: 14
+    Skills:
+      required:
+      - skills_id
+      - skills_name
+      type: object
+      properties:
+        skills_id:
+          type: integer
+          readOnly: true
+          example: 1
+        skills_name:
+          type: string
+          example: "Carpintero"
+        skills_media_id:
+          type: integer
+          example: 5
+        skills_description:
+          type: string
+          example: "Trabajos con madera"
+        skills_updated_date:
+          type: string
+          example: "2021-12-29T00:00:00Z"
+      example:
+        skills_id: 1
+        skills_name: "Carpintero"
+        skills_media_id: 5
+        skills_description: "Trabajos con madera"
+        skills_updated_date: "2021-12-29T00:00:00Z"
+    StateCode:
+      required:
+      - id_state_code
+      - state_code
+      - state_name
+      - id_country_code
+      type: object
+      properties:
+        id_state_code:
+          type: integer
+          readOnly: true
+          example: 1
+        state_code:
+          type: string
+          example: "AGU"
+        state_name:
+          type: string
+          example: "Aguascalientes"
+        id_country_code:
+          type: integer
+          example: 1 
+      example:
+        id_state_code: 1
+        state_code: "AGU"
+        state_name: "Aguascalientes"
+        id_country_code: 1
+    Status:
+      required:
+      - status_id
+      - status_name
+      type: object
+      properties:
+        status_id:
+          type: integer
+          readOnly: true
+          example: 1
+        status_name:
+          type: string
+          example: "ACTIVE"
+        status_updated_date:
+          type: string
+          example: "2021-12-29T00:00:00Z"
+      example:
+        status_id: 1
+        status_name: "ACTIVE"
+        status_updated_date: "2021-12-29T00:00:00Z"
     User:
       required:
       - email
