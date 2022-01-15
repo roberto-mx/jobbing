@@ -22,13 +22,14 @@
 ## Authentication
 - ```POST /login```
 - ```POST /logout```
+- ```POST /signup```
 
 ## Users
 - ```GET /users```
 - ```GET /users/{id}```
 - ```GET /users/filter?rol={id}```
 - ```GET /users/filter?skill={id}```
-- ```GET /userus/filter?status={id}```
+- ```GET /users/filter?status={id}```
 - ```GET /users/{id}/address```
 - ```PUT /users/{id}```
 - ```PUT /users/{id}/address```

@@ -4,6 +4,7 @@ import connexion
 import os
 
 from flask_login import LoginManager
+from flask_cors import CORS
 
 from jobbing import encoder
 from jobbing import db
@@ -39,6 +40,7 @@ def main():
 
 # It's required to be able to use 'Flask run'
 application = main()
+CORS(application)
 
 
 if __name__ == '__main__':

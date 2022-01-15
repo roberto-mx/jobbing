@@ -200,7 +200,7 @@ class UserAuth(UserMixin, db.Model):
     __tablename__ = "user_auth"
     __table_args__ = {'extend_existing': True}
     user_auth_id = db.Column(db.Integer, primary_key=True)
-    user_auth_password = db.Column(db.String(30))
+    user_auth_password = db.Column(db.String(500))
     user_auth_pass_date = db.Column(db.String(50)) # FIXME: Timestamp to Date in Python
     user_model_id = db.Column(db.Integer)
     user_auth_updated_date = db.Column(db.String(50)) # FIXME: Timestamp to Date in Python

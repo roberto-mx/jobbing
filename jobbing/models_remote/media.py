@@ -13,7 +13,7 @@ class Media(Model):
 	def __init__(self,
 			media_id:int = None,
 			media_status_id:int = None,
-			media_data:bin = None,
+			media_data:str = None,
 			media_link:str = None,
 			media_title:str = None,
 			media_description:str = None,
@@ -24,7 +24,7 @@ class Media(Model):
 		self.swagger_types = {
 			'media_id': int,
 			'media_status_id': int,
-			'media_data': bin,
+			'media_data': str,
 			'media_link': str,
 			'media_title': str,
 			'media_description': str,
@@ -80,7 +80,7 @@ class Media(Model):
 		self._media_status_id = param
 
 	@property
-	def media_data(self) -> bin:
+	def media_data(self) -> str:
 		return self._media_data
 
 	@media_data.setter
