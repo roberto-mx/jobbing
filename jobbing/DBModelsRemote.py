@@ -250,6 +250,7 @@ class UserModel(db.Model):
             user_role_id:int = None, 
             user_model_first_name:str = None, 
             user_model_last_name:str = None, 
+            user_model_surname:str = None,
             user_model_birthday:str = None, 
             user_model_phone_number:str = None, 
             user_model_address_id:int = None, 
@@ -263,6 +264,7 @@ class UserModel(db.Model):
         self.user_role_id = user_role_id
         self.user_model_first_name = user_model_first_name
         self.user_model_last_name = user_model_last_name
+        self.user_model_surname = user_model_surname
         self.user_model_birthday = user_model_birthday
         self.user_model_phone_number = user_model_phone_number
         self.user_model_address_id = user_model_address_id

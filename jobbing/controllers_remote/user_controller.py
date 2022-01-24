@@ -1,4 +1,4 @@
-from flask import abort, make_response
+from flask import abort, make_response, Response
 from flask import current_app, jsonify
 from flask_login import logout_user, login_user
 
@@ -6,8 +6,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import connexion
 import jwt
 from datetime import datetime, timedelta
-
 from jobbing.login import login_manager, token_required
+
+from jobbing.db import db
 
 # DB Models
 from jobbing.DBModelsRemote import UserModel as DBUserModel
@@ -228,6 +229,98 @@ def login(body): # noqa: E501
         # login_user(user, remember=True)
 
         return make_response(jsonify({'token' : token}), 201)
+
+"""
+PUT /users
+
+body:
+UserModel
+"""
+def put_user(body): # noqa: E501
+    """put_user
+
+    Update user # noqa: E501
+
+    :rtype: Response
+    """
+
+    if connexion.request.is_json:
+        body = UserModel.from_dict(connexion.request.get_json())
+        
+        user_model = get_user_by_id(body.user_model_id)
+        if user_model is None:
+            abort(404)
+        
+        # Only if the row exists
+        db.session.query(DBUserModel).filter(DBUserModel.user_model_id == body.user_model_id).update(
+            {DBUserModel.user_status_id: body.user_status_id, 
+            DBUserModel.user_role_id: body.user_role_id, 
+            DBUserModel.user_model_first_name: body.user_model_first_name, 
+            DBUserModel.user_model_last_name: body.user_model_last_name, 
+            DBUserModel.user_model_surname: body.user_model_surname, 
+            DBUserModel.user_model_birthday: body.user_model_birthday, 
+            DBUserModel.user_model_phone_number: body.user_model_phone_number, 
+            DBUserModel.user_model_address_id: body.user_model_address_id,
+            DBUserModel.user_skills_id: body.user_skills_id,  
+            DBUserModel.user_model_media_id: body.user_model_media_id}, synchronize_session="fetch")
+
+        db.session.commit()
+        return (Response(), 201)
+
+    return (Response(), 401)
+
+"""
+POST /users
+
+body:
+UserModel
+"""
+def post_user(body): # noqa: E501
+    """post_user
+
+    Create user # noqa: E501
+
+    :rtype: Response
+    """
+
+    if connexion.request.is_json:
+        body = UserModel.from_dict(connexion.request.get_json())
+        user = DBUserModel(
+            user_status_id = body.user_status_id, 
+            user_role_id = body.user_role_id, 
+            user_model_first_name = body.user_model_first_name, 
+            user_model_last_name = body.user_model_last_name, 
+            user_model_surname = body.user_model_surname, 
+            user_model_birthday = body.user_model_birthday, 
+            user_model_phone_number = body.user_model_phone_number, 
+            user_model_address_id = body.user_model_address_id,
+            user_skills_id = body.user_skills_id, 
+            user_model_media_id = body.user_model_media_id
+        )
+
+        db.session.add(user)
+        db.session.commit()
+        return (Response(), 201)
+
+    return (Response(), 401)
+
+"""
+DELETE /users
+
+body:
+UserModel
+"""
+def delete_user_by_id(user_model_id): # noqa: E501
+    """delete_user_by_id
+
+    Delete user by id # noqa: E501
+
+    :rtype: Response
+    """
+
+    db.session.query(DBUserModel).filter(DBUserModel.user_model_id == user_model_id).delete()
+    db.session.commit()
+    return (Response(), 201)
 
 # TODO: erase hasher
 @token_required

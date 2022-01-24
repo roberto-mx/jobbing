@@ -1012,7 +1012,183 @@ paths:
                 example: "{\"message\":\"unexpected error\"}"
                 x-content-type: application/json  
       x-openapi-router-controller: jobbing.controllers_remote.user_controller
+    put:
+      tags:
+      - Users
+      description: Updates user attributes
+      operationId: put_user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserModel'
+        required: true
+      responses:
+        "200":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserModel'
+        "201":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Execution of update query was successful\"}"
+                x-content-type: application/json  
+        "204":
+          description: successful request
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers_remote.user_controller
+    post:
+      tags:
+      - Users
+      description: Creates an user
+      operationId: post_user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserModel'
+        required: true
+      responses:
+        "200":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserModel'
+        "201":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Execution of update query was successful\"}"
+                x-content-type: application/json  
+        "204":
+          description: successful request
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json
+      x-openapi-router-controller: jobbing.controllers_remote.user_controller
   /users/{user_model_id}:
+    delete:
+      tags:
+      - Users
+      description: Delete user by id
+      operationId: delete_user_by_id
+      parameters:
+      - name: user_model_id
+        in: path
+        description: User Model Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses: 
+        "200":
+          description: successfull response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserModel'
+        "201":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Execution of update query was successful\"}"
+                x-content-type: application/json
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json  
+      x-openapi-router-controller: jobbing.controllers_remote.user_controller
     get:
       tags:
       - Users
@@ -1745,7 +1921,7 @@ components:
       example:
         user_model_id: 1
         user_status_id: 1
-        user_role_id: 1
+        user_role_id: 3
         user_model_first_name: "David"
         user_model_last_name: "Lopez Torres"
         user_model_surname: "Alejandro"
