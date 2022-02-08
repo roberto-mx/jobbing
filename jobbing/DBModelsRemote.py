@@ -240,10 +240,11 @@ class UserModel(db.Model):
     user_model_birthday = db.Column(db.String(50)) # FIXME: Timestamp to Date in Python
     user_model_phone_number = db.Column(db.String(18))
     user_model_address_id = db.Column(db.Integer)
-    user_skills_id = db.Column(db.Integer)
     user_model_registry_date = db.Column(db.String(50)) # FIXME: Timestamp to Date in Python
     user_model_updated_date = db.Column(db.String(50)) # FIXME: Timestamp to Date in Python
     user_model_media_id = db.Column(db.Integer)
+    user_model_org = db.Column(db.Integer)
+    user_model_creator_id = db.Column(db.Integer)
 
     def __init__(self, user_model_id:int = None,
             user_status_id:int = None,
@@ -253,11 +254,12 @@ class UserModel(db.Model):
             user_model_surname:str = None,
             user_model_birthday:str = None, 
             user_model_phone_number:str = None, 
-            user_model_address_id:int = None, 
-            user_skills_id:int = None, 
+            user_model_address_id:int = None,
             user_model_registry_date:str = None, 
             user_model_updated_date:str = None, 
-            user_model_media_id:int = None
+            user_model_media_id:int = None, 
+            user_model_org:int = None, 
+            user_model_creator_id:int = None
             ):
         self.user_model_id = user_model_id
         self.user_status_id = user_status_id
@@ -268,13 +270,14 @@ class UserModel(db.Model):
         self.user_model_birthday = user_model_birthday
         self.user_model_phone_number = user_model_phone_number
         self.user_model_address_id = user_model_address_id
-        self.user_skills_id = user_skills_id
         self.user_model_registry_date = user_model_registry_date
         self.user_model_updated_date = user_model_updated_date
         self.user_model_media_id = user_model_media_id
+        self.user_model_org = user_model_org
+        self.user_model_creator_id = user_model_creator_id
 
     def __repr__(self):
-        return f'<UserModel {self.user_model_id}, {self.user_status_id}, {self.user_role_id}, {self.user_model_first_name}, {self.user_model_last_name}, {self.user_model_surname}, {self.user_model_birthday}, {self.user_model_phone_number}, {self.user_model_address_id}, {self.user_skills_id}, {self.user_model_registry_date}, {self.user_model_updated_date}, {self.user_model_media_id}>'
+        return f'<UserModel {self.user_model_id}, {self.user_status_id}, {self.user_role_id}, {self.user_model_first_name}, {self.user_model_last_name}, {self.user_model_surname}, {self.user_model_birthday}, {self.user_model_phone_number}, {self.user_model_address_id}, {self.user_model_registry_date}, {self.user_model_updated_date}, {self.user_model_media_id}, {self.user_model_org}, {self.user_model_creator_id}>'
 
 class UserRole(db.Model):
     __tablename__ = "user_role"
@@ -306,3 +309,62 @@ class ZipCode(db.Model):
 
     def __repr__(self):
         return f'<ZipCode {self.id_zip_code}, {self.zip_code}>'
+
+class Org(db.Model):
+    __tablename__ = "org"
+    __table_args__ = {'extend_existing': True}
+    org_id = db.Column(db.Integer, primary_key=True)
+    org_name = db.Column(db.String(30))
+    org_media_id = db.Column(db.Integer)
+
+    def __init__(self, org_id:int=None, 
+            org_name:str=None, 
+            org_media_id:int=None):
+        self.org_id = org_id
+        self.org_name = org_name
+        self.org_media_id = org_media_id
+    
+    def __repr__(self):
+        return f'<Org {self.org_id}, {self.org_name}, {self.org_media_id}>'
+
+'''
+-------------------------------------------------------------
+@author: David Lopez
+@date: April 05, 2022
+-------------------------------------------------------------
+'''
+
+class Profession(db.Model):
+    __tablename__ = "profession"
+    __table_args__ = {'extend_existing': True}
+    profession_id = db.Column(db.Integer, primary_key=True)
+    profession_user = db.Column(db.Integer)
+    profession_skill = db.Column(db.Integer)
+
+    def __init__(self, profession_id:int=None, 
+            profession_user:int=None, 
+            profession_skill:int=None):
+        self.profession_id = profession_id
+        self.profession_user = profession_user
+        self.profession_skill = profession_skill
+    
+    def __repr__(self):
+        return f'<Profession {self.profession_id}, {self.profession_user}, {self.profession_skill}>'
+
+class Evidence(db.Model):
+    __tablename__ = "evidence"
+    __table_args__ = {'extend_existing': True}
+    evidence_id = db.Column(db.Integer, primary_key=True)
+    evidence_profession = db.Column(db.Integer)
+    evidence_media = db.Column(db.Integer)
+
+    def __init__(self, evidence_id:int=None, 
+            evidence_profession:int=None, 
+            evidence_media:int=None):
+        self.evidence_id = evidence_id
+        self.evidence_profession = evidence_profession
+        self.evidence_media = evidence_media
+    
+    def __repr__(self):
+        return f'<Evidence {self.evidence_id}, {self.evidence_profession}, {self.evidence_media}>'
+

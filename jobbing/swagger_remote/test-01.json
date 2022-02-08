@@ -1,0 +1,56 @@
+{
+    "user_model_address_id": 5,
+    "user_model_birthday": "2021-12-29",
+    "user_model_creator_id": 1,
+    "user_model_first_name": "Andrea",
+    "user_model_id": 23,
+    "user_model_last_name": "Barrera Flores",
+    "user_model_media_id": 1,
+    "user_model_org": 1,
+    "user_model_phone_number": "3327032686",
+    "user_model_professions": [
+      {
+        "profession_evidences": [
+          {
+            "evidence_id": 18,
+            "evidence_media": 14
+          },
+          {
+            "evidence_id": 19,
+            "evidence_media": 15
+          }
+        ],
+        "profession_id": 13,
+        "profession_skill": 13
+      },
+      {
+        "profession_evidences": [
+          {
+            "evidence_id": 21,
+            "evidence_media": 19
+          }, 
+          {
+            "evidence_id": 1,
+            "evidence_media": 20
+          }
+        ],
+        "profession_id": 15,
+        "profession_skill": 15
+      }, 
+      {
+        "profession_evidences": [ 
+            {
+              "evidence_id": 1,
+              "evidence_media": 21
+            }
+          ],
+          "profession_id": 1,
+          "profession_skill": 21
+      }
+    ],
+    "user_model_registry_date": "2022-02-07T20:06:57.361995Z",
+    "user_model_surname": "Daniela",
+    "user_model_updated_date": "2022-02-07T20:06:57.361995Z",
+    "user_role_id": 3,
+    "user_status_id": 1
+  }

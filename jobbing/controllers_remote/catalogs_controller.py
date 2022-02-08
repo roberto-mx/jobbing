@@ -13,6 +13,7 @@ from jobbing.DBModelsRemote import StateCode as DBStateCode
 from jobbing.DBModelsRemote import Status as DBStatus
 from jobbing.DBModelsRemote import UserRole as DBUserRole
 from jobbing.DBModelsRemote import ZipCode as DBZipCode
+from jobbing.DBModelsRemote import Org as DBOrg
 
 # Swagger Models
 from jobbing.models_remote.colony import Colony # noqa: E501
@@ -23,6 +24,7 @@ from jobbing.models_remote.state_code import StateCode # noqa: E501
 from jobbing.models_remote.status import Status # noqa: E501
 from jobbing.models_remote.user_role import UserRole # noqa: E501 
 from jobbing.models_remote.zip_code import ZipCode # noqa: E501
+from jobbing.models_remote.org import Org # noqa: E501
 
 from jobbing.login import token_required
 
@@ -332,8 +334,34 @@ def get_zip_code_by_id(id_zip_code): # noqa: E501
 
     :rtype: ZipCode
     """
- 
+
     zip_code = DBZipCode.query.filter(DBZipCode.id_zip_code == id_zip_code).first()
     if zip_code == None:
         abort(404)
     return ZipCode(zip_code.id_zip_code, zip_code.zip_code)
+
+# @token_required
+def get_orgs(): # noqa: E501
+    """get_orgs
+
+    Show a listing of orgs # noqa: E501
+
+    :rtype: List[Org]
+    """
+    orgs = DBOrg.query.all()
+    if orgs == None:
+        abort(404)
+    return [Org(o.org_id, o.org_name, o.org_media_id) for o in orgs]
+    
+# @token_required
+def get_org_by_id(org_id): # noqa: E501
+    """get_org_by_id
+
+    Get org by id # noqa: E501
+
+    :rtype: Org
+    """
+    org = DBOrg.query.filter(DBOrg.org_id == org_id).first()
+    if org == None:
+        abort(404)
+    return Org(org.org_id, org.org_name, org.org_media_id)

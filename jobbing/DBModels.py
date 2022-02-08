@@ -135,19 +135,19 @@ class NotificationType(db.Model):
         return f'<NotificationType {self.name}>'
 
 
-class Org(db.Model):
-    __tablename__ = "org"
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(80), unique=False, nullable=False)
-    status = db.Column(db.Integer)
+# class Org(db.Model):
+#     __tablename__ = "org"
+#     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+#     name = db.Column(db.String(80), unique=False, nullable=False)
+#     status = db.Column(db.Integer)
 
-    def __init__(self, id: int=None, name: str=None, status: int=None):
-        self.id = id
-        self.name = name
-        self.status = status
+#     def __init__(self, id: int=None, name: str=None, status: int=None):
+#         self.id = id
+#         self.name = name
+#         self.status = status
 
-    def __repr__(self):
-        return '<Org {id}, {name}, {status}>'.format(**self)
+#     def __repr__(self):
+#         return '<Org {id}, {name}, {status}>'.format(**self)
 
 
 class User(UserMixin, db.Model):
