@@ -7,7 +7,9 @@ from typing import List, Dict  # noqa: F401
 
 from jobbing.models.base_model_ import Model
 from jobbing import util
+
 from jobbing.models_remote.profession import Profession
+from jobbing.models_remote.working_area import WorkingArea
 
 class UserModel(Model):
 	def __init__(self,
@@ -25,7 +27,8 @@ class UserModel(Model):
 			user_model_media_id:int = None,
 			user_model_org:int = None,
 			user_model_creator_id:int = None,
-			user_model_professions:List[Profession] = None): # noqa: E501
+			user_model_professions:List[Profession] = None,
+			user_model_working_areas:List[WorkingArea] = None): # noqa: E501
 
 		self.swagger_types = {
 			'user_model_id': int,
@@ -42,7 +45,8 @@ class UserModel(Model):
 			'user_model_media_id': int,
 			'user_model_org': int,
 			'user_model_creator_id': int,
-			'user_model_professions': List[Profession]
+			'user_model_professions': List[Profession],
+			'user_model_working_areas': List[WorkingArea]
 		}
 
 		self.attribute_map = {
@@ -60,7 +64,8 @@ class UserModel(Model):
 			'user_model_media_id': 'user_model_media_id',
 			'user_model_org': 'user_model_org',
 			'user_model_creator_id': 'user_model_creator_id',
-			'user_model_professions': 'user_model_professions'
+			'user_model_professions': 'user_model_professions',
+			'user_model_working_areas': 'user_model_working_areas'
 		}
 
 		self._user_model_id = user_model_id
@@ -78,6 +83,7 @@ class UserModel(Model):
 		self._user_model_org = user_model_org
 		self._user_model_creator_id = user_model_creator_id
 		self._user_model_professions = user_model_professions
+		self._user_model_working_areas = user_model_working_areas
 
 	@classmethod
 	def from_dict(cls, dikt) -> 'UserModel':
@@ -232,4 +238,14 @@ class UserModel(Model):
 		if param is None:
 			raise ValueError("Invalid value for `user_model_professions`, must not be `None`")  # noqa: E501
 		self._user_model_professions = param
+
+	@property
+	def user_model_working_areas(self) -> List[WorkingArea]:
+		return self._user_model_working_areas
+
+	@user_model_working_areas.setter
+	def user_model_working_areas(self, param):
+		if param is None:
+			raise ValueError("Invalid value for `user_model_working_areas`, must not be `None`")  # noqa: E501
+		self._user_model_working_areas = param
 

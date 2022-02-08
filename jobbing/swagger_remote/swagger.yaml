@@ -2371,37 +2371,10 @@ components:
           type: array
           items: 
             $ref: '#/components/schemas/Profession'
-          # example: 
-          #   - profession_id: 1
-          #   profession_skill: 1
-          #   profession_evidences: 
-          #     - evidence_id: 1
-          #     evidence_media: 1
-          #     - evidence_id: 2
-          #     evidence_media: 2
-          #   - profession_id: 2
-          #   profession_skill: 3
-          #   profession_evidences: 
-          #     - evidence_id: 3
-          #     evidence_media: 5
-          #     - evidence_id: 4
-          #     evidence_media: 6
-      # example:
-      #   user_model_id: 1
-      #   user_status_id: 1
-      #   user_role_id: 3
-      #   user_model_first_name: "David"
-      #   user_model_last_name: "Lopez Torres"
-      #   user_model_surname: "Alejandro"
-      #   user_model_birthday: "2021-12-29T00:00:00Z"
-      #   user_model_phone_number: "3327032686"
-      #   user_model_address_id: 1
-      #   user_model_registry_date: "2021-12-29T00:00:00Z"
-      #   user_model_updated_date: "2021-12-29T00:00:00Z"
-      #   user_model_media_id: 1
-      #   user_model_org: 1
-      #   user_model_creator_id: 1
-      #   user_model_professions: []
+        user_model_working_areas:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkingArea'
     UserAddress:
       required:
       - id_user_address
@@ -2508,6 +2481,18 @@ components:
         user_role_id: 1
         user_role_name: "ADMIN"
         user_role_updated_date: "2021-12-29T00:00:00Z"
+    WorkingArea:
+      required:
+      - working_area_id
+      - working_area_municipality
+      type: object
+      properties:
+        working_area_id:
+          type: integer
+          example: 1
+        working_area_municipality:
+          type: integer
+          example: 1
     ZipCode:
       required:
       - id_zip_code

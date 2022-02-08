@@ -330,7 +330,7 @@ class Org(db.Model):
 '''
 -------------------------------------------------------------
 @author: David Lopez
-@date: April 05, 2022
+@date: February 05, 2022
 -------------------------------------------------------------
 '''
 
@@ -368,3 +368,28 @@ class Evidence(db.Model):
     def __repr__(self):
         return f'<Evidence {self.evidence_id}, {self.evidence_profession}, {self.evidence_media}>'
 
+
+
+'''
+-------------------------------------------------------------
+@author: David Lopez
+@date: February 08, 2022
+-------------------------------------------------------------
+'''
+
+class WorkingArea(db.Model):
+    __tablename__ = "working_area"
+    __table_args__ = {'extend_existing': True}
+    working_area_id = db.Column(db.Integer, primary_key=True)
+    working_area_user = db.Column(db.Integer)
+    working_area_municipality = db.Column(db.Integer)
+
+    def __init__(self, working_area_id:int=None, 
+            working_area_user:int=None, 
+            working_area_municipality:int=None):
+        self.working_area_id = working_area_id
+        self.working_area_user = working_area_user
+        self.working_area_municipality = working_area_municipality
+    
+    def __repr__(self):
+        return f'<WorkingArea {self.working_area_id}, {self.working_area_user}, {self.working_area_municipality}>'

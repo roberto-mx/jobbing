@@ -17,6 +17,7 @@ from jobbing.DBModelsRemote import UserAddress as DBUserAddress
 from jobbing.DBModelsRemote import Media as DBMedia
 from jobbing.DBModelsRemote import Profession as DBProfession
 from jobbing.DBModelsRemote import Evidence as DBEvidence
+from jobbing.DBModelsRemote import WorkingArea as DBWorkingArea
 
 # Swagger Models
 from jobbing.models_remote.user_model import UserModel # noqa: E501
@@ -25,6 +26,7 @@ from jobbing.models_remote.user_address import UserAddress # noqa: E501
 from jobbing.models_remote.media import Media # noqa: E501
 from jobbing.models_remote.profession import Profession # noqa: E501
 from jobbing.models_remote.evidence import Evidence # noqa: E501
+from jobbing.models_remote.working_area import WorkingArea # noqa: E501
 
 
 
@@ -58,7 +60,8 @@ def get_users(): # noqa: E501
         u.user_model_media_id, 
         u.user_model_org, 
         u.user_model_creator_id, 
-        get_user_professions(u.user_model_id)) for u in users]
+        get_user_professions(u.user_model_id), 
+        get_user_working_areas(u.user_model_id)) for u in users]
 
 """
 GET /users/:id
@@ -90,7 +93,8 @@ def get_user_by_id(user_model_id): # noqa: E501
         u.user_model_media_id, 
         u.user_model_org, 
         u.user_model_creator_id, 
-        get_user_professions(u.user_model_id))
+        get_user_professions(u.user_model_id), 
+        get_user_working_areas(u.user_model_id))
 
 """
 GET /users/:id/auth
@@ -212,7 +216,8 @@ def get_users_with_filter(user_role_id=None, status_id=None): # noqa: E501
         u.user_model_media_id, 
         u.user_model_org, 
         u.user_model_creator_id, 
-        get_user_professions(u.user_model_id)) for u in users]
+        get_user_professions(u.user_model_id), 
+        get_user_working_areas(u.user_model_id)) for u in users]
 
 """
 POST /login 
@@ -238,7 +243,7 @@ def login(body): # noqa: E501
             'exp' : datetime.utcnow() + timedelta(minutes = 30)
         }, current_app.secret_key, algorithm="HS256")
 
-        # FIXME: flask login session
+        # FIXME: Flask login session
         # login_user(user, remember=True)
 
         return make_response(jsonify({'token' : token}), 201)
@@ -295,6 +300,16 @@ def put_user(body): # noqa: E501
             if not profession.profession_skill in [p.profession_skill for p in user_model.user_model_professions]:
                 post_user_profession(body.user_model_id, profession)
 
+        for area in user_model.user_model_working_areas:
+            # old working area not in the new working areas list -> Remove working area
+            if not area.working_area_municipality in [a.working_area_municipality for a in body.user_model_working_areas]:
+                delete_working_area(area.working_area_id)
+        
+        for area in body.user_model_working_areas:
+            # new working area not in the old working areas list -> Add working area 
+            if not area.working_area_municipality in [a.working_area_municipality for a in user_model.user_model_working_areas]:
+                post_user_working_area(body.user_model_id, area)
+
         db.session.commit()
         return (Response(), 201)
 
@@ -330,7 +345,6 @@ def put_profession(body):
 
         for evidence in profession.profession_evidences:
             # old evidence not in new profession evidences -> Remove Evidence
-            print(evidence.evidence_media, ', ', [e.evidence_media for e in body.profession_evidences])
             if not evidence.evidence_media in [e.evidence_media for e in body.profession_evidences]:
                 delete_evidence(evidence.evidence_id)
 
@@ -382,6 +396,9 @@ def post_user(body): # noqa: E501
         for profession in body.user_model_professions:
             post_user_profession(user.user_model_id, profession)
         
+        for area in body.user_model_working_areas:
+            post_user_working_area(user.user_model_id, area)
+
         return (Response(), 201)
 
     return (Response(), 401)
@@ -404,12 +421,16 @@ def delete_user_by_id(user_model_id): # noqa: E501
     professions = DBProfession.query.filter(DBProfession.profession_user == user_model_id).all()
     for profession in professions:
         delete_profession(profession.profession_id)
+    
+    areas = DBWorkingArea.query.filter(DBWorkingArea.working_area_user == user_model_id).all()
+    for area in areas:
+        delete_working_area(area.working_area_id)
 
     db.session.query(DBUserModel).filter(DBUserModel.user_model_id == user_model_id).delete()
     db.session.commit()
     return (Response(), 201)
 
-# TODO: erase hasher
+# TODO: Erase hasher
 # @token_required
 def get_hash(param): # noqa: E501
     return make_response(jsonify({'hashed': generate_password_hash(param)}), 201)
@@ -616,7 +637,7 @@ POST /professions/:id/evidences
 def post_profession_evidence(profession_id, body):
     """post_profession_evidence
 
-    Posr profession evidence # noqa: E501
+    Post profession evidence # noqa: E501
 
     :rtype: Response
     """
@@ -678,3 +699,74 @@ def delete_evidence(evidence_id):
     # Save changes
     db.session.commit()
     return (Response(), 201)
+
+
+"""
+-----------------------------------------------------
+@author: David Lopez
+@date: February 07, 2022
+-----------------------------------------------------
+"""
+
+"""
+GET /users/:id/working_areas
+"""
+# @token_required
+def get_user_working_areas(user_model_id):
+    """get_user_working_areas
+
+    Show a listing of user working areas # noqa: E501
+
+    :rtype: List[WorkingArea]
+    """
+
+    areas = DBWorkingArea.query.filter(DBWorkingArea.working_area_user == user_model_id).all()
+    if areas == None:
+        abort(404)
+    return [WorkingArea(
+        working_area_id = a.working_area_id, 
+        working_area_municipality = a.working_area_municipality) for a in areas]
+
+"""
+DELETE /working_areas/:id
+"""
+# @token_required
+def delete_working_area(working_area_id):
+    """delete_working_area
+
+    Delete working area # noqa: E501
+
+    :rtype: Response
+    """
+
+    db.session.query(DBWorkingArea).filter(DBWorkingArea.working_area_id == working_area_id).delete()
+    db.session.commit()
+    return (Response(), 201)
+
+"""
+POST /users/:id/working_areas
+"""
+# @token_required
+def post_user_working_area(user_model_id, body):
+    """post_user_working_areas
+
+    Post user working area # noqa: E501
+
+    :rtype: Response
+    """
+
+    if connexion.request.is_json:
+        if type(body) is not WorkingArea:
+            body = WorkingArea.from_dict(connexion.request.get_json())
+
+        area = DBWorkingArea(
+            working_area_municipality = body.working_area_municipality, 
+            working_area_user = user_model_id
+        )
+
+        db.session.add(area)
+        db.session.commit()
+        db.session.refresh(area)
+        return (Response(), 201)
+
+    return (Response(), 401)
