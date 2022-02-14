@@ -7,7 +7,7 @@ from jobbing.models.album import Album  # noqa: E501
 from jobbing.login import token_required
 
 
-@token_required
+# @token_required
 def get_album_by_id(album_id):  # noqa: E501
     """get_album_by_id
 
@@ -25,7 +25,7 @@ def get_album_by_id(album_id):  # noqa: E501
     return Album(album.id, album.title, album.description)
 
 
-@token_required
+# @token_required
 def get_albums():  # noqa: E501
     """get_albums
 
@@ -40,7 +40,7 @@ def get_albums():  # noqa: E501
     return results
 
 
-@token_required
+# @token_required
 def save_album_profile(body):  # noqa: E501
     """save_album_profile
 
