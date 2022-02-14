@@ -1,1 +1,1 @@
-web: gunicorn app.app:app --preload
+web: gunicorn jobbing.__main__:app
