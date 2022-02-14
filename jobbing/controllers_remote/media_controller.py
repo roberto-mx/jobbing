@@ -9,13 +9,15 @@ from flask import abort, Response
 import connexion
 from jobbing.db import db
 
+from jobbing.login import token_required
+
 from jobbing.DBModelsRemote import Media as DBMedia
 from jobbing.models_remote.media import Media # noqa: E501
 
 """
 GET /media/:id
 """
-# @token_required
+@token_required
 def get_media_by_id(media_id):
     """get_media_by_id
 
@@ -45,7 +47,7 @@ POST /media
 body:
 Media
 """
-# @token_required
+@token_required
 def post_media(body):
     """post_media
 
@@ -80,8 +82,6 @@ def post_media(body):
             media_id = media.media_id, 
             media_content_upload_date = media.media_content_upload_date, 
             media_content_updated_date = media.media_content_updated_date)
-
-        return (Response(), 201)
         
     return (Response(), 401)
 
@@ -91,6 +91,7 @@ PUT /media
 body:
 Media
 """
+@token_required
 def put_media(body): # noqa: E501
     """put_media
 
@@ -123,7 +124,7 @@ def put_media(body): # noqa: E501
 """
 DELETE /media/:id
 """
-# @token_required
+@token_required
 def delete_media_by_id(media_id):
     """delete_media
 

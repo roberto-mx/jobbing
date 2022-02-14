@@ -1925,6 +1925,14 @@ paths:
         schema:
           type: integer
         required: false
+      - name: skill_id
+        in: query
+        description: Skill Id
+        schema:
+          type: array
+          items:
+            type: integer
+        required: false
       responses: 
         "200":
           description: successfull response

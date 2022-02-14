@@ -33,7 +33,7 @@ from jobbing.models_remote.working_area import WorkingArea # noqa: E501
 """
 GET /users
 """
-# @token_required
+@token_required
 def get_users(): # noqa: E501
     """get_users
 
@@ -66,7 +66,7 @@ def get_users(): # noqa: E501
 """
 GET /users/:id
 """
-# @token_required
+@token_required
 def get_user_by_id(user_model_id): # noqa: E501
     """get_user_by_id
 
@@ -99,7 +99,7 @@ def get_user_by_id(user_model_id): # noqa: E501
 """
 GET /users/:id/auth
 """
-# @token_required
+@token_required
 def get_user_auth_by_id(user_model_id): # noqa: E501
     """get_user_auth_by_id
 
@@ -122,7 +122,7 @@ def get_user_auth_by_id(user_model_id): # noqa: E501
 """
 GET /users/:id/address
 """
-# @token_required
+@token_required
 def get_user_address_by_id(user_model_id): # noqa: E501
     """get_user_address_by_id
 
@@ -152,7 +152,7 @@ def get_user_address_by_id(user_model_id): # noqa: E501
 """
 GET users/:id/media
 """
-# @token_required
+@token_required
 def get_user_media_by_id(user_model_id): # noqa: E501
     """get_user_address_by_id
 
@@ -183,9 +183,10 @@ GET /users/filter
 params:
 user_rol_id: int
 status_id: int
+skill_id: int
 """
-# @token_required
-def get_users_with_filter(user_role_id=None, status_id=None): # noqa: E501
+@token_required
+def get_users_with_filter(user_role_id=None, status_id=None, skill_id=None): # noqa: E501
     """get_users_with_filter
 
     Get users with filter # noqa: E501
@@ -193,11 +194,15 @@ def get_users_with_filter(user_role_id=None, status_id=None): # noqa: E501
     :rtype: List[UserModel]
     """
 
-    # TODO: Skills filter
-
     users = DBUserModel.query.filter(
         (DBUserModel.user_role_id == user_role_id if user_role_id is not None else True), 
-        (DBUserModel.user_status_id == status_id if status_id is not None else True))
+        (DBUserModel.user_status_id == status_id if status_id is not None else True)).all()
+
+    if skill_id is not None:
+        # Filter skill
+        users = filter(lambda user: (len(
+            set(skill_id) & set([p.profession_skill for p in get_user_professions(user.user_model_id)])) > 0
+        ), users)
 
     if users == None:
         abort(404)
@@ -254,7 +259,7 @@ PUT /users
 body:
 UserModel
 """
-# @token_required
+@token_required
 def put_user(body): # noqa: E501
     """put_user
 
@@ -321,7 +326,7 @@ PUT /professions
 body:
 Profession
 """
-# @token_required
+@token_required
 def put_profession(body):
     """put_profession
 
@@ -364,6 +369,7 @@ POST /users
 body:
 UserModel
 """
+@token_required
 def post_user(body): # noqa: E501
     """post_user
 
@@ -409,6 +415,7 @@ DELETE /users
 body:
 UserModel
 """
+@token_required
 def delete_user_by_id(user_model_id): # noqa: E501
     """delete_user_by_id
 
@@ -431,7 +438,6 @@ def delete_user_by_id(user_model_id): # noqa: E501
     return (Response(), 201)
 
 # TODO: Erase hasher
-# @token_required
 def get_hash(param): # noqa: E501
     return make_response(jsonify({'hashed': generate_password_hash(param)}), 201)
 
@@ -449,7 +455,7 @@ def get_hash(param): # noqa: E501
 """
 GET /users/:id/professions
 """
-# @token_required
+@token_required
 def get_user_professions(user_model_id):
     """get_user_professions
 
@@ -469,7 +475,7 @@ def get_user_professions(user_model_id):
 """
 GET /professions/:id/evidences
 """
-# @token_required
+@token_required
 def get_evidences_profession(profession_id):
     """get_evidences_profession
 
@@ -491,7 +497,7 @@ POST /address
 body:
 UserAddress
 """
-# @token_required
+@token_required
 def post_address(body):
     """post_address
 
@@ -539,7 +545,7 @@ PUT /users/:id/address
 body:
 UserAddress
 """
-# @token_required
+@token_required
 def put_address(user_model_id, body): # noqa: E501
     """put_address
 
@@ -574,7 +580,7 @@ def put_address(user_model_id, body): # noqa: E501
 """
 DELETE /users/:id/address
 """
-# @token_required
+@token_required
 def delete_address(user_model_id):
     """delete_address
 
@@ -601,7 +607,7 @@ def delete_address(user_model_id):
 """
 POST /users/:id/professions
 """
-# @token_required
+@token_required
 def post_user_profession(user_model_id, body):
     """post_user_profession
 
@@ -633,7 +639,7 @@ def post_user_profession(user_model_id, body):
 """
 POST /professions/:id/evidences
 """
-# @token_required
+@token_required
 def post_profession_evidence(profession_id, body):
     """post_profession_evidence
 
@@ -661,7 +667,7 @@ def post_profession_evidence(profession_id, body):
 """
 DELETE /professions/:id
 """
-# @token_required
+@token_required
 def delete_profession(profession_id):
     """delete_profession
 
@@ -682,7 +688,7 @@ def delete_profession(profession_id):
 """
 DELETE /evidences/:id
 """
-# @token_required
+@token_required
 def delete_evidence(evidence_id):
     """delete_evidence
 
@@ -711,7 +717,7 @@ def delete_evidence(evidence_id):
 """
 GET /users/:id/working_areas
 """
-# @token_required
+@token_required
 def get_user_working_areas(user_model_id):
     """get_user_working_areas
 
@@ -730,7 +736,7 @@ def get_user_working_areas(user_model_id):
 """
 DELETE /working_areas/:id
 """
-# @token_required
+@token_required
 def delete_working_area(working_area_id):
     """delete_working_area
 
@@ -746,7 +752,7 @@ def delete_working_area(working_area_id):
 """
 POST /users/:id/working_areas
 """
-# @token_required
+@token_required
 def post_user_working_area(user_model_id, body):
     """post_user_working_areas
 

@@ -10,13 +10,15 @@ from jobbing import encoder
 from jobbing import db
 from jobbing import login
 
+from dotenv import load_dotenv
+
 def database_uri():
-    # TODO: Set as env variables for production
-    user = 'hpmdjukqgaxdnl'
-    pwd = '40c8fe909c2f3400cbc1d30db6f9c3c5a173e951ac5d8df2648def0b1fd6ec45'
-    host = 'ec2-3-230-149-158.compute-1.amazonaws.com'
-    port = '5432'
-    name = 'd3fm06rntftij4'
+    load_dotenv()
+    user = os.environ['user']
+    pwd = os.environ['pwd']
+    host = os.environ['host']
+    port = os.environ['port']
+    name = os.environ['name']
 
     return f'postgresql://{user}:{pwd}@{host}:{port}/{name}'
 
