@@ -253,7 +253,10 @@ def login(body): # noqa: E501
         # FIXME: Flask login session
         # login_user(user, remember=True)
 
-        return make_response(jsonify({'token' : token}), 201)
+        return make_response(jsonify({
+            'token' : token, 
+            'user_model_id': user.user_model_id, 
+            'user_auth_id': user.user_auth_id}), 201)
 
 """
 PUT /users
