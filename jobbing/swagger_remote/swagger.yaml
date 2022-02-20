@@ -1176,6 +1176,62 @@ paths:
                 example: "{\"message\":\"unexpected error\"}"
                 x-content-type: application/json  
       x-openapi-router-controller: jobbing.controllers_remote.media_controller
+  /media/{media_id}/content:
+    get:
+      tags:
+      - Media
+      description: Get media content by id
+      operationId: get_media_content_by_id
+      parameters:
+      - name: media_id
+        in: path
+        description: Media Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses: 
+        "200":
+          description: successfull response
+          content:
+            image/png:
+              schema:
+                $ref: '#/components/schemas/MediaImageTag'
+                format: binary
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json  
+      x-openapi-router-controller: jobbing.controllers_remote.media_controller
   /media:
     post:
       tags:
@@ -1976,6 +2032,55 @@ paths:
                 example: "{\"message\":\"unexpected error\"}"
                 x-content-type: application/json  
       x-openapi-router-controller: jobbing.controllers_remote.user_controller
+  /users/public:
+    get:
+      tags:
+      - Users
+      description: Get public users info
+      operationId: get_public_users_info
+      responses: 
+        "200":
+          description: successfull response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicUserModel'
+                x-content-type: application/json
+        "400":
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"BAD_REQUEST\"}"
+                x-content-type: application/json
+        "401":
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Unauthorized\"}"
+                x-content-type: application/json
+        "404":
+          description: Page not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"Error 404, page not found.\"}"
+                x-content-type: application/json
+        "500":
+          description: INTERNAL_SERVER_ERROR
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\":\"unexpected error\"}"
+                x-content-type: application/json  
+      x-openapi-router-controller: jobbing.controllers_remote.user_controller
   /zip_codes:
     get:
       tags:
@@ -2137,6 +2242,9 @@ paths:
       x-openapi-router-controller: jobbing.controllers_remote.user_controller
 components:
   schemas:
+    MediaImageTag:
+      type: string
+      example: "data:image/jpeg;base64,media_content_base64"
     Colony:
       required:
       - id_colony_code
@@ -2373,6 +2481,46 @@ components:
           type: integer
           example: 1
         user_model_creator_id:
+          type: integer
+          example: 1
+        user_model_professions:
+          type: array
+          items: 
+            $ref: '#/components/schemas/Profession'
+        user_model_working_areas:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkingArea'
+    PublicUserModel:
+      required:
+      - user_model_id
+      - user_role_id
+      - user_model_media_id
+      - user_model_professions
+      type: object
+      properties:
+        user_model_id:
+          type: integer
+          example: 1
+        user_role_id:
+          type: integer
+          example: 1
+        user_model_first_name:
+          type: string
+          example: "David"
+        user_model_last_name:
+          type: string
+          example: "Lopez Torres"
+        user_model_surname:
+          type: string
+          example: "Alejandro"
+        user_model_phone_number:
+          type: string
+          example: "3327032686"
+        user_model_media_id:
+          type: integer
+          example: 1
+        user_model_org:
           type: integer
           example: 1
         user_model_professions:

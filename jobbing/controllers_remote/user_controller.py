@@ -14,6 +14,7 @@ from jobbing.db import db
 from jobbing.DBModelsRemote import UserModel as DBUserModel
 from jobbing.DBModelsRemote import UserAuth as DBUserAuth
 from jobbing.DBModelsRemote import UserAddress as DBUserAddress
+from jobbing.DBModelsRemote import UserRole as DBUserRole
 from jobbing.DBModelsRemote import Media as DBMedia
 from jobbing.DBModelsRemote import Profession as DBProfession
 from jobbing.DBModelsRemote import Evidence as DBEvidence
@@ -23,11 +24,12 @@ from jobbing.DBModelsRemote import WorkingArea as DBWorkingArea
 from jobbing.models_remote.user_model import UserModel # noqa: E501
 from jobbing.models_remote.user_auth import UserAuth # noqa: E501
 from jobbing.models_remote.user_address import UserAddress # noqa: E501
+from jobbing.models_remote.user_role import UserRole # noqa: E501
 from jobbing.models_remote.media import Media # noqa: E501
 from jobbing.models_remote.profession import Profession # noqa: E501
 from jobbing.models_remote.evidence import Evidence # noqa: E501
 from jobbing.models_remote.working_area import WorkingArea # noqa: E501
-
+from jobbing.models_remote.public_user_model import PublicUserModel # noqa: E501
 
 
 """
@@ -776,3 +778,40 @@ def post_user_working_area(user_model_id, body):
         return (Response(), 201)
 
     return (Response(), 401)
+
+"""
+-----------------------------------------------------
+@author: David Lopez
+@date: February 20, 2022
+-----------------------------------------------------
+"""
+
+"""
+GET /users/public
+
+Token is not required
+"""
+def get_public_users_info():
+    """get_public_users_info
+
+    Get all public users info # noqa: E501
+
+    :rtype: List[PublicUserModel]
+    """
+
+    USER_ROLE_PROFESSIONAL = DBUserRole.query.filter(DBUserRole.user_role_name.like('%PROFESIONAL%')).first()
+    users = DBUserModel.query.filter(DBUserModel.user_role_id == USER_ROLE_PROFESSIONAL.user_role_id).all()
+    if users == None:
+        abort(404)
+    return [PublicUserModel(
+        user_model_id = u.user_model_id, 
+        user_role_id = u.user_role_id, 
+        user_model_first_name = u.user_model_first_name, 
+        user_model_last_name = u.user_model_last_name, 
+        user_model_surname = u.user_model_surname, 
+        user_model_phone_number = u.user_model_phone_number, 
+        user_model_media_id = u.user_model_media_id, 
+        user_model_org = u.user_model_org, 
+        user_model_professions = get_user_professions(u.user_model_id),
+        user_model_working_areas = get_user_working_areas(u.user_model_id)
+    ) for u in users]

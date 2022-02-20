@@ -5,7 +5,9 @@
 -----------------------------------------------------
 """
 
-from flask import abort, Response
+import base64
+
+from flask import abort, Response, make_response
 import connexion
 from jobbing.db import db
 
@@ -32,7 +34,7 @@ def get_media_by_id(media_id):
 
     return Media(
         media_status_id = media.media_status_id, 
-        media_data = media.media_data, 
+        media_data = media.media_data.decode(), 
         media_link = media.media_link, 
         media_title = media.media_title, 
         media_description = media.media_description, 
@@ -61,7 +63,7 @@ def post_media(body):
 
         media = DBMedia(
             media_status_id = body.media_status_id, 
-            media_data = body.media_data, 
+            media_data = bytes(body.media_data, 'utf-8'), 
             media_link = body.media_link, 
             media_title = body.media_title, 
             media_description = body.media_description, 
@@ -74,7 +76,7 @@ def post_media(body):
 
         return Media(
             media_status_id = media.media_status_id, 
-            media_data = media.media_data, 
+            media_data = media.media_data.decode(), 
             media_link = media.media_link, 
             media_title = media.media_title, 
             media_description = media.media_description, 
@@ -109,7 +111,7 @@ def put_media(body): # noqa: E501
         
         # Only if the row exists
         db.session.query(DBMedia).filter(DBMedia.media_id == body.media_id).update(
-            {DBMedia.media_data : body.media_data, 
+            {DBMedia.media_data : bytes(body.media_data, 'utf-8'), 
             DBMedia.media_description : body.media_description, 
             DBMedia.media_link : body.media_link, 
             DBMedia.media_size : body.media_size, 
@@ -136,3 +138,29 @@ def delete_media_by_id(media_id):
     db.session.query(DBMedia).filter(DBMedia.media_id == media_id).delete()
     db.session.commit()
     return (Response(), 201)
+
+"""
+-----------------------------------------------------
+@author: David Lopez
+@date: February 20, 2022
+-----------------------------------------------------
+"""
+
+"""
+GET /media/:id/content
+
+Token is not required
+"""
+def get_media_content_by_id(media_id):
+    """get_media_content_by_id
+
+    Get Media Content by id
+
+    :rtype: HttpResponse (img tag)
+    """
+
+    media = DBMedia.query.filter(DBMedia.media_id == media_id).first()
+    if media == None:
+        abort(404)
+
+    return Response(base64.b64decode(media.media_data.decode()), mimetype='image/jpeg')
