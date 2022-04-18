@@ -253,7 +253,10 @@ def login(body): # noqa: E501
         # FIXME: Flask login session
         # login_user(user, remember=True)
 
-        return make_response(jsonify({'token' : token}), 201)
+        return make_response(jsonify({
+            'token' : token, 
+            'user_model_id': user.user_model_id, 
+            'user_auth_id': user.user_auth_id}), 201)
 
 """
 PUT /users
@@ -457,7 +460,8 @@ def get_hash(param): # noqa: E501
 """
 GET /users/:id/professions
 """
-@token_required
+# TODO: Check token required implementation
+# @token_required
 def get_user_professions(user_model_id):
     """get_user_professions
 
@@ -477,7 +481,8 @@ def get_user_professions(user_model_id):
 """
 GET /professions/:id/evidences
 """
-@token_required
+# TODO: Check token required implementation
+# @token_required
 def get_evidences_profession(profession_id):
     """get_evidences_profession
 
@@ -719,7 +724,8 @@ def delete_evidence(evidence_id):
 """
 GET /users/:id/working_areas
 """
-@token_required
+# TODO: Check token required implementation
+# @token_required
 def get_user_working_areas(user_model_id):
     """get_user_working_areas
 
@@ -803,6 +809,20 @@ def get_public_users_info():
     users = DBUserModel.query.filter(DBUserModel.user_role_id == USER_ROLE_PROFESSIONAL.user_role_id).all()
     if users == None:
         abort(404)
+
+    print([PublicUserModel(
+        user_model_id = u.user_model_id, 
+        user_role_id = u.user_role_id, 
+        user_model_first_name = u.user_model_first_name, 
+        user_model_last_name = u.user_model_last_name, 
+        user_model_surname = u.user_model_surname, 
+        user_model_phone_number = u.user_model_phone_number, 
+        user_model_media_id = u.user_model_media_id, 
+        user_model_org = u.user_model_org, 
+        user_model_professions = get_user_professions(u.user_model_id),
+        user_model_working_areas = get_user_working_areas(u.user_model_id)
+    ) for u in users])
+
     return [PublicUserModel(
         user_model_id = u.user_model_id, 
         user_role_id = u.user_role_id, 
