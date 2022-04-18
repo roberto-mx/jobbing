@@ -15,7 +15,7 @@ from jobbing.DBModels import User as DBUser
 from jobbing.models.user import User  # noqa: E501
 from jobbing.login import login_manager, token_required
 
-
+# FIXME: Login Manager configured in remote mode
 @login_manager.user_loader
 def loader(user_id):
     user = DBUser.query.filter_by(id=user_id).first()

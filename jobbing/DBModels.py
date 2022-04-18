@@ -87,20 +87,20 @@ class State(db.Model):
         return f'<State {self.name}>'
 
 
-class Municipality(db.Model):
-    __tablename__ = "municipality"
+# class Municipality(db.Model):
+#     __tablename__ = "municipality"
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), unique=False, nullable=False)
-    state_id = db.Column(db.Integer, nullable=False, primary_key=True)
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(80), unique=False, nullable=False)
+#     state_id = db.Column(db.Integer, nullable=False, primary_key=True)
 
-    def __init__(self, id: int=None, name: str=None, state_id: str=None):
-        self.id = id
-        self.name = name
-        self.state_id = state_id
+#     def __init__(self, id: int=None, name: str=None, state_id: str=None):
+#         self.id = id
+#         self.name = name
+#         self.state_id = state_id
 
-    def __repr__(self):
-        return f'<Municipality {self.name}>'
+#     def __repr__(self):
+#         return f'<Municipality {self.name}>'
 
 
 class Neighbourhood(db.Model):
@@ -135,19 +135,19 @@ class NotificationType(db.Model):
         return f'<NotificationType {self.name}>'
 
 
-class Org(db.Model):
-    __tablename__ = "org"
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(80), unique=False, nullable=False)
-    status = db.Column(db.Integer)
+# class Org(db.Model):
+#     __tablename__ = "org"
+#     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+#     name = db.Column(db.String(80), unique=False, nullable=False)
+#     status = db.Column(db.Integer)
 
-    def __init__(self, id: int=None, name: str=None, status: int=None):
-        self.id = id
-        self.name = name
-        self.status = status
+#     def __init__(self, id: int=None, name: str=None, status: int=None):
+#         self.id = id
+#         self.name = name
+#         self.status = status
 
-    def __repr__(self):
-        return '<Org {id}, {name}, {status}>'.format(**self)
+#     def __repr__(self):
+#         return '<Org {id}, {name}, {status}>'.format(**self)
 
 
 class User(UserMixin, db.Model):
@@ -473,46 +473,46 @@ class Album(db.Model):
     def __repr__(self):
         return '<Album %r>' % self.title    
 
-class Media(db.Model):
-    __tablename__ = "media"
+# class Media(db.Model):
+#     __tablename__ = "media"
 
-    id = db.Column(db.Integer, primary_key=True)
-    media = db.Column(db.String(80), unique=True, nullable=True)
-    link = db.Column(db.String(100), nullable=False)
-    title = db.Column(db.String(80), unique=False, nullable=False)
-    size = db.Column(db.Integer, nullable=True)
-    duration = db.Column(db.String(100), nullable=False)
-    created = db.Column(db.DateTime, nullable=False)
-    media_type = db.Column(db.String(100), nullable=False)
-    views = db.Column(db.Integer, nullable=False)
-    likes = db.Column(db.Integer, nullable=False)
-    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    album_id = db.Column(db.Integer, nullable=False)
+#     id = db.Column(db.Integer, primary_key=True)
+#     media = db.Column(db.String(80), unique=True, nullable=True)
+#     link = db.Column(db.String(100), nullable=False)
+#     title = db.Column(db.String(80), unique=False, nullable=False)
+#     size = db.Column(db.Integer, nullable=True)
+#     duration = db.Column(db.String(100), nullable=False)
+#     created = db.Column(db.DateTime, nullable=False)
+#     media_type = db.Column(db.String(100), nullable=False)
+#     views = db.Column(db.Integer, nullable=False)
+#     likes = db.Column(db.Integer, nullable=False)
+#     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+#     album_id = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, id: int = None, 
-                 media: str = None, 
-                 link: str = None, 
-                 title: str = None, 
-                 size: int = None, 
-                 duration: str = None, 
-                 created: str = None,
-                 media_type: str = None,
-                 views: int = None,
-                 likes: int = None,
-                 owner_id: int = None,
-                 album_id: int = None ):
-        self.id = id
-        self.media = media  
-        self.link = link  
-        self.title = title
-        self.size = size
-        self.duration = duration  
-        self.created = created
-        self.media_type = media_type
-        self.views = views
-        self.likes = likes
-        self.owner_id = owner_id
-        self.album_id = album_id
+#     def __init__(self, id: int = None, 
+#                  media: str = None, 
+#                  link: str = None, 
+#                  title: str = None, 
+#                  size: int = None, 
+#                  duration: str = None, 
+#                  created: str = None,
+#                  media_type: str = None,
+#                  views: int = None,
+#                  likes: int = None,
+#                  owner_id: int = None,
+#                  album_id: int = None ):
+#         self.id = id
+#         self.media = media  
+#         self.link = link  
+#         self.title = title
+#         self.size = size
+#         self.duration = duration  
+#         self.created = created
+#         self.media_type = media_type
+#         self.views = views
+#         self.likes = likes
+#         self.owner_id = owner_id
+#         self.album_id = album_id
 
-    def __repr__(self):
-        return '<Media %r>' % self.title
+#     def __repr__(self):
+#         return '<Media %r>' % self.title
