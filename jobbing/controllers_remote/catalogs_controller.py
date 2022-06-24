@@ -28,7 +28,8 @@ from jobbing.models_remote.org import Org # noqa: E501
 
 from jobbing.login import token_required
 
-@token_required
+# TODO: Check token for catalog items
+# @token_required
 def get_colonies(): # noqa: E501
     """get_colonies
 
@@ -42,7 +43,7 @@ def get_colonies(): # noqa: E501
         abort(404)
     return [Colony(c.id_colony_code, c.colony_name, c.id_municipality, c.id_zip_code) for c in colonies]
 
-@token_required
+# @token_required
 def get_colony_by_id(id_colony_code): # noqa: E501
     """get_colony_by_id
 
@@ -56,7 +57,7 @@ def get_colony_by_id(id_colony_code): # noqa: E501
         abort(404)
     return Colony(colony.id_colony_code, colony.colony_name, colony.id_municipality, colony.id_zip_code)
 
-@token_required
+# @token_required
 def get_colonies_with_filter(id_zip_code=None, id_municipality=None): # noqa: E501
     """get_colonies_with_filter
 
@@ -74,7 +75,7 @@ def get_colonies_with_filter(id_zip_code=None, id_municipality=None): # noqa: E5
         return get_colonies_by_mun(id_municipality)
     return get_colonies()
 
-@token_required
+# @token_required
 def get_colonies_by_zip(id_zip_code): # noqa: E501
     """get_colonies_by_zip
 
@@ -88,7 +89,7 @@ def get_colonies_by_zip(id_zip_code): # noqa: E501
         abort(404)
     return [Colony(c.id_colony_code, c.colony_name, c.id_municipality, c.id_zip_code) for c in colonies]
 
-@token_required
+# @token_required
 def get_colonies_by_mun(id_municipality): # noqa: E501
     """get_colonies_by_mun
 
@@ -102,7 +103,7 @@ def get_colonies_by_mun(id_municipality): # noqa: E501
         abort(404)
     return [Colony(c.id_colony_code, c.colony_name, c.id_municipality, c.id_zip_code) for c in colonies]
 
-@token_required
+# @token_required
 def get_countries(): # noqa: E501
     """get_countries
 
@@ -115,7 +116,7 @@ def get_countries(): # noqa: E501
         abort(404)
     return [CountryCode(c.id_country_code, c.country_code, c.country_name) for c in countries]
     
-@token_required
+# @token_required
 def get_country_by_id(id_country_code): # noqa: E501
     """get_country_by_id
 
@@ -128,7 +129,7 @@ def get_country_by_id(id_country_code): # noqa: E501
         abort(404)
     return CountryCode(country.id_country_code, country.country_code, country.country_name)
 
-@token_required
+# @token_required
 def get_municipalities(): # noqa: E501
     """get_municipalities
 
@@ -141,7 +142,7 @@ def get_municipalities(): # noqa: E501
         abort(404)
     return [Municipality(m.id_municipality, m.municipality_name, m.id_state_code) for m in muns]
 
-@token_required
+# @token_required
 def get_municipality_by_id(id_municipality): # noqa: E501
     """get_municipality_by_id
 
@@ -154,7 +155,7 @@ def get_municipality_by_id(id_municipality): # noqa: E501
         abort(404)
     return Municipality(mun.id_municipality, mun.municipality_name, mun.id_state_code)
 
-@token_required
+# @token_required
 def get_municipalities_with_filter(id_state_code=None): # noqa: E501
     """get_municipalities_with_filter
 
@@ -166,7 +167,7 @@ def get_municipalities_with_filter(id_state_code=None): # noqa: E501
         return get_municipalities_by_state(id_state_code)
     return get_municipalities()
 
-@token_required
+# @token_required
 def get_municipalities_by_state(id_state_code): # noqa: E501
     """get_municipalities_by_state
 
@@ -179,7 +180,7 @@ def get_municipalities_by_state(id_state_code): # noqa: E501
         abort(404)
     return [Municipality(m.id_municipality, m.municipality_name, m.id_state_code) for m in muns]
 
-@token_required
+# @token_required
 def get_skills(): # noqa: E501
     """get_skills
 
@@ -192,7 +193,7 @@ def get_skills(): # noqa: E501
         abort(404)
     return [Skills(s.skills_id, s.skills_name, s.skills_media_id, s.skills_description, s.skills_updated_date) for s in skills]
 
-@token_required
+# @token_required
 def get_skill_by_id(skills_id): # noqa: E501
     """get_skills_by_id
 
@@ -207,7 +208,7 @@ def get_skill_by_id(skills_id): # noqa: E501
         abort(404)
     return Skills(skill.skills_id, skill.skills_name, skill.skills_media_id, skill.skills_description, skill.skills_updated_date)
 
-@token_required
+# @token_required
 def get_states(): # noqa: E501
     """get_states
 
@@ -220,7 +221,7 @@ def get_states(): # noqa: E501
         abort(404)
     return [StateCode(s.id_state_code, s.state_code, s.state_name, s.id_country_code) for s in states]
 
-@token_required
+# @token_required
 def get_state_by_id(id_state_code): # noqa: E501
     """get_state_by_id
 
@@ -233,7 +234,7 @@ def get_state_by_id(id_state_code): # noqa: E501
         abort(404)
     return StateCode(state.id_state_code, state.state_code, state.state_name, state.id_country_code)
 
-@token_required
+# @token_required
 def get_states_with_filter(id_country_code=None): # noqa: E501
     """get_states_with_filter
 
@@ -245,7 +246,7 @@ def get_states_with_filter(id_country_code=None): # noqa: E501
         return get_states_by_country(id_country_code)
     return get_states()
 
-@token_required
+# @token_required
 def get_states_by_country(id_country_code): # noqa: E501
     """get_states_by_country
 
@@ -258,7 +259,7 @@ def get_states_by_country(id_country_code): # noqa: E501
         abort(404)
     return [StateCode(s.id_state_code, s.state_code, s.state_name, s.id_country_code) for s in states]
 
-@token_required
+# @token_required
 def get_statuses(): # noqa: E501
     """get_statuses
 
@@ -271,7 +272,7 @@ def get_statuses(): # noqa: E501
         abort(404)
     return [Status(s.status_id, s.status_name, s.status_updated_date) for s in statuses]
 
-@token_required
+# @token_required
 def get_status_by_id(status_id): # noqa: E501
     """get_status_by_id
 
@@ -284,7 +285,7 @@ def get_status_by_id(status_id): # noqa: E501
         abort(404)
     return Status(status.status_id, status.status_name, status.status_updated_date)
 
-@token_required
+# @token_required
 def get_user_roles(): # noqa: E501
     """get_user_roles
 
@@ -298,7 +299,7 @@ def get_user_roles(): # noqa: E501
         abort(404)
     return [UserRole(r.user_role_id, r.user_role_name, r.user_role_updated_date) for r in roles]
 
-@token_required
+# @token_required
 def get_user_role_by_id(user_role_id): # noqa: E501
     """get_user_role_by_id
 
@@ -312,7 +313,7 @@ def get_user_role_by_id(user_role_id): # noqa: E501
         abort(404)
     return UserRole(r.user_role_id, r.user_role_name, r.user_role_updated_date)
 
-@token_required
+# @token_required
 def get_zip_codes(): # noqa: E501
     """get_zip_codes
 
@@ -326,7 +327,7 @@ def get_zip_codes(): # noqa: E501
         abort(404)
     return [ZipCode(z.id_zip_code, z.zip_code) for z in zip_codes]
 
-@token_required
+# @token_required
 def get_zip_code_by_id(id_zip_code): # noqa: E501
     """get_zip_code_by_id
 
@@ -340,7 +341,7 @@ def get_zip_code_by_id(id_zip_code): # noqa: E501
         abort(404)
     return ZipCode(zip_code.id_zip_code, zip_code.zip_code)
 
-# @token_required
+# # @token_required
 def get_orgs(): # noqa: E501
     """get_orgs
 
@@ -353,7 +354,7 @@ def get_orgs(): # noqa: E501
         abort(404)
     return [Org(o.org_id, o.org_name, o.org_media_id) for o in orgs]
     
-# @token_required
+# # @token_required
 def get_org_by_id(org_id): # noqa: E501
     """get_org_by_id
 

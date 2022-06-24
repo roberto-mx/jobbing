@@ -835,3 +835,29 @@ def get_public_users_info():
         user_model_professions = get_user_professions(u.user_model_id),
         user_model_working_areas = get_user_working_areas(u.user_model_id)
     ) for u in users]
+
+
+
+
+"""
+-----------------------------------------------------
+@author: David Lopez
+@date: May 13, 2022
+-----------------------------------------------------
+"""
+
+"""
+DELETE /address/:id
+"""
+@token_required
+def delete_address_by_id(user_address_id):
+    """delete_address_by_id
+
+    Delete User Address # noqa: E501
+
+    :rtype: Response
+    """
+
+    db.session.query(DBUserAddress).filter(DBUserAddress.id_user_address == user_address_id).delete()
+    db.session.commit()
+    return (Response(), 201)
