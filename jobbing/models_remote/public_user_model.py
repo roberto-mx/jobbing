@@ -21,6 +21,7 @@ class PublicUserModel(Model):
 			user_model_phone_number:str = None,
 			user_model_media_id:int = None,
 			user_model_org:int = None,
+			user_model_description:str = None,
 			user_model_professions:List[Profession] = None,
 			user_model_working_areas:List[WorkingArea] = None): # noqa: E501
 
@@ -33,6 +34,7 @@ class PublicUserModel(Model):
 			'user_model_phone_number': str,
 			'user_model_media_id': int,
 			'user_model_org': int,
+			'user_model_description': str,
 			'user_model_professions': List[Profession],
 			'user_model_working_areas': List[WorkingArea]
 		}
@@ -46,6 +48,7 @@ class PublicUserModel(Model):
 			'user_model_phone_number': 'user_model_phone_number',
 			'user_model_media_id': 'user_model_media_id',
 			'user_model_org': 'user_model_org',
+			'user_model_description': 'user_model_description',
 			'user_model_professions': 'user_model_professions',
 			'user_model_working_areas': 'user_model_working_areas'
 		}
@@ -57,7 +60,8 @@ class PublicUserModel(Model):
 		self._user_model_surname = user_model_surname
 		self._user_model_phone_number = user_model_phone_number
 		self._user_model_media_id = user_model_media_id
-		self._user_model_org = user_model_org
+		self._user_model_org = user_model_org 
+		self._user_model_description = user_model_description
 		self._user_model_professions = user_model_professions
 		self._user_model_working_areas = user_model_working_areas
 
@@ -144,6 +148,16 @@ class PublicUserModel(Model):
 		if param is None:
 			raise ValueError("Invalid value for `user_model_org`, must not be `None`")  # noqa: E501
 		self._user_model_org = param
+	
+	@property
+	def user_model_description(self) -> str:
+		return self._user_model_description
+
+	@user_model_description.setter
+	def user_model_description(self, param):
+		if param is None:
+			raise ValueError("Invalid value for `user_model_description`, must not be `None`")  # noqa: E501
+		self._user_model_description = param
 
 	@property
 	def user_model_professions(self) -> List[Profession]:

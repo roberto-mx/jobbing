@@ -245,6 +245,7 @@ class UserModel(db.Model):
     user_model_media_id = db.Column(db.Integer)
     user_model_org = db.Column(db.Integer)
     user_model_creator_id = db.Column(db.Integer)
+    user_model_description = db.Column(db.String(300))
 
     def __init__(self, user_model_id:int = None,
             user_status_id:int = None,
@@ -259,7 +260,8 @@ class UserModel(db.Model):
             user_model_updated_date:str = None, 
             user_model_media_id:int = None, 
             user_model_org:int = None, 
-            user_model_creator_id:int = None
+            user_model_creator_id:int = None, 
+            user_model_description:str = None
             ):
         self.user_model_id = user_model_id
         self.user_status_id = user_status_id
@@ -275,9 +277,10 @@ class UserModel(db.Model):
         self.user_model_media_id = user_model_media_id
         self.user_model_org = user_model_org
         self.user_model_creator_id = user_model_creator_id
+        self.user_model_description = user_model_description
 
     def __repr__(self):
-        return f'<UserModel {self.user_model_id}, {self.user_status_id}, {self.user_role_id}, {self.user_model_first_name}, {self.user_model_last_name}, {self.user_model_surname}, {self.user_model_birthday}, {self.user_model_phone_number}, {self.user_model_address_id}, {self.user_model_registry_date}, {self.user_model_updated_date}, {self.user_model_media_id}, {self.user_model_org}, {self.user_model_creator_id}>'
+        return f'<UserModel {self.user_model_id}, {self.user_status_id}, {self.user_role_id}, {self.user_model_first_name}, {self.user_model_last_name}, {self.user_model_surname}, {self.user_model_birthday}, {self.user_model_phone_number}, {self.user_model_address_id}, {self.user_model_registry_date}, {self.user_model_updated_date}, {self.user_model_media_id}, {self.user_model_org}, {self.user_model_creator_id}, {self.user_model_description}>'
 
 class UserRole(db.Model):
     __tablename__ = "user_role"
