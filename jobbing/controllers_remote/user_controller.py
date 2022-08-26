@@ -61,7 +61,8 @@ def get_users(): # noqa: E501
         u.user_model_updated_date, 
         u.user_model_media_id, 
         u.user_model_org, 
-        u.user_model_creator_id, 
+        u.user_model_creator_id,
+        u.user_model_description, 
         get_user_professions(u.user_model_id), 
         get_user_working_areas(u.user_model_id)) for u in users]
 
@@ -95,6 +96,7 @@ def get_user_by_id(user_model_id): # noqa: E501
         u.user_model_media_id, 
         u.user_model_org, 
         u.user_model_creator_id, 
+        u.user_model_description,
         get_user_professions(u.user_model_id), 
         get_user_working_areas(u.user_model_id))
 
@@ -222,7 +224,8 @@ def get_users_with_filter(user_role_id=None, status_id=None, skill_id=None): # n
         u.user_model_updated_date, 
         u.user_model_media_id, 
         u.user_model_org, 
-        u.user_model_creator_id, 
+        u.user_model_creator_id,
+        u.user_model_description, 
         get_user_professions(u.user_model_id), 
         get_user_working_areas(u.user_model_id)) for u in users]
 
@@ -276,6 +279,7 @@ def put_user(body): # noqa: E501
     if connexion.request.is_json:
         # new user model
         body = UserModel.from_dict(connexion.request.get_json())
+        print(body)
         
         # old user model
         user_model = get_user_by_id(body.user_model_id)
@@ -294,7 +298,8 @@ def put_user(body): # noqa: E501
             DBUserModel.user_model_address_id: body.user_model_address_id,  
             DBUserModel.user_model_media_id: body.user_model_media_id, 
             DBUserModel.user_model_org: body.user_model_org, 
-            DBUserModel.user_model_creator_id: body.user_model_creator_id}, synchronize_session="fetch")
+            DBUserModel.user_model_creator_id: body.user_model_creator_id,
+            DBUserModel.user_model_description: body.user_model_description}, synchronize_session="fetch")
 
         for profession in user_model.user_model_professions:
             # old profession in the new professions list
@@ -397,7 +402,8 @@ def post_user(body): # noqa: E501
             user_model_address_id = body.user_model_address_id,
             user_model_media_id = body.user_model_media_id, 
             user_model_org = body.user_model_org, 
-            user_model_creator_id = body.user_model_creator_id 
+            user_model_creator_id = body.user_model_creator_id, 
+            user_model_description = body.user_model_description
         )
 
         db.session.add(user)
@@ -810,19 +816,6 @@ def get_public_users_info():
     if users == None:
         abort(404)
 
-    print([PublicUserModel(
-        user_model_id = u.user_model_id, 
-        user_role_id = u.user_role_id, 
-        user_model_first_name = u.user_model_first_name, 
-        user_model_last_name = u.user_model_last_name, 
-        user_model_surname = u.user_model_surname, 
-        user_model_phone_number = u.user_model_phone_number, 
-        user_model_media_id = u.user_model_media_id, 
-        user_model_org = u.user_model_org, 
-        user_model_professions = get_user_professions(u.user_model_id),
-        user_model_working_areas = get_user_working_areas(u.user_model_id)
-    ) for u in users])
-
     return [PublicUserModel(
         user_model_id = u.user_model_id, 
         user_role_id = u.user_role_id, 
@@ -832,6 +825,7 @@ def get_public_users_info():
         user_model_phone_number = u.user_model_phone_number, 
         user_model_media_id = u.user_model_media_id, 
         user_model_org = u.user_model_org, 
+        user_model_description = u.user_model_description,
         user_model_professions = get_user_professions(u.user_model_id),
         user_model_working_areas = get_user_working_areas(u.user_model_id)
     ) for u in users]

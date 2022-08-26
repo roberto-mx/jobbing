@@ -28,7 +28,7 @@ def main():
     app.add_api('swagger.yaml', arguments={
                 'title': 'Aprende tu mismo API'}, pythonic_params=True)
     app.app.config['SQLALCHEMY_DATABASE_URI'] = database_uri()
-    app.app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     app.app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg'}
     app.app.config['UPLOAD_FOLDER'] = './'
     app.app.secret_key = 'iV+j6;|5C2<A&drOM*G:'

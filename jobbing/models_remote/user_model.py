@@ -27,6 +27,7 @@ class UserModel(Model):
 			user_model_media_id:int = None,
 			user_model_org:int = None,
 			user_model_creator_id:int = None,
+			user_model_description:str = None,
 			user_model_professions:List[Profession] = None,
 			user_model_working_areas:List[WorkingArea] = None): # noqa: E501
 
@@ -45,6 +46,7 @@ class UserModel(Model):
 			'user_model_media_id': int,
 			'user_model_org': int,
 			'user_model_creator_id': int,
+			'user_model_description': str,
 			'user_model_professions': List[Profession],
 			'user_model_working_areas': List[WorkingArea]
 		}
@@ -64,6 +66,7 @@ class UserModel(Model):
 			'user_model_media_id': 'user_model_media_id',
 			'user_model_org': 'user_model_org',
 			'user_model_creator_id': 'user_model_creator_id',
+			'user_model_description': 'user_model_description',
 			'user_model_professions': 'user_model_professions',
 			'user_model_working_areas': 'user_model_working_areas'
 		}
@@ -82,6 +85,7 @@ class UserModel(Model):
 		self._user_model_media_id = user_model_media_id
 		self._user_model_org = user_model_org
 		self._user_model_creator_id = user_model_creator_id
+		self._user_model_description = user_model_description
 		self._user_model_professions = user_model_professions
 		self._user_model_working_areas = user_model_working_areas
 
@@ -228,6 +232,16 @@ class UserModel(Model):
 		if param is None:
 			raise ValueError("Invalid value for `user_model_creator_id`, must not be `None`")  # noqa: E501
 		self._user_model_creator_id = param
+
+	@property
+	def user_model_description(self) -> str:
+		return self._user_model_description
+
+	@user_model_description.setter
+	def user_model_description(self, param):
+		if param is None:
+			raise ValueError("Invalid value for `user_model_description`, must not be `None`")  # noqa: E501
+		self._user_model_description = param
 
 	@property
 	def user_model_professions(self) -> List[Profession]:

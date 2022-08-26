@@ -2546,6 +2546,9 @@ components:
         user_model_creator_id:
           type: integer
           example: 1
+        user_model_description:
+          type: string
+          example: "Bueno haciendo muebles"
         user_model_professions:
           type: array
           items: 
@@ -2586,6 +2589,9 @@ components:
         user_model_org:
           type: integer
           example: 1
+        user_model_description:
+          type: string
+          example: "Bueno haciendo muebles"
         user_model_professions:
           type: array
           items: 
